@@ -4,18 +4,9 @@
 
 function Input()
 {
-    //*************
-    // Data members
-    //*************
-    var canvas = document.getElementById("canvas");
-    
-    var m_Keys = {};
-    
-    var m_CurrentMousePos = [0,0];
-    
-    //****************
-    // Input interface
-    //****************
+    //*****************
+    // Public interface
+    //*****************
     this.KEY = new function()
     {
         //Top Row
@@ -53,14 +44,7 @@ function Input()
         this.Num1 = 49; this.Num2 = 50; this.Num3 = 51; this.NumEnter = 13;
         this.Num0 = 48; this.NumPeriod = 110;
     };
-    
-    /*this.start = function()
-    {
-        initKeyHandlers();
-        initMouseHandler();
-        
-    };*/
-    
+
     this.update = function()
     {
         mouseUpdate();
@@ -70,16 +54,20 @@ function Input()
     {
         return m_Keys[aKey];
     };
-
-    this.getKeys = function()
-    {
-        return m_Keys;
-    };
     
     this.getMouseDelta = function()
     {
         return m_CurrentMousePos;
     };
+
+    //*************
+    // Data members
+    //*************
+    var canvas = document.getElementById("canvas");
+    
+    var m_Keys = {};
+    
+    var m_CurrentMousePos = [0,0];
     
     //****************
     // Private methods
@@ -88,16 +76,14 @@ function Input()
     {
         canvas.requestPointerLock();
         
-        if (
-            document.pointerLockElement       === canvas || //Cross browser call (future proofing)
-            document.mozPointerLockElement    === canvas || //ff
-            document.webkitPointerLockElement === canvas    //chrome
-           ) {}
+        if ( document.pointerLockElement === canvas || document.mozPointerLockElement === canvas || document.webkitPointerLockElement === canvas )
+        {
             //document.removeEventListener("mousemove", mouseMove, false);
+        }
         else 
+        {
             document.addEventListener("mousemove", mouseMove, false);
-
-    
+        }
     };
     
     initKeyHandlers = function()
@@ -113,10 +99,8 @@ function Input()
         var check_pointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
         if(check_pointerLock)
-        {   canvas.requestPointerLock = 
-            canvas.requestPointerLock ||
-            canvas.mozRequestPointerLock ||
-            canvas.webkitRequestPointerLock;
+        {   
+            canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
             canvas.requestPointerLock();  
         }
     };
@@ -143,16 +127,9 @@ function Input()
     
     mouseMove = function (e)
     {
-        //Retrieve movement across browsers
-        var movementX = e.movementX ||
-        e.mozMovementX          ||
-        e.webkitMovementX       ||
-        0,
-        movementY = e.movementY ||
-        e.mozMovementY      ||
-        e.webkitMovementY   ||
-        0;
-    
+        var movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
+        var movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
+        
         m_CurrentMousePos = [movementX ,movementY];
     };
     

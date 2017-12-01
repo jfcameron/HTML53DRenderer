@@ -2,7 +2,7 @@
 // Project: ${PROJECTNAME}
 // Created on ${YEAR-MONTH-DAY}.
 
-TIME = new Time();
+TIME = new Time(update, 16);
 INPUT = new Input();
 
 var sceneGraphDiv = document.getElementById("SceneGraph");
@@ -58,7 +58,4 @@ function update()
     
     //cubeDiv
     cubeDiv.style.transform = "translate3d("+x+"vw,"+y+"vw,"+z+"vw) "+"rotateX("+rX+"deg) "+"rotateY("+rY+"deg) "+"rotateZ("+rZ+"deg) ";
-    
 }
-
-TIME.start(update,16);
