@@ -1,3 +1,7 @@
+// © 2017 Joseph Cameron - All Rights Reserved
+// Project: ${PROJECTNAME}
+// Created on ${YEAR-MONTH-DAY}.
+
 TIME = new Time();
 INPUT = new Input();
 
@@ -9,43 +13,45 @@ var rX = 0, rY = 0, rZ = 0;
 
 function update()
 {
-    if (INPUT.getKeys()[65])//A
+    //console.log(INPUT.KEY);
+
+    if (INPUT.getKey(INPUT.KEY.A))
     {
         x-=1;
-    }
+    }   
     
-    if (INPUT.getKeys()[68])//D
+    if (INPUT.getKey(INPUT.KEY.D))
     {
         x+=1;
     }
     
-    if (INPUT.getKeys()[87])//W
+    if (INPUT.getKey(INPUT.KEY.W))
     {
         z-=1;
     }
     
-    if (INPUT.getKeys()[83])//S
+    if (INPUT.getKey(INPUT.KEY.S))
     {
         z+=1;
     }
     
-    if (INPUT.getKeys()[32])//Space
+    if (INPUT.getKey(INPUT.KEY.Space))
     {
         y-=1;
     }
     
-    if (INPUT.getKeys()[17])//Ctrl
+    if (INPUT.getKey(INPUT.KEY.LeftControl))
     {
         y+=1;
     
     }
     
-    if (INPUT.getKeys()[69])//E
+    if (INPUT.getKey(INPUT.KEY.E))
     {
         rY+=1;
     }
     
-    if (INPUT.getKeys()[81])//Q
+    if (INPUT.getKey(INPUT.KEY.Q))
     {
         rY-=2;  
     }

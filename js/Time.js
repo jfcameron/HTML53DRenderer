@@ -1,14 +1,7 @@
-//**********************************************************
-// Filename: Time.js
-// Description: Manages time events. Stores global counters.
-// Author: Joseph Cameron
-//**********************************************************
-// CHANGELOG
-//
-// Date: March 7th, 2015
-// Description: Initial implementation.
-// Author: Joseph Cameron
-//
+// © 2017 Joseph Cameron - All Rights Reserved
+// Project: ${PROJECTNAME}
+// Created on ${YEAR-MONTH-DAY}.
+
 function Time()
 {
     //*************
@@ -23,15 +16,13 @@ function Time()
     this.getTime = function()
     {
         return m_TimeSinceStart;
-        
     };
     
     this.setDeltaTime = function(aReferenceToAnUpdateFunction,aTimeInMiliseconds)
     {
         clearInterval(aReferenceToAnUpdateFunction);
         m_IntervalHandle = setInterval(aReferenceToAnUpdateFunction,aTimeInMiliseconds);
-        setInterval(function(){m_TimeSinceStart++;},aTimeInMiliseconds);
-        
+        setInterval(function(){m_TimeSinceStart++;},aTimeInMiliseconds);  
     }
     
     //***************
@@ -41,9 +32,5 @@ function Time()
     {
         this.setDeltaTime(aReferenceToAnUpdateFunction,aTimeInMiliseconds);
         
-    };
-    
+    };   
 }
-
-
-
