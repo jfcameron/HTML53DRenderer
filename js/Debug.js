@@ -1,39 +1,45 @@
 // © 2017 Joseph Cameron - All Rights Reserved
 // Project: CSS3DRenderer
 // Created on 2017-12-01.
+"use strict";
 
-function Debug()
-{
-    //*****************
-    // Public interface
-    //*****************
-    this.Log = function(aTag)
+define(
+[
+    
+], 
+function() 
+{ 
+    return function()
     {
-        if (typeof(aTag) !== 'string')
-            throw "aTag must be a string!"
-
-        let stringBuffer = "D/" + aTag + ": ";
-
-        for (let i = 1, s = arguments.length; i < s; i++)
+        // Public interface
+        this.Log = function(aTag)
         {
-            stringBuffer += arguments[i];
-        }
+            if (typeof(aTag) !== 'string')
+                throw "aTag must be a string!"
 
-        console.log(stringBuffer);
-    };
+            let stringBuffer = "D/" + aTag + ": ";
 
-    this.Error = function(aTag)
-    {
-        if (typeof(aTag) !== 'string')
-            throw "aTag must be a string!"
+            for (let i = 1, s = arguments.length; i < s; i++)
+            {
+                stringBuffer += arguments[i];
+            }
 
-        let stringBuffer = "E/" + aTag + ": ";
-        
-        for (let i = 1, s = arguments.length; i < s; i++)
+            console.log(stringBuffer);
+        };
+
+        this.Error = function(aTag)
         {
-            stringBuffer += arguments[i];
-        }
+            if (typeof(aTag) !== 'string')
+                throw "aTag must be a string!"
+
+            let stringBuffer = "E/" + aTag + ": ";
         
-        console.log(stringBuffer);
-    };
-}
+            for (let i = 1, s = arguments.length; i < s; i++)
+            {
+                stringBuffer += arguments[i];
+            }
+            
+            console.log(stringBuffer);
+        };
+    }
+});
