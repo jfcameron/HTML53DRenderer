@@ -5,23 +5,35 @@
 
 define(
 [
-    "Engine/Debug/Exceptions"
+    "Engine/Debug/Exceptions",
+    "Engine/Math/Vector3"
 ], 
-function() 
+function(Exceptions, Vector3)
 {
     var GraphicsObject = function()
     {
-        // Public interface
-        
-        // Constructors
+        var m_DivHandle = null;
+
+        var m_Position = new Vector3();
+        var m_Rotation = new Vector3();
+
         if (arguments.length == 0)
         {
             throw "GraphicsObject is a stub!";
+        }
+        else if (arguments.length == 1)
+        {
+            //todo: div
         }
         else
         {
             throw Exceptions.Constructor;
         }
+    };
+
+    GraphicsObject.prototype.Update = function()
+    {
+
     };
 
     GraphicsObject.prototype.Tag = "GraphicsObject";

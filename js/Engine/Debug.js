@@ -45,5 +45,7 @@ function()
 
     Debug.prototype.Tag = "Debug";
 
+    Debug = new Debug();
+
     return Debug;
 });

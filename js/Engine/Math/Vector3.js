@@ -7,7 +7,7 @@ define(
 [
     "Engine/Debug/Exceptions"
 ], 
-function() 
+function(Exceptions) 
 {
     var Vector3 = function()
     {

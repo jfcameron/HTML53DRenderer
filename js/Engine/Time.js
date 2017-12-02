@@ -48,6 +48,6 @@ function(Exceptions)
     }
 
     Time.prototype.Tag = "Time";
-
+    
     return Time;
 });

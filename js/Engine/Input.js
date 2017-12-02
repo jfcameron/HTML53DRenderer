@@ -7,9 +7,9 @@ define(
 [
     "Engine/Debug/Exceptions"
 ], 
-function() 
+function(Exceptions)
 { 
-    var Input =  function()
+    var Input = function()
     {
         // Public interface
         this.KEY =
@@ -143,6 +143,8 @@ function()
     }
 
     Input.prototype.Tag = "Input";
+
+    Input = new Input();
 
     return Input;
 });
