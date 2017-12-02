@@ -4,27 +4,22 @@
 "use strict";
 
 requirejs.config({
-    baseUrl: 'js',
+    baseUrl: 'js/app',
 
     paths: {
-        app: '../app'
+        Engine: '../engine',
+        Thirdparty: '../thirdparty'
     }
 });
 
 // Requirejs Entrypoint
 define(function(require)
 {
-    const Config  = require("./Config");
-
-    const Vector3 = require("./Vector3");
+    const Vector3 = require("Engine/Math/Vector3");
     
-    const Debug = new (require("./Debug"))();
-    const Input = new (require("./Input"))();
-    const Time  = new (require("./Time"))(update, 16);
-
-    const Interfaces = require("./Interfaces");
-
-    const whatever = require("./Exceptions");
+    const Debug = new (require("Engine/Debug"))();
+    const Input = new (require("Engine/Input"))();
+    const Time  = new (require("Engine/Time"))(update, 16);
 
     Debug.Log("TAG",123);
 
@@ -35,10 +30,9 @@ define(function(require)
 
     Debug.Log("Hello",vec.Length());
 
-    Debug.Log("asdf",obj instanceof Vector3);
-    Debug.Log("123",vec instanceof Vector3);
+    Debug.Log("asdf", obj instanceof Vector3);
+    Debug.Log("123", vec instanceof Vector3);
 
-    Debug.Log("yayaya",Config);
     Debug.Log("123213", new Vector3(0,1,2));
 
     var position = new Vector3();

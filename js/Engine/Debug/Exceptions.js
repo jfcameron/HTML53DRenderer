@@ -3,7 +3,11 @@
 // Created on 2017-12-02.
 "use strict";
 
-define(function() 
+define(
+[
+
+],
+function() 
 {
     return {
         Constructor : "Invalid construction"

@@ -5,7 +5,7 @@
 
 define(
 [
-    "./Exceptions"
+    "Engine/Debug/Exceptions"
 ], 
 function(Exceptions) 
 { 
