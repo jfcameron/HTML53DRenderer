@@ -8,7 +8,7 @@ define(
 
 ], 
 function() 
-{ 
+{
     var Debug = function()
     {
         // Public interface
@@ -18,12 +18,12 @@ function()
                 throw "aTag must be a string!"
 
             let stringBuffer = "D/" + aTag + ": ";
-
+    
             for (let i = 1, s = arguments.length; i < s; i++)
             {
-                stringBuffer += arguments[i].toString();
+                stringBuffer += arguments[i];
             }
-
+        
             console.log(stringBuffer);
         };
 

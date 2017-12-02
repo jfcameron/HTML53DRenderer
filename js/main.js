@@ -49,22 +49,22 @@ define(function(require)
 
     function update()
     {
-        if (Input.getKey(Input.KEY.A))
+        if (Input.getKey(Input.KEY.A) || Input.getKey(Input.KEY.LeftArrow))
         {
             position.x -= 1;
         }   
         
-        if (Input.getKey(Input.KEY.D))
+        if (Input.getKey(Input.KEY.D) || Input.getKey(Input.KEY.RightArrow))
         {
             position.x += 1;
         }
         
-        if (Input.getKey(Input.KEY.W))
+        if (Input.getKey(Input.KEY.W) || Input.getKey(Input.KEY.UpArrow))
         {
             position.z -= 1;
         }
         
-        if (Input.getKey(Input.KEY.S))
+        if (Input.getKey(Input.KEY.S) || Input.getKey(Input.KEY.DownArrow))
         {
             position.z += 1;
         }
@@ -86,7 +86,7 @@ define(function(require)
         
         if (Input.getKey(Input.KEY.Q))
         {
-            rotation.y -=2 ;  
+            rotation.y -= 1;  
         }
         
         //cubeDiv
