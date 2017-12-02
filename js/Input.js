@@ -1,6 +1,6 @@
 // © 2017 Joseph Cameron - All Rights Reserved
-// Project: ${PROJECTNAME}
-// Created on ${YEAR-MONTH-DAY}.
+// Project: CSS3DRenderer
+// Created on 2017-12-01.
 
 function Input()
 {
@@ -107,7 +107,7 @@ function Input()
     
     keyDown = function (event)
     {
-        console.log(event);
+        //console.log(event);
 
         m_Keys[event.keyCode] = true;
     };

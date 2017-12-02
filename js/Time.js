@@ -1,12 +1,10 @@
 // © 2017 Joseph Cameron - All Rights Reserved
-// Project: ${PROJECTNAME}
-// Created on ${YEAR-MONTH-DAY}.
+// Project: CSS3DRenderer
+// Created on 2017-12-01.
 
 function Time(aReferenceToAnUpdateFunction, aTimeInMiliseconds)
 {
-    //*****************
     // Public interface
-    //*****************
     this.getTime = function()
     {
         return m_TimeSinceStart;
@@ -25,11 +23,19 @@ function Time(aReferenceToAnUpdateFunction, aTimeInMiliseconds)
         );
     }
 
-    //*************
     // Data members
-    //*************
-    var m_IntervalHandle = null; //handle to setInterval callback
-    var m_TimeSinceStart = 0;    //Counts time since program start
+    var m_IntervalHandle = null; 
+    var m_TimeSinceStart = 0;
     
-    this.setDeltaTime(aReferenceToAnUpdateFunction, aTimeInMiliseconds);
+    // Constructors
+    if ( typeof(aReferenceToAnUpdateFunction) === 'function' &&
+         !isNaN(aTimeInMiliseconds) &&
+         aTimeInMiliseconds > 0 )
+    {
+        this.setDeltaTime(aReferenceToAnUpdateFunction, aTimeInMiliseconds);
+    }
+    else
+    {
+        throw "Invalid args";
+    }
 }
