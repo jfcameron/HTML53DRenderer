@@ -9,14 +9,30 @@ define(
 ], 
 function() 
 {
-    var Interfaces = function()
+    var ImplementsInterface = function()
     {
+        //var m_InterfaceList = {};
+
         // Public interface
-        
+        this.Implements = function(aInterface)
+        {
+
+        };
+
+        this.RegisterInterface = function(aInterface)
+        {
+            if (typeof(aInterface) !== 'function')
+                throw "type error";
+
+            if (this.prototype[aInterface])
+                throw "interface reregistration OR name collision!";
+
+            this.prototype[aInterface] = aInterface;
+        };
+
         // Constructors
         if (arguments.length == 0)
         {
-            throw "Interfaces is a stub!";
         }
         else
         {
@@ -24,7 +40,7 @@ function()
         }
     };
 
-    Interfaces.prototype.Tag = "Interfaces";
+    ImplementsInterface.prototype.Tag = "ImplementsInterface";
 
-    return Interfaces;
+    return ImplementsInterface;
 });

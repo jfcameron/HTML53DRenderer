@@ -22,17 +22,21 @@ define(function(require)
     const Input = new (require("./Input"))();
     const Time  = new (require("./Time"))(update, 16);
 
+    const Interfaces = require("./Interfaces");
+
     const whatever = require("./Exceptions");
 
     Debug.Log("TAG",123);
 
     var obj = new Object();
-    var vec = new Vector3();
+    var vec = new Vector3(1,0,0);
 
     console.log(vec);
 
-    Debug.Log("asdf",obj.isPrototypeOf(Vector3));
-    Debug.Log("123",vec.isPrototypeOf(Vector3));
+    Debug.Log("Hello",vec.Length());
+
+    Debug.Log("asdf",obj instanceof Vector3);
+    Debug.Log("123",vec instanceof Vector3);
 
     Debug.Log("yayaya",Config);
     Debug.Log("123213", new Vector3(0,1,2));

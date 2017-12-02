@@ -21,7 +21,7 @@ function()
 
             for (let i = 1, s = arguments.length; i < s; i++)
             {
-                stringBuffer += arguments[i];
+                stringBuffer += arguments[i].toString();
             }
 
             console.log(stringBuffer);

@@ -32,6 +32,11 @@ function()
         }
     };
 
+    Vector3.prototype.Length = function()
+    {
+        return Math.sqrt( Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2) );
+    };
+
     Vector3.prototype.Tag = "Vector3";
 
     return Vector3;
