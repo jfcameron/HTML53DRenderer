@@ -5,11 +5,11 @@
 
 define(
 [
-    
+    "./Exceptions"
 ], 
-function() 
+function(Exceptions) 
 { 
-    return function(aReferenceToAnUpdateFunction, aTimeInMiliseconds)
+    var Time = function(aReferenceToAnUpdateFunction, aTimeInMiliseconds)
     {
         // Public interface
         this.getTime = function()
@@ -43,7 +43,11 @@ function()
         }
         else
         {
-            throw "Invalid args";
+            throw Exceptions.Constructor;
         }
     }
+
+    Time.prototype.Tag = "Time";
+
+    return Time;
 });

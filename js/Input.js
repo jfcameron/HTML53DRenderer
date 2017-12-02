@@ -5,11 +5,11 @@
 
 define(
 [
-    
+    "./Exceptions"
 ], 
 function() 
 { 
-    return function()
+    var Input =  function()
     {
         // Public interface
         this.KEY =
@@ -116,7 +116,7 @@ function()
         {
             m_CurrentMousePos = [0,0];
             
-            if (m_Keys[27])
+            if (getKey(Input.KEY.Escape))
                 document.removeEventListener("mousemove", mouseMove, false);
         };
         
@@ -138,7 +138,11 @@ function()
         }
         else
         {
-            throw "Invalid args";
+            throw Exceptions.Constructor;
         }
     }
+
+    Input.prototype.Tag = "Input";
+
+    return Input;
 });

@@ -5,6 +5,7 @@
 
 define(function() 
 {
-
-
+    return {
+        Constructor : "Invalid construction"
+    };
 });

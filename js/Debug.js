@@ -5,11 +5,11 @@
 
 define(
 [
-    
+
 ], 
 function() 
 { 
-    return function()
+    var Debug = function()
     {
         // Public interface
         this.Log = function(aTag)
@@ -42,4 +42,8 @@ function()
             console.log(stringBuffer);
         };
     }
+
+    Debug.prototype.Tag = "Debug";
+
+    return Debug;
 });

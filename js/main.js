@@ -22,10 +22,14 @@ define(function(require)
     const Input = new (require("./Input"))();
     const Time  = new (require("./Time"))(update, 16);
 
+    const whatever = require("./Exceptions");
+
     Debug.Log("TAG",123);
 
     var obj = new Object();
     var vec = new Vector3();
+
+    console.log(vec);
 
     Debug.Log("asdf",obj.isPrototypeOf(Vector3));
     Debug.Log("123",vec.isPrototypeOf(Vector3));
