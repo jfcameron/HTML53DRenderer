@@ -17,10 +17,10 @@ function(Exceptions)
         this.z = 0;
         
         // Constructors
-        if (arguments.length == 0)
+        if (arguments.length === 0)
         {
         }
-        else if (arguments.length == 3 && !isNaN(arguments[0]) && !isNaN(arguments[1] && !isNaN(arguments[2])))
+        else if (arguments.length === 3 && !isNaN(arguments[0]) && !isNaN(arguments[1] && !isNaN(arguments[2])))
         {
             this.x = arguments[0];
             this.y = arguments[1];

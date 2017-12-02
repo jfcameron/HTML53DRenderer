@@ -8,32 +8,28 @@ define(
     "Engine/Debug/Exceptions",
     "Engine/Math/Vector3"
 ], 
-function(Exceptions, Vector3)
+function(Exceptions)
 {
-    var GraphicsObject = function()
+    var GraphicsObject = function(aHandleToDiv)
     {
+        // Private data
         var m_DivHandle = null;
 
-        var m_Position = new Vector3();
-        var m_Rotation = new Vector3();
-
-        if (arguments.length == 0)
+        // Derived class interface
+        this.Update = () => { throw Exceptions.Unimplemented; };
+        
+        // Constructors
+        if (arguments.length === 1)
         {
-            throw "GraphicsObject is a stub!";
-        }
-        else if (arguments.length == 1)
-        {
-            //todo: div
+            if (aHandleToDiv.tagName !== "DIV")
+                throw Exceptions.Constructor;
+            
+            m_DivHandle = aHandleToDiv;
         }
         else
         {
             throw Exceptions.Constructor;
         }
-    };
-
-    GraphicsObject.prototype.Update = function()
-    {
-
     };
 
     GraphicsObject.prototype.Tag = "GraphicsObject";

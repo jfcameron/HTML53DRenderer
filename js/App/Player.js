@@ -18,7 +18,7 @@ function(Exceptions, Input, Vector3)
         
         var cubeDiv = document.getElementById("theCube");
 
-        this.update = function()
+        this.Update = function()
         {
             if (Input.getKey(Input.KEY.A) || Input.getKey(Input.KEY.LeftArrow))
             {
@@ -65,7 +65,7 @@ function(Exceptions, Input, Vector3)
         }
 
         // Constructors
-        if (arguments.length == 0)
+        if (arguments.length === 0)
         {
         }
         else

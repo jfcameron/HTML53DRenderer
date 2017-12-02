@@ -20,16 +20,25 @@ define(function(require)
     const Debug   = require("Engine/Debug");
     const Input   = require("Engine/Input");
     const Vector3 = require("Engine/Math/Vector3");
-
-    //Temp
-    const GraphicsObject = require("Engine/Math/Vector3");
-
+    //Graphics
+    const Cube = require("Engine/Graphics/Cube");
     //App inc
-    var Player = new (require("./Player"))();
+    const Player = require("./Player");
+
+    //mainline
+    var myPlayer = new Player();
+    var myGraphicsObject = new Cube();
+
+
+    var cubeDiv = document.getElementById("theCube");
+    Debug.Log("Cube", typeof(cubeDiv));
+    Debug.Log("Cube", cubeDiv.tagName);
 
     function update()
     {
-        Player.update();
+        myPlayer.Update();
+
+        myGraphicsObject.Update();
     }
 
     var obj = new Object();

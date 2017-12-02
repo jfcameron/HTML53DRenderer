@@ -10,6 +10,7 @@ define(
 function() 
 {
     return {
-        Constructor : "Invalid construction"
+        Constructor : "Invalid construction",
+        Unimplemented : "Unimplemented"
     };
 });
