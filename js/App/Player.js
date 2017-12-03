@@ -22,7 +22,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
         let m_Position = new Vector3();
         let m_Rotation = new Vector3();
 
-        let m_GraphicsObject = new Quad(new Vector2(200, 200));
+        let m_GraphicsObject = new Quad(new Vector2(100, 100));
 
         this.Update = function()
         {

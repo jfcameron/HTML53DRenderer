@@ -23,18 +23,48 @@ function(Exceptions, GraphicsObject, Vector2)
             let root  = document.createElement("div");
             let front = document.createElement("div");
     
-            const size = 100;
-            const halfSize = size/2;
+            const size = aSize;
             
             root.style.position       = "relative";
-            root.style.width          = size + "px";
+            root.style.width          = size.x + "px";
             root.style.transformStyle = "preserve-3d";
     
             front.style.position        = "absolute";
-            front.style.width           = size + "px";
-            front.style.height          = size + "px";
-            front.style.transform       = "translateZ(" + 0 + "px)" + "translateY(" + -halfSize + "px)";
+            front.style.width           = size.x + "px";
+            front.style.height          = size.y + "px";
+            front.style.transform       = "translateZ(" + 0 + "px)" + "translateY(" + -(size.y/2) + "px)";
             front.style.backgroundColor = "orange";
+            
+            let canvas = document.createElement("canvas");
+            canvas.width  = aSize.x;
+            canvas.height = aSize.y;
+
+            let ctx = canvas.getContext('2d');
+            let img = new Image();
+        
+            // Disable antialiasing
+            ctx.mozImageSmoothingEnabled    = false;
+            ctx.webkitImageSmoothingEnabled = false;
+            ctx.imageSmoothingEnabled       = false;
+            
+            img.src = 'img/Blocky.png';
+
+            img.onload = function() 
+            {
+                let sx = 0;
+                let sy = 0;
+                let sWidth = 16;
+                let sHeight = 17;
+
+                let dx = 0;
+                let dy = 0;
+                let dWidth = canvas.width;
+                let dHeight = canvas.height;
+
+                ctx.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+            }
+
+            front.appendChild(canvas);
             
             root.appendChild(front);
             
