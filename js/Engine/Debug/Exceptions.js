@@ -7,7 +7,7 @@ define(
 [
 
 ],
-function() 
+function()
 {
     return {
         Constructor : "Invalid construction",

@@ -92,12 +92,3 @@ iframe
 	transform: translateZ(100px);
     background-color: orange;    
 }
-
-/*@keyframes spin {
-	from { transform: rotateY(0); }
-	to { transform: rotateY(360deg); }
-}
-
-.cube {
-	animation: spin 5s infinite linear;
-}*/

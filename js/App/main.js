@@ -28,10 +28,6 @@ define(function(require)
     var myPlayer = new Player();
     var myNPC = new NPC();
 
-    var cubeDiv = document.getElementById("theCube");
-    Debug.Log("Cube", typeof(cubeDiv));
-    Debug.Log("Cube", cubeDiv.tagName);
-
     function update()
     {
         myPlayer.Update();
