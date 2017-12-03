@@ -20,15 +20,27 @@ function(Exceptions)
         if (arguments.length === 0)
         {
         }
+        else if (arguments.length == 1)
+        {
+            let aVector3 = arguments[0];
+
+            if (!aVector3 instanceof Vector3) throw Exceptions.Constructor;
+
+            this.x = aVector3.x;
+            this.y = aVector3.y;
+            this.z = aVector3.z;
+        }
         else if (arguments.length === 3)
         {
-            if (isNaN(arguments[0])) throw Exceptions.Constructor;
-            if (isNaN(arguments[1])) throw Exceptions.Constructor;
-            if (isNaN(arguments[2])) throw Exceptions.Constructor;
+            let aX = arguments[0], aY = arguments[1], aZ = arguments[2];
 
-            this.x = arguments[0];
-            this.y = arguments[1];
-            this.z = arguments[2];
+            if (isNaN(aX)) throw Exceptions.Constructor;
+            if (isNaN(aY)) throw Exceptions.Constructor;
+            if (isNaN(aZ)) throw Exceptions.Constructor;
+
+            this.x = aX;
+            this.y = aY;
+            this.z = aZ;
         }
         else
         {
