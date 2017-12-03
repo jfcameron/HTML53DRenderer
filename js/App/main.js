@@ -28,11 +28,22 @@ define(function(require)
     var myPlayer = new Player();
     var myNPC = new NPC();
 
+    var mySceneGraph = document.getElementById("MyHardcodedSceneGraph");
+
+    var aPosition = new Vector3();
+    var aRotation = new Vector3();
+
     function update()
     {
         myPlayer.Update();
 
         myNPC.Update();
+
+        //aRotation.y += 0.5;
+
+        mySceneGraph.style.transform = 
+            "translate3d(" + aPosition.x + "vw," + aPosition.y + "vw," + aPosition.z + "vw) " + 
+            "rotateX(" + aRotation.x + "deg) " + "rotateY(" + aRotation.y + "deg) " + "rotateZ(" + aRotation.z + "deg) ";
     }
 
     var obj = new Object();

@@ -5,63 +5,92 @@
 
 define(
 [
+    "Engine/Debug",
     "Engine/Debug/Exceptions",
     "Engine/Input",
+    "Engine/Math/Vector2",
     "Engine/Math/Vector3",
-    "Engine/Graphics/Cube"
+    "Engine/Graphics/Quad"
 ], 
-function(Exceptions, Input, Vector3, Cube)
+function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
 {
     var Player = function()
     {
-        var position = new Vector3();
-        var rotation = new Vector3();
+        let c_TranslateSpeed = 1;
+        let c_RotateSpeed    = 1;
 
-        var m_GraphicsObject = new Cube();//(document.getElementById("theCube"));
+        let m_Position = new Vector3();
+        let m_Rotation = new Vector3();
+
+        let m_GraphicsObject = new Quad(new Vector2(200, 200));
 
         this.Update = function()
         {
+            //Translation
             if (Input.getKey(Input.KEY.A) || Input.getKey(Input.KEY.LeftArrow))
             {
-                position.x -= 1;
+                m_Position.x -= c_TranslateSpeed;
             }   
             
             if (Input.getKey(Input.KEY.D) || Input.getKey(Input.KEY.RightArrow))
             {
-                position.x += 1;
+                m_Position.x += c_TranslateSpeed;
             }
             
             if (Input.getKey(Input.KEY.W) || Input.getKey(Input.KEY.UpArrow))
             {
-                position.z -= 1;
+                m_Position.z -= c_TranslateSpeed;
             }
             
             if (Input.getKey(Input.KEY.S) || Input.getKey(Input.KEY.DownArrow))
             {
-                position.z += 1;
+                m_Position.z += c_TranslateSpeed;
             }
             
             if (Input.getKey(Input.KEY.Space))
             {
-                position.y -= 1;
+                m_Position.y -= c_TranslateSpeed;
             }
             
             if (Input.getKey(Input.KEY.C))
             {
-                position.y += 1;
+                m_Position.y += c_TranslateSpeed;
             }
             
+            //Rotation
             if (Input.getKey(Input.KEY.E))
             {
-                rotation.y += 1;
+                m_Rotation.y += c_RotateSpeed;
             }
             
             if (Input.getKey(Input.KEY.Q))
             {
-                rotation.y -= 1;  
+                m_Rotation.y -= c_RotateSpeed;  
+            }
+
+            if (Input.getKey(Input.KEY.R))
+            {
+                m_Rotation.z += c_RotateSpeed;
             }
             
-            m_GraphicsObject.Update(position, rotation);
+            if (Input.getKey(Input.KEY.T))
+            {
+                m_Rotation.z -= c_RotateSpeed;  
+            }
+
+            if (Input.getKey(Input.KEY.F))
+            {
+                m_Rotation.x += c_RotateSpeed;
+            }
+            
+            if (Input.getKey(Input.KEY.G))
+            {
+                m_Rotation.x -= c_RotateSpeed;  
+            }
+            
+            Debug.Log(this.Tag, "Position: ", m_Position, ", Rotation: ", m_Rotation);
+
+            m_GraphicsObject.Update(m_Position, m_Rotation);
         }
 
         // Constructors

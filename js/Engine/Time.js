@@ -9,8 +9,11 @@ define(
 ], 
 function(Exceptions) 
 { 
-    var Time = function(aReferenceToAnUpdateFunction, aTimeInMiliseconds)
+    var Time = function()
     {
+        var m_IntervalHandle = null; 
+        var m_TimeSinceStart = 0;
+
         // Public interface
         this.getTime = function()
         {
@@ -30,16 +33,16 @@ function(Exceptions)
             );
         }
 
-        // Data members
-        var m_IntervalHandle = null; 
-        var m_TimeSinceStart = 0;
-        
         // Constructors
-        if ( typeof(aReferenceToAnUpdateFunction) === 'function' &&
-            !isNaN(aTimeInMiliseconds) &&
-            aTimeInMiliseconds > 0 )
+        if (arguments.length == 2)
         {
-            this.setDeltaTime(aReferenceToAnUpdateFunction, aTimeInMiliseconds);
+            let updateCallback = arguments[0], aTimeInMiliseconds = arguments[1];
+
+            if (typeof(updateCallback) !== 'function') throw Exceptions.Constructor;
+            if (isNaN(aTimeInMiliseconds))             throw Exceptions.Constructor;
+            if (aTimeInMiliseconds <= 0 )              throw Exceptions.Constructor;
+
+            this.setDeltaTime(updateCallback, aTimeInMiliseconds);
         }
         else
         {

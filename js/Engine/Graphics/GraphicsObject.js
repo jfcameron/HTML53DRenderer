@@ -20,12 +20,9 @@ function(Exceptions, Vector3)
         
         this.Update = function(aPosition, aRotation)
         {
-            if (arguments.length !== 2)
-                throw Exceptions.BadArgument;
-            if (!aPosition instanceof Vector3)
-                throw Exceptions.BadArgument;
-            if (!aRotation instanceof Vector3)
-                throw Exceptions.BadArgument;
+            if (arguments.length !== 2)        throw Exceptions.BadArgument;
+            if (!aPosition instanceof Vector3) throw Exceptions.BadArgument;
+            if (!aRotation instanceof Vector3) throw Exceptions.BadArgument;
 
             m_DivHandle.style.transform = 
                 "translate3d(" + aPosition.x + "vw," + aPosition.y + "vw," + aPosition.z + "vw) " + 
