@@ -8,16 +8,16 @@ define(
     "Engine/Debug/Exceptions",
     "Engine/Input",
     "Engine/Math/Vector3",
-    "Engine/Graphics/GraphicsObject"
+    "Engine/Graphics/Cube"
 ], 
-function(Exceptions, Input, Vector3, GraphicsObject)
+function(Exceptions, Input, Vector3, Cube)
 {
     var Player = function()
     {
         var position = new Vector3();
         var rotation = new Vector3();
 
-        var m_GraphicsObject = new GraphicsObject(document.getElementById("theCube"));
+        var m_GraphicsObject = new Cube();//(document.getElementById("theCube"));
 
         this.Update = function()
         {
