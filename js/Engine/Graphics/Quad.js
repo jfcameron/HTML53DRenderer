@@ -48,6 +48,8 @@ function(Debug, Exceptions, GraphicsObject, Vector2)
             document.getElementById("MyHardcodedSceneGraph").appendChild(root);
     
             GraphicsObject.call(this, root);
+
+            Debug.Log(Tag,this.GetRootDivHandle());
         }
         else
         {

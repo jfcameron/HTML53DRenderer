@@ -15,16 +15,17 @@ function(Exceptions, Vector3, Cube)
 
     var NPC = function()
     {
-        var position = new Vector3();
-        var rotation = new Vector3();
+        var m_Position = new Vector3();
+        var m_Rotation = new Vector3();
+        var m_Scale    = new Vector3(1, 1, 1);
 
         var m_GraphicsObject = new Cube();
 
         this.Update = function()
         {
-            rotation.y += 1;
+            m_Rotation.y += 1;
 
-            m_GraphicsObject.Update(position, rotation);
+            m_GraphicsObject.Update(m_Position, m_Rotation, m_Scale);
         }
         
         // Constructors

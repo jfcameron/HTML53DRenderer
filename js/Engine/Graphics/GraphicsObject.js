@@ -21,15 +21,18 @@ function(Debug, Exceptions, Vector3)
         // Public inteface
         this.GetRootDivHandle = () => { return m_RootDivHandle; };
         
-        this.Update = function(aPosition, aRotation)
+        this.Update = function(aPosition, aRotation, aScale)
         {
-            if (arguments.length !== 2)        throw Exceptions.BadArgument;
+            if (arguments.length !== 3)        throw Exceptions.BadArgument;
             if (!aPosition instanceof Vector3) throw Exceptions.BadArgument;
             if (!aRotation instanceof Vector3) throw Exceptions.BadArgument;
+            if (!aScale    instanceof Vector3) throw Exceptions.BadArgument;
 
             m_RootDivHandle.style.transform = 
-                "translate3d(" + aPosition.x + "vw," + aPosition.y + "vw," + aPosition.z + "vw) " + 
-                "rotateX(" + aRotation.x + "deg) " + "rotateY(" + aRotation.y + "deg) " + "rotateZ(" + aRotation.z + "deg) ";  
+                "translate3d(" + aPosition.x + "vw," + aPosition.y + "vw," + aPosition.z + "vw)" + 
+                "rotateX(" + aRotation.x + "deg)" + "rotateY(" + aRotation.y + "deg)" + "rotateZ(" + aRotation.z + "deg)" +
+                "scale3d("+ aScale.x + "," + aScale.y + "," + aScale.z + ")"
+            ;
         };
 
         // Constructors
@@ -37,10 +40,8 @@ function(Debug, Exceptions, Vector3)
         {
             let aHandleToDiv = arguments[0];
 
-            Debug.Log(Tag, "graphicsobject stuff", this instanceof (GraphicsObject));
-
             if (aHandleToDiv.tagName !== "DIV") throw Exceptions.Constructor;
-            
+
             m_RootDivHandle = aHandleToDiv;
         }
         else

@@ -23,6 +23,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
 
         let m_Position = new Vector3();
         let m_Rotation = new Vector3();
+        let m_Scale    = new Vector3(1, 1, 1);
 
         let m_GraphicsObject = new Quad(new Vector2(100, 100));
 
@@ -92,7 +93,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
             
             //Debug.Log(this.Tag, "Position: ", m_Position, ", Rotation: ", m_Rotation);
 
-            m_GraphicsObject.Update(m_Position, m_Rotation);
+            m_GraphicsObject.Update(m_Position, m_Rotation, m_Scale);
 
             //Debug.Log(this.Tag, m_GraphicsObject.GetRootDivHandle());
         }
