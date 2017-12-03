@@ -10,13 +10,13 @@ define(
 ], 
 function(Exceptions, Vector3)
 {
-    var GraphicsObject = function(aHandleToDiv)
+    var GraphicsObject = function()
     {
         // Private data
-        var m_DivHandle = null;
+        var m_RootDivHandle = null;
 
-        // Derived class interface
-        //this.Update = (aVec3Position, aVec3) => { throw Exceptions.Unimplemented; };
+        // Public inteface
+        this.GetRootDivHandle = () => { return m_RootDivHandle; };
         
         this.Update = function(aPosition, aRotation)
         {
@@ -24,7 +24,7 @@ function(Exceptions, Vector3)
             if (!aPosition instanceof Vector3) throw Exceptions.BadArgument;
             if (!aRotation instanceof Vector3) throw Exceptions.BadArgument;
 
-            m_DivHandle.style.transform = 
+            m_RootDivHandle.style.transform = 
                 "translate3d(" + aPosition.x + "vw," + aPosition.y + "vw," + aPosition.z + "vw) " + 
                 "rotateX(" + aRotation.x + "deg) " + "rotateY(" + aRotation.y + "deg) " + "rotateZ(" + aRotation.z + "deg) ";  
         };
@@ -32,10 +32,11 @@ function(Exceptions, Vector3)
         // Constructors
         if (arguments.length === 1)
         {
-            if (aHandleToDiv.tagName !== "DIV")
-                throw Exceptions.Constructor;
+            let aHandleToDiv = arguments[0];
+
+            if (aHandleToDiv.tagName !== "DIV") throw Exceptions.Constructor;
             
-            m_DivHandle = aHandleToDiv;
+            m_RootDivHandle = aHandleToDiv;
         }
         else
         {

@@ -91,6 +91,8 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
             Debug.Log(this.Tag, "Position: ", m_Position, ", Rotation: ", m_Rotation);
 
             m_GraphicsObject.Update(m_Position, m_Rotation);
+
+            Debug.Log(this.Tag, m_GraphicsObject.GetRootDivHandle());
         }
 
         // Constructors
