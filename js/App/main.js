@@ -38,7 +38,7 @@ define(function(require)
     {
         myPlayer.Update();
 
-        myGraphicsObject.Update();
+        //myGraphicsObject.Update();
     }
 
     var obj = new Object();

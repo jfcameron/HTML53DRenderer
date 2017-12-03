@@ -12,12 +12,32 @@ function(Exceptions, GraphicsObject)
 {
     var Cube = function()
     {
-        GraphicsObject.call(this, document.getElementById("theCube"));
+        let root   = document.createElement("div");
+        let front  = document.createElement("div");
+        let back   = document.createElement("div");
+        let left   = document.createElement("div");
+        let right  = document.createElement("div");
+        let top    = document.createElement("div");
+        let bottom = document.createElement("div");
 
-        this.Update = function()
-        {
-            
-        };
+        root.className   = "cube";
+        front.className  = "front";
+        back.className   = "back";
+        left.className   = "left";
+        right.className  = "right";
+        top.className    = "top";
+        bottom.className = "bottom";
+
+        root.appendChild(front);
+        root.appendChild(back);
+        root.appendChild(left);
+        root.appendChild(right);
+        root.appendChild(top);
+        root.appendChild(bottom);
+
+        document.getElementById("SceneGraph").appendChild(root);
+
+        GraphicsObject.call(this, document.getElementById("theCube"));
 
         // Constructors
         if (arguments.length == 0)

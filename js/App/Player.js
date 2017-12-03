@@ -7,16 +7,17 @@ define(
 [
     "Engine/Debug/Exceptions",
     "Engine/Input",
-    "Engine/Math/Vector3"
+    "Engine/Math/Vector3",
+    "Engine/Graphics/GraphicsObject"
 ], 
-function(Exceptions, Input, Vector3)
+function(Exceptions, Input, Vector3, GraphicsObject)
 {
     var Player = function()
     {
         var position = new Vector3();
         var rotation = new Vector3();
-        
-        var cubeDiv = document.getElementById("theCube");
+
+        var m_GraphicsObject = new GraphicsObject(document.getElementById("theCube"));
 
         this.Update = function()
         {
@@ -60,8 +61,7 @@ function(Exceptions, Input, Vector3)
                 rotation.y -= 1;  
             }
             
-            //cubeDiv
-            cubeDiv.style.transform = "translate3d(" + position.x + "vw," + position.y + "vw," + position.z + "vw) " + "rotateX(" + rotation.x + "deg) " + "rotateY(" + rotation.y + "deg) " + "rotateZ(" + rotation.z + "deg) ";
+            m_GraphicsObject.Update(position, rotation);
         }
 
         // Constructors

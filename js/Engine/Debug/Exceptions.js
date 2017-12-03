@@ -11,6 +11,7 @@ function()
 {
     return {
         Constructor : "Invalid construction",
-        Unimplemented : "Unimplemented"
+        Unimplemented : "Unimplemented",
+        BadArgument : "Bad argument"
     };
 });
