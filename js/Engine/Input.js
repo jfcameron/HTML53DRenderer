@@ -129,7 +129,7 @@ function(Exceptions)
         };
 
         // Constructors
-        if (arguments.length == 0)
+        if (arguments.length === 0)
         {
             document.onkeydown = keyDown;
             document.onkeyup = keyUp;

@@ -79,7 +79,7 @@ function(Exceptions, GraphicsObject)
         GraphicsObject.call(this, root);
 
         // Constructors
-        if (arguments.length == 0)
+        if (arguments.length === 0)
         {
         }
         else

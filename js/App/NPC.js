@@ -26,7 +26,7 @@ function(Exceptions, Vector3, Cube)
         }
         
         // Constructors
-        if (arguments.length == 0)
+        if (arguments.length === 0)
         {
         }
         else

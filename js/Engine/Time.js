@@ -34,7 +34,7 @@ function(Exceptions)
         }
 
         // Constructors
-        if (arguments.length == 2)
+        if (arguments.length === 2)
         {
             let updateCallback = arguments[0], aTimeInMiliseconds = arguments[1];
 

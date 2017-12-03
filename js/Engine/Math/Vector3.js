@@ -20,7 +20,7 @@ function(Exceptions)
         if (arguments.length === 0)
         {
         }
-        else if (arguments.length == 1)
+        else if (arguments.length === 1)
         {
             let aVector3 = arguments[0];
 

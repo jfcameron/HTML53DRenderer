@@ -14,7 +14,7 @@ function(Exceptions, GraphicsObject, Vector2)
     var Quad = function()
     {
         // Constructors
-        if (arguments.length == 1)
+        if (arguments.length === 1)
         {
             let aSize = arguments[0];
 
