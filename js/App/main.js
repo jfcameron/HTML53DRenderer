@@ -33,6 +33,9 @@ define(function(require)
     var aPosition = new Vector3();
     var aRotation = new Vector3();
 
+    var test = new Vector3(1,2,3);
+    Debug.Log("TEST", test, ", ", test.Length(), ", ", test.Normalize());
+
     function update()
     {
         myPlayer.Update();

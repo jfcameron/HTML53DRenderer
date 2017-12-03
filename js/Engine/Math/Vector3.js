@@ -11,7 +11,7 @@ function(Exceptions)
 {
     var Vector3 = function()
     {
-        // Public interface
+        // Public data
         this.x = 0.0;
         this.y = 0.0;
         this.z = 0.0;
@@ -50,8 +50,26 @@ function(Exceptions)
 
     Vector3.prototype.Length = function()
     {
+        if (arguments.length > 0) throw Exceptions.BadArgument;
+
         return Math.sqrt( Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2) );
     };
+
+    Vector3.prototype.Normalize = function()
+    {
+        if (arguments.length > 0) throw Exceptions.BadArgument;
+
+        let magnitude = this.Length();
+        
+        if (magnitude !== 0)
+        {
+            this.x /= magnitude;
+            this.y /= magnitude;
+            this.z /= magnitude;
+        }
+
+        return this;
+    }
 
     Vector3.prototype.Tag = "Vector3";
     
