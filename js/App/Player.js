@@ -14,6 +14,8 @@ define(
 ], 
 function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
 {
+    const Tag = "Player";
+
     var Player = function()
     {
         let c_TranslateSpeed = 1;
@@ -88,11 +90,11 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
                 m_Rotation.x -= c_RotateSpeed;  
             }
             
-            Debug.Log(this.Tag, "Position: ", m_Position, ", Rotation: ", m_Rotation);
+            //Debug.Log(this.Tag, "Position: ", m_Position, ", Rotation: ", m_Rotation);
 
             m_GraphicsObject.Update(m_Position, m_Rotation);
 
-            Debug.Log(this.Tag, m_GraphicsObject.GetRootDivHandle());
+            //Debug.Log(this.Tag, m_GraphicsObject.GetRootDivHandle());
         }
 
         // Constructors
@@ -105,7 +107,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
         }
     };
 
-    Player.prototype.Tag = "Player";
+    Player.prototype = Object.create(Object.prototype);
 
     return Player;
 });

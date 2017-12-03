@@ -9,6 +9,8 @@ define(
 ], 
 function(Exceptions) 
 { 
+    const Tag = "Time";
+    
     var Time = function()
     {
         var m_IntervalHandle = null; 
@@ -50,7 +52,7 @@ function(Exceptions)
         }
     }
 
-    Time.prototype.Tag = "Time";
+    Time.prototype = Object.create(Object.prototype);
     
     return Time;
 });

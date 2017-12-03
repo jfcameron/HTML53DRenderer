@@ -25,6 +25,10 @@ define(function(require)
     const Player = require("./Player");
     const NPC    = require("./NPC");
 
+    const Sprite = require("Engine/Graphics/Sprite");
+
+    Debug.Log("Neato", (new Sprite()) instanceof Node);
+
     var myPlayer = new Player();
     var myNPC = new NPC();
 

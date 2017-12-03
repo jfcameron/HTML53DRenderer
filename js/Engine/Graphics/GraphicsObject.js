@@ -5,11 +5,14 @@
 
 define(
 [
+    "Engine/Debug",
     "Engine/Debug/Exceptions",
     "Engine/Math/Vector3"
 ], 
-function(Exceptions, Vector3)
+function(Debug, Exceptions, Vector3)
 {
+    const Tag = "GraphicsObject";
+
     var GraphicsObject = function()
     {
         // Private data
@@ -34,6 +37,8 @@ function(Exceptions, Vector3)
         {
             let aHandleToDiv = arguments[0];
 
+            Debug.Log(Tag, "graphicsobject stuff", this instanceof (GraphicsObject));
+
             if (aHandleToDiv.tagName !== "DIV") throw Exceptions.Constructor;
             
             m_RootDivHandle = aHandleToDiv;
@@ -44,7 +49,7 @@ function(Exceptions, Vector3)
         }
     };
 
-    GraphicsObject.prototype.Tag = "GraphicsObject";
+    GraphicsObject.prototype = Object.create(Object.prototype);
 
     return GraphicsObject;
 });

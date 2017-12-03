@@ -5,20 +5,25 @@
 
 define(
 [
+    "Engine/Debug",
     "Engine/Debug/Exceptions",
     "Engine/Graphics/GraphicsObject",
     "Engine/Math/Vector2"
 ], 
-function(Exceptions, GraphicsObject, Vector2) 
+function(Debug, Exceptions, GraphicsObject, Vector2) 
 {
+    let Tag = "Quad";
+
     var Quad = function()
     {
         // Constructors
-        if (arguments.length === 1)
+        if (arguments.length === 1 || arguments.length === 2)
         {
-            let aSize = arguments[0];
+            let aSize      = arguments[0];
+            let aChildNode = arguments[1];
 
-            if (!aSize instanceof Vector2) throw Exceptions.Constructor;
+            if (!aSize instanceof Vector2)   throw Exceptions.Constructor;
+            if (!aChildNode instanceof Node) throw Exceptions.Constructor;
 
             let root  = document.createElement("div");
             let front = document.createElement("div");
@@ -35,36 +40,8 @@ function(Exceptions, GraphicsObject, Vector2)
             front.style.transform       = "translateZ(" + 0 + "px)" + "translateY(" + -(size.y/2) + "px)";
             front.style.backgroundColor = "orange";
             
-            let canvas = document.createElement("canvas");
-            canvas.width  = aSize.x;
-            canvas.height = aSize.y;
-
-            let ctx = canvas.getContext('2d');
-            let img = new Image();
-        
-            // Disable antialiasing
-            ctx.mozImageSmoothingEnabled    = false;
-            ctx.webkitImageSmoothingEnabled = false;
-            ctx.imageSmoothingEnabled       = false;
-            
-            img.src = 'img/Blocky.png';
-
-            img.onload = function() 
-            {
-                let sx = 0;
-                let sy = 0;
-                let sWidth = 16;
-                let sHeight = 17;
-
-                let dx = 0;
-                let dy = 0;
-                let dWidth = canvas.width;
-                let dHeight = canvas.height;
-
-                ctx.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-            }
-
-            front.appendChild(canvas);
+            if (aChildNode instanceof Node)
+                front.appendChild(aChildNode);
             
             root.appendChild(front);
             
@@ -78,7 +55,7 @@ function(Exceptions, GraphicsObject, Vector2)
         }
     };
 
-    Quad.prototype.Tag = "Quad";
+    Quad.prototype = Object.create(GraphicsObject.prototype);
 
     return Quad;
 });

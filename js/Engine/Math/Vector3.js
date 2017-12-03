@@ -9,6 +9,8 @@ define(
 ], 
 function(Exceptions) 
 {
+    const Tag = "Vector3";
+
     var Vector3 = function()
     {
         // Public data
@@ -48,6 +50,8 @@ function(Exceptions)
         }
     };
 
+    Vector3.prototype = Object.create(Object.prototype);
+
     Vector3.prototype.Length = function()
     {
         if (arguments.length > 0) throw Exceptions.BadArgument;
@@ -70,8 +74,6 @@ function(Exceptions)
 
         return this;
     }
-
-    Vector3.prototype.Tag = "Vector3";
     
     Vector3.prototype.toString = function() {return "{" + this.x + ", " + this.y + ", " + this.z + "}";}
 

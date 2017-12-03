@@ -10,6 +10,8 @@ define(
 ], 
 function(Exceptions, GraphicsObject) 
 {
+    const Tag = "Cube";
+
     var Cube = function()
     {
         let root   = document.createElement("div");
@@ -88,7 +90,7 @@ function(Exceptions, GraphicsObject)
         }
     };
 
-    Cube.prototype.Tag = "Cube";
+    Cube.prototype = Object.create(GraphicsObject.prototype);
 
     return Cube;
 });

@@ -8,7 +8,9 @@ define(
     "Engine/Debug/Exceptions"
 ], 
 function(Exceptions)
-{ 
+{
+    const Tag = "Input";
+    
     var Input = function()
     {
         // Public interface
@@ -142,7 +144,7 @@ function(Exceptions)
         }
     }
 
-    Input.prototype.Tag = "Input";
+    Input.prototype = Object.create(Object.prototype);
 
     Input = new Input();
 

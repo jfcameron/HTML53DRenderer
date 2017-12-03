@@ -11,6 +11,8 @@ define(
 ], 
 function(Exceptions, Vector3, Cube)
 {
+    const Tag = "NPC";
+
     var NPC = function()
     {
         var position = new Vector3();
@@ -35,7 +37,7 @@ function(Exceptions, Vector3, Cube)
         }
     };
 
-    NPC.prototype.Tag = "NPC";
+    NPC.prototype = Object.create(Object.prototype);
 
     return NPC;
 });

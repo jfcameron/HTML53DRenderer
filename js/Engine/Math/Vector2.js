@@ -9,6 +9,8 @@ define(
 ], 
 function(Exceptions) 
 {
+    const Tag = "Vector2";
+
     var Vector2 = function()
     {
         // Public interface
@@ -22,7 +24,7 @@ function(Exceptions)
         else if (arguments.length === 2)
         {
             let aX = arguments[0], aY = arguments[1];
-            
+
             if (isNaN(aX)) throw Exceptions.Constructor;
             if (isNaN(aY)) throw Exceptions.Constructor;
 
@@ -35,12 +37,12 @@ function(Exceptions)
         }
     };
 
+    Vector2.prototype = Object.create(Object.prototype);
+
     Vector2.prototype.Length = function()
     {
         return Math.sqrt( Math.pow(this.x, 2) + Math.pow(this.y, 2) );
     };
-
-    Vector2.prototype.Tag = "Vector2";
     
     Vector2.prototype.toString = function() {return "{" + this.x + ", " + this.y + "}";}
 
