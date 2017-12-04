@@ -13,13 +13,13 @@ function(Exceptions, Vector3, Cube)
 {
     const Tag = "NPC";
 
-    var NPC = function()
+    let NPC = function()
     {
-        var m_Position = new Vector3(0,0,-10);
-        var m_Rotation = new Vector3();
-        var m_Scale    = new Vector3(1, 1, 1);
+        let m_Position = new Vector3(0,0,-10);
+        let m_Rotation = new Vector3();
+        let m_Scale    = new Vector3(1, 1, 1);
 
-        var m_GraphicsObject = new Cube();
+        let m_GraphicsObject = new Cube();
 
         this.Update = function()
         {
