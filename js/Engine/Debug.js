@@ -9,7 +9,7 @@ define(
 ], 
 function() 
 {
-    var Debug = function()
+    let Debug = function()
     {
     }
 

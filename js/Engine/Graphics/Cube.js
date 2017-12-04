@@ -12,7 +12,7 @@ function(Exceptions, GraphicsObject)
 {
     const Tag = "Cube";
 
-    var Cube = function()
+    let Cube = function()
     {
         GraphicsObject.call(this);
 

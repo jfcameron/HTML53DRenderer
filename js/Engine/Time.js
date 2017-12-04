@@ -11,10 +11,10 @@ function(Exceptions)
 { 
     const Tag = "Time";
     
-    var Time = function()
+    let Time = function()
     {
-        var m_IntervalHandle = null; 
-        var m_TimeSinceStart = 0;
+        let m_IntervalHandle = null; 
+        let m_TimeSinceStart = 0;
 
         // Public interface
         this.getTime = function()

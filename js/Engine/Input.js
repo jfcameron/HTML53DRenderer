@@ -11,7 +11,7 @@ function(Exceptions)
 {
     const Tag = "Input";
     
-    var Input = function()
+    let Input = function()
     {
         // Public interface
         this.KEY =
@@ -68,14 +68,14 @@ function(Exceptions)
         };
 
         // Data members
-        var canvas = document.getElementById("canvas");
+        let canvas = document.getElementById("canvas");
         
-        var m_Keys = {};
+        let m_Keys = {};
         
-        var m_CurrentMousePos = [0,0];
+        let m_CurrentMousePos = [0,0];
         
         // Private methods
-        var mouselock = function()
+        let mouselock = function()
         {
             canvas.requestPointerLock();
             
@@ -89,11 +89,11 @@ function(Exceptions)
             }
         };
         
-        var initMouseHandler = function()
+        let initMouseHandler = function()
         {
             canvas.onclick = mouselock;
             
-            var check_pointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
+            let check_pointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
             if (check_pointerLock)
             {   
@@ -102,19 +102,19 @@ function(Exceptions)
             }
         };
         
-        var keyDown = function (event)
+        let keyDown = function (event)
         {
             //console.log(event);
 
             m_Keys[event.keyCode] = true;
         };
 
-        var keyUp = function (event)
+        let keyUp = function (event)
         {
             m_Keys[event.keyCode] = false;
         };
         
-        var mouseUpdate = function()
+        let mouseUpdate = function()
         {
             m_CurrentMousePos = [0,0];
             
@@ -122,10 +122,10 @@ function(Exceptions)
                 document.removeEventListener("mousemove", mouseMove, false);
         };
         
-        var mouseMove = function (e)
+        let mouseMove = function (e)
         {
-            var movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
-            var movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
+            let movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
+            let movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
             
             m_CurrentMousePos = [movementX ,movementY];
         };

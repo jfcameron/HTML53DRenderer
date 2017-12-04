@@ -11,7 +11,7 @@ function(Exceptions)
 {
     const Tag = "Vector2";
 
-    var Vector2 = function()
+    let Vector2 = function()
     {
         // Public interface
         this.x = 0.0;

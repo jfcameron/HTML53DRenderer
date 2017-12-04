@@ -12,7 +12,7 @@ function(Debug, Exceptions)
 {
     const TAG = "Color";
 
-    var Color = function()
+    let Color = function()
     {
         // Public interface
         this.r = 0;
@@ -24,9 +24,12 @@ function(Debug, Exceptions)
         if (arguments.length === 0)
         {
         }
-        if (arguments.length === 4)
+        if (arguments.length === 3 || arguments.length === 4)
         {
-            let aR = arguments[0], aG = arguments[1], aB = arguments[2], aA = arguments[3];
+            let aR = arguments[0];
+            let aG = arguments[1]; 
+            let aB = arguments[2];
+            let aA = typeof (arguments[3]) !== "undefined" ? arguments[3] : 1;
 
             if (isNaN(aR)) throw Exceptions.Constructor;
             if (isNaN(aG)) throw Exceptions.Constructor;
@@ -46,7 +49,20 @@ function(Debug, Exceptions)
 
     Color.prototype = Object.create(Object.prototype);
 
-    Color.prototype.toString = function() {return "{" + "Color" + "}";}
+    Color.prototype.toString = Object.freeze(function() 
+    {
+        return "{" + this.r + ", " + this.g + ", " + this.b + ", " + this.a + "}";
+    });
+
+    Color.prototype.equalTo = Object.freeze(function()
+    {
+        let aOther = arguments[0];
+
+        if (arguments.length !== 1) throw Exceptions.BadArgument;
+        if (!aOther instanceof Color) throw Exceptions.BadArgument;
+        
+        return this.r === aOther.r && this.g === aOther.g && this.b === aOther.b && this.a === aOther.a ? true : false; 
+    });
 
     return Color;
 });

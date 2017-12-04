@@ -14,9 +14,9 @@ define(
 ], 
 function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
 {
-    const Tag = "Player";
+    const TAG = "Player";
 
-    var Player = function()
+    let Player = function()
     {
         let c_TranslateSpeed = 1;
         let c_RotateSpeed    = 1;
@@ -27,7 +27,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
 
         let m_GraphicsObject = new Quad(new Vector2(100, 100));
 
-        this.Update = function()
+        this.Update = Object.freeze(function()
         {
             //Translation
             if (Input.getKey(Input.KEY.A) || Input.getKey(Input.KEY.LeftArrow))
@@ -96,7 +96,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
             m_GraphicsObject.Update(m_Position, m_Rotation, m_Scale);
 
             //Debug.Log(this.Tag, m_GraphicsObject.GetRootDivHandle());
-        }
+        });
 
         // Constructors
         if (arguments.length === 0)
@@ -108,7 +108,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
         }
     };
 
-    Player.prototype = Object.create(Object.prototype);
+    Player.prototype = Object.freeze(Object.prototype);
 
     return Player;
 });

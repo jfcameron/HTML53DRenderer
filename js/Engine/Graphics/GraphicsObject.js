@@ -11,17 +11,17 @@ define(
 ], 
 function(Debug, Exceptions, Vector3)
 {
-    const Tag = "GraphicsObject";
+    const TAG = "GraphicsObject";
 
-    var GraphicsObject = function()
+    let GraphicsObject = function()
     {
         // Private instanced data
-        var m_RootDivHandle = null;
+        let m_RootDivHandle = null;
 
         // Public instanced inteface
         this.GetRootDivHandle = () => { return m_RootDivHandle; };
         
-        this.Update = function(aPosition, aRotation, aScale)
+        this.Update = Object.freeze(function(aPosition, aRotation, aScale)
         {
             if (arguments.length !== 3)        throw Exceptions.BadArgument;
             if (!aPosition instanceof Vector3) throw Exceptions.BadArgument;
@@ -33,7 +33,7 @@ function(Debug, Exceptions, Vector3)
                 "rotateX(" + aRotation.x + "deg)" + "rotateY(" + aRotation.y + "deg)" + "rotateZ(" + aRotation.z + "deg)" +
                 "scale3d("+ aScale.x + "," + aScale.y + "," + aScale.z + ")"
             ;
-        };
+        });
 
         // Constructors
         if (arguments.length === 0)

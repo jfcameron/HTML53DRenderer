@@ -12,9 +12,9 @@ function(Debug, Exceptions)
 {
     const Tag = "Sprite";
 
-    var Sprite = function()
+    let Sprite = function()
     {
-    var canvas = document.createElement("canvas"); 
+    let canvas = document.createElement("canvas"); 
 
     console.log(canvas);
 
@@ -22,7 +22,7 @@ function(Debug, Exceptions)
     canvas.style.height='100%';
 
     let ctx = canvas.getContext('2d');
-    ctx.mozImageSmoothingEnabled    = false;
+    //ctx.mozImageSmoothingEnabled    = false;
     ctx.webkitImageSmoothingEnabled = false;
     ctx.imageSmoothingEnabled       = false;
     
@@ -46,9 +46,9 @@ function(Debug, Exceptions)
     //this = canvas;
     };
 
-    //var Sprite = canvas;
+    //let Sprite = canvas;
 
-    /*var Sprite = function()
+    /*let Sprite = function()
     {
         
         

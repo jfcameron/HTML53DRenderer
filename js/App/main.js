@@ -3,11 +3,12 @@
 // Created on 2017-12-01.
 "use strict";
 
-requirejs.config({
+requirejs.config(
+{
     baseUrl: 'js/app',
 
     paths: {
-        Engine: '../engine',
+        Engine:     '../engine',
         Thirdparty: '../thirdparty'
     }
 });
@@ -21,6 +22,7 @@ define(function(require)
     const Input   = require("Engine/Input");
     const Vector3 = require("Engine/Math/Vector3");
     const Cube    = require("Engine/Graphics/Cube");
+    const Colors  = require("Engine/Graphics/Colors");
     //App inc
     const Player = require("./Player");
     const NPC    = require("./NPC");
@@ -29,16 +31,28 @@ define(function(require)
 
     Debug.Log("Neato", (new Sprite()) instanceof Node);
 
-    var myPlayer = new Player();
-    var myNPC = new NPC();
+    let myPlayer = new Player();
+    let myNPC = new NPC();
 
-    var mySceneGraph = document.getElementById("MyHardcodedSceneGraph");
+    let mySceneGraph = document.getElementById("MyHardcodedSceneGraph");
 
-    var aPosition = new Vector3();
-    var aRotation = new Vector3();
+    let aPosition = new Vector3();
+    let aRotation = new Vector3();
 
-    var test = new Vector3(1,2,3);
+    let test = new Vector3(1,2,3);
     Debug.Log("TEST", test, ", ", test.Length(), ", ", test.Normalize());
+
+    let mytest = new Vector3();
+    Debug.Log("CoolTest", mytest.test);
+    //Object.freeze(mytest);
+    //mytest.a = "hello";
+    let myColor = Colors.DarkGreen();
+
+    Debug.Log("sadfasdf",Colors.Constants.DeathlyPink);
+    
+    //myColor.r = 1;
+
+    Debug.Log("ColorTestConst: ",myColor, ", ", myColor.equalTo(Colors.Constants.DarkGreen));
 
     function update()
     {
@@ -53,8 +67,8 @@ define(function(require)
             "rotateX(" + aRotation.x + "deg) " + "rotateY(" + aRotation.y + "deg) " + "rotateZ(" + aRotation.z + "deg) ";
     }
 
-    var obj = new Object();
-    var vec = new Vector3(1,0,0);
+    let obj = new Object();
+    let vec = new Vector3(1,0,0);
     console.log(vec);
     Debug.Log("Hello",vec.Length());
     Debug.Log("asdf", obj instanceof Vector3);
