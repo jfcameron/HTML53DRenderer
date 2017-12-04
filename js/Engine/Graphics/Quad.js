@@ -8,11 +8,12 @@ define(
     "Engine/Debug",
     "Engine/Debug/Exceptions",
     "Engine/Graphics/GraphicsObject",
-    "Engine/Math/Vector2"
+    "Engine/Math/Vector2",
+    "Engine/Graphics/Colors"
 ], 
-function(Debug, Exceptions, GraphicsObject, Vector2) 
+function(Debug, Exceptions, GraphicsObject, Vector2, Colors) 
 {
-    let Tag = "Quad";
+    const TAG = "Quad";
 
     var Quad = function()
     {
@@ -25,31 +26,26 @@ function(Debug, Exceptions, GraphicsObject, Vector2)
             if (!aSize instanceof Vector2)   throw Exceptions.Constructor;
             if (!aChildNode instanceof Node) throw Exceptions.Constructor;
 
-            let root  = document.createElement("div");
+            GraphicsObject.call(this);
+
+            const defaultColor = Colors.DeathlyPink();
+
+            let root = this.GetRootDivHandle();
+
             let front = document.createElement("div");
     
-            const size = aSize;
-            
-            root.style.position       = "relative";
-            root.style.width          = size.x + "px";
-            root.style.transformStyle = "preserve-3d";
-    
             front.style.position        = "absolute";
-            front.style.width           = size.x + "px";
-            front.style.height          = size.y + "px";
-            front.style.transform       = "translateZ(" + 0 + "px)" + "translateY(" + -(size.y/2) + "px)";
-            front.style.backgroundColor = "orange";
+            front.style.width           = aSize.x + "px";
+            front.style.height          = aSize.y + "px";
+            front.style.transform       = "translate3d(" + (-aSize.y/2) + "px," + (-aSize.y/2) + "px," + 0 + "px)";
+            front.style.backgroundColor = "rgba(" + defaultColor.r + "," + defaultColor.g + "," + defaultColor.b +"," + defaultColor.a + ")";
+            front.style.backgroundImage = "url('img/Awesome.png')";
+            front.style.backgroundSize  = "contain";
             
             if (aChildNode instanceof Node)
                 front.appendChild(aChildNode);
             
             root.appendChild(front);
-            
-            document.getElementById("MyHardcodedSceneGraph").appendChild(root);
-    
-            GraphicsObject.call(this, root);
-
-            Debug.Log(Tag,this.GetRootDivHandle());
         }
         else
         {

@@ -15,7 +15,7 @@ function(Exceptions, Vector3, Cube)
 
     var NPC = function()
     {
-        var m_Position = new Vector3();
+        var m_Position = new Vector3(0,0,-10);
         var m_Rotation = new Vector3();
         var m_Scale    = new Vector3(1, 1, 1);
 
@@ -23,7 +23,9 @@ function(Exceptions, Vector3, Cube)
 
         this.Update = function()
         {
-            m_Rotation.y += 1;
+            m_Rotation.x += 0.25;
+            m_Rotation.y += 0.5;
+            m_Rotation.z += 1;
 
             m_GraphicsObject.Update(m_Position, m_Rotation, m_Scale);
         }

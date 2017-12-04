@@ -21,7 +21,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
         let c_TranslateSpeed = 1;
         let c_RotateSpeed    = 1;
 
-        let m_Position = new Vector3();
+        let m_Position = new Vector3(0,0,0);
         let m_Rotation = new Vector3();
         let m_Scale    = new Vector3(1, 1, 1);
 

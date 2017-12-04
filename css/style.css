@@ -4,7 +4,7 @@
 
 body
 {
-    background: #001A1C;
+    background: rgba(100, 149, 237, 255);
 	overflow: hidden;
 }
 
@@ -18,12 +18,14 @@ iframe
 {
 	perspective: 800px;
 	perspective-origin: 50% 100px;
+
+	/*transform: "translate3d(0vw, 0vw, 0vw)";*/
 }
 
 .SceneGraph 
 {
-	top:50%;
-	left:50%;
+	top:10vw;
+	left:50vw;
 	
     position:absolute;
 	transform-style: preserve-3d;

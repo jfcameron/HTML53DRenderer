@@ -15,10 +15,10 @@ function(Debug, Exceptions, Vector3)
 
     var GraphicsObject = function()
     {
-        // Private data
+        // Private instanced data
         var m_RootDivHandle = null;
 
-        // Public inteface
+        // Public instanced inteface
         this.GetRootDivHandle = () => { return m_RootDivHandle; };
         
         this.Update = function(aPosition, aRotation, aScale)
@@ -36,13 +36,14 @@ function(Debug, Exceptions, Vector3)
         };
 
         // Constructors
-        if (arguments.length === 1)
+        if (arguments.length === 0)
         {
-            let aHandleToDiv = arguments[0];
+            m_RootDivHandle = document.createElement("div");
 
-            if (aHandleToDiv.tagName !== "DIV") throw Exceptions.Constructor;
+            m_RootDivHandle.style.position       = "relative";
+            m_RootDivHandle.style.transformStyle = "preserve-3d";
 
-            m_RootDivHandle = aHandleToDiv;
+            document.getElementById("MyHardcodedSceneGraph").appendChild(m_RootDivHandle);
         }
         else
         {

@@ -14,7 +14,10 @@ function(Exceptions, GraphicsObject)
 
     var Cube = function()
     {
-        let root   = document.createElement("div");
+        GraphicsObject.call(this);
+
+        let root = this.GetRootDivHandle();
+
         let front  = document.createElement("div");
         let back   = document.createElement("div");
         let left   = document.createElement("div");
@@ -23,51 +26,59 @@ function(Exceptions, GraphicsObject)
         let bottom = document.createElement("div");
 
         const size = 200;
-        const halfSize = size/2;
+        const halfSize = size / 2;
         
-        root.style.position       = "relative";
-        root.style.width          = size + "px";
-        root.style.transformStyle = "preserve-3d";
-
         front.style.position        = "absolute";
         front.style.width           = size + "px";
         front.style.height          = size + "px";
-        front.style.transform       = "translateZ(" + halfSize + "px)";
+        front.style.transform       = "translate3d(" + -halfSize + "px," + -halfSize + "px," + halfSize + "px)";
         front.style.backgroundColor = "orange";
+        front.style.backgroundImage = "url('img/Awesome.png')";
+        front.style.backgroundSize  = "contain";
         
         back.style.position        = "absolute";
         back.style.width           = size + "px";
         back.style.height          = size + "px";
-        back.style.transform       = "translateZ(-" + halfSize + "px) rotateY(180deg)";
+        back.style.transform       = "translate3d(" + -halfSize + "px," + -halfSize + "px," + -halfSize + "px)rotateY(180deg)";
         back.style.backgroundColor = "red";
+        back.style.backgroundImage = "url('img/Awesome.png')";
+        back.style.backgroundSize  = "contain";
         
         left.style.position        = "absolute";
         left.style.width           = size + "px";
         left.style.height          = size + "px";
-        left.style.transform       = "rotateY(270deg) translateX(-" + halfSize + "px)";
-        left.style.backgroundColor = "blue";
+        left.style.transform       = "translate3d(" + -halfSize + "px," + -halfSize + "px," + -halfSize + "px)rotateY(270deg)";
         left.style.transformOrigin = "center left";
+        left.style.backgroundColor = "blue";
+        left.style.backgroundImage = "url('img/Awesome.png')";
+        left.style.backgroundSize  = "contain";
 
         right.style.position        = "absolute";
         right.style.width           = size + "px";
         right.style.height          = size + "px";
-        right.style.transform       = "rotateY(-270deg) translateX(" + halfSize + "px)";
+        right.style.transform       = "translate3d(" + -halfSize + "px," + -halfSize + "px," + -halfSize + "px)rotateY(-270deg)";
         right.style.backgroundColor = "green";
         right.style.transformOrigin = "top right";
+        right.style.backgroundImage = "url('img/Awesome.png')";
+        right.style.backgroundSize  = "contain";
 
         top.style.position        = "absolute";
         top.style.width           = size + "px";
         top.style.height          = size + "px";
-        top.style.transform       = "rotateX(-90deg) translateY(-" + halfSize + "px)";
+        top.style.transform       = "translate3d(" + -halfSize + "px," + -halfSize + "px," + halfSize + "px)rotateX(-90deg)";
         top.style.backgroundColor = "yellow";
         top.style.transformOrigin = "top center";
+        top.style.backgroundImage = "url('img/Awesome.png')";
+        top.style.backgroundSize  = "contain";
 
         bottom.style.position        = "absolute";
         bottom.style.width           = size + "px";
         bottom.style.height          = size + "px";
-        bottom.style.transform       = "rotateX(90deg) translateY(" + halfSize + "px)";
+        bottom.style.transform       = "translate3d(" + -halfSize + "px," + -halfSize + "px," + halfSize + "px)rotateX(90deg)";
         bottom.style.backgroundColor = "purple";
         bottom.style.transformOrigin = "bottom center";
+        bottom.style.backgroundImage = "url('img/Awesome.png')";
+        bottom.style.backgroundSize  = "contain";
 
         root.appendChild(front);
         root.appendChild(back);
@@ -75,10 +86,6 @@ function(Exceptions, GraphicsObject)
         root.appendChild(right);
         root.appendChild(top);
         root.appendChild(bottom);
-
-        document.getElementById("MyHardcodedSceneGraph").appendChild(root);
-
-        GraphicsObject.call(this, root);
 
         // Constructors
         if (arguments.length === 0)
