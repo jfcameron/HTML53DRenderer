@@ -32,7 +32,7 @@ define(function(require)
     Debug.Log("Neato", (new Sprite()) instanceof Node);
 
     let myPlayer = new Player();
-    let myNPC = new NPC();
+    let myNPC    = new NPC();
 
     let mySceneGraph = document.getElementById("MyHardcodedSceneGraph");
 

@@ -9,11 +9,11 @@ define(
 ], 
 function() 
 {
-    let Debug = function()
-    {
-    }
+    const TAG = "Debug";
 
-    Debug.prototype.Log = function(aTag)
+    let Debug = function(){}
+
+    Debug.prototype.Log = Object.freeze(function(aTag)
     {
         if (typeof(aTag) !== 'string')
             throw "aTag must be a string!"
@@ -26,9 +26,9 @@ function()
         }
     
         console.log(stringBuffer);
-    };
+    });
 
-    Debug.prototype.Error = function(aTag)
+    Debug.prototype.Error = Object.freeze(function(aTag)
     {
         if (typeof(aTag) !== 'string')
             throw "aTag must be a string!"
@@ -41,9 +41,7 @@ function()
         }
         
         console.log(stringBuffer);
-    };
-
-    Debug.prototype.Tag = "Debug";
+    });
 
     Debug = new Debug();
 

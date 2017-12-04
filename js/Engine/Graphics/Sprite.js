@@ -10,7 +10,7 @@ define(
 ], 
 function(Debug, Exceptions) 
 {
-    const Tag = "Sprite";
+    const TAG = "Sprite";
 
     let Sprite = function()
     {

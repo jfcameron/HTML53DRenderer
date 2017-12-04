@@ -18,14 +18,14 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
 
     let Player = function()
     {
-        let c_TranslateSpeed = 1;
-        let c_RotateSpeed    = 1;
+        const c_TranslateSpeed = 1;
+        const c_RotateSpeed    = 1;
 
-        let m_Position = new Vector3(0,0,0);
-        let m_Rotation = new Vector3();
-        let m_Scale    = new Vector3(1, 1, 1);
+        const m_Position = new Vector3(0,0,0);
+        const m_Rotation = new Vector3();
+        const m_Scale    = new Vector3(1, 1, 1);
 
-        let m_GraphicsObject = new Quad(new Vector2(100, 100));
+        const m_GraphicsObject = new Quad(new Vector2(100, 100));
 
         this.Update = Object.freeze(function()
         {
@@ -91,11 +91,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
                 m_Rotation.x -= c_RotateSpeed;  
             }
             
-            //Debug.Log(this.Tag, "Position: ", m_Position, ", Rotation: ", m_Rotation);
-
             m_GraphicsObject.Update(m_Position, m_Rotation, m_Scale);
-
-            //Debug.Log(this.Tag, m_GraphicsObject.GetRootDivHandle());
         });
 
         // Constructors
@@ -106,6 +102,8 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
         {
             throw Exceptions.Constructor;
         }
+
+        Player.prototype = Object.freeze(Object.prototype);
     };
 
     Player.prototype = Object.freeze(Object.prototype);

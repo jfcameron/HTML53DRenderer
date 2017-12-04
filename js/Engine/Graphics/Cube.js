@@ -10,7 +10,7 @@ define(
 ], 
 function(Exceptions, GraphicsObject) 
 {
-    const Tag = "Cube";
+    const TAG = "Cube";
 
     let Cube = function()
     {
