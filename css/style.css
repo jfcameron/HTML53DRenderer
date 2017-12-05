@@ -19,13 +19,16 @@ iframe
 	perspective: 800px;
 	perspective-origin: 50% 100px;
 
-	/*transform: "translate3d(0vw, 0vw, 0vw)";*/
+	/*transform: "translate3d(0px, 0px, 0px)";*/
+
 }
 
 .SceneGraph 
 {
-	top:10vw;
+	top:30vh;
 	left:50vw;
+
+	/*transform: "translate3d(10vw, 10vh, 0vw)";*/
 	
     position:absolute;
 	transform-style: preserve-3d;

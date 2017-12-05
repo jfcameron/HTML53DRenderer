@@ -95,9 +95,11 @@ function(Exceptions, GraphicsObject)
         {
             throw Exceptions.Constructor;
         }
+
+        Object.preventExtensions(this);
     };
 
-    Cube.prototype = Object.create(GraphicsObject.prototype);
+    Cube.prototype = Object.freeze(GraphicsObject.prototype);
 
     return Cube;
 });

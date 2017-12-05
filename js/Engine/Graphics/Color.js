@@ -58,10 +58,15 @@ function(Debug, Exceptions)
     {
         let aOther = arguments[0];
 
-        if (arguments.length !== 1) throw Exceptions.BadArgument;
+        if (arguments.length !== 1)   throw Exceptions.BadArgument;
         if (!aOther instanceof Color) throw Exceptions.BadArgument;
         
-        return this.r === aOther.r && this.g === aOther.g && this.b === aOther.b && this.a === aOther.a ? true : false; 
+        return 
+            this.r === aOther.r && 
+            this.g === aOther.g && 
+            this.b === aOther.b && 
+            this.a === aOther.a ? 
+            true : false; 
     });
 
     return Color;

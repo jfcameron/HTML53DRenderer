@@ -19,7 +19,7 @@ function(Debug, Exceptions, Vector3)
         let m_RootDivHandle = null;
 
         // Public instanced inteface
-        this.GetRootDivHandle = () => { return m_RootDivHandle; };
+        this.GetRootDivHandle = Object.freeze(() => { return m_RootDivHandle; });
         
         this.Update = Object.freeze(function(aPosition, aRotation, aScale)
         {

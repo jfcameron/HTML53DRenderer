@@ -13,37 +13,40 @@ function(Debug, Exceptions, Color)
 {
     const TAG = "Colors";
 
-    let Colors = function(){};
-
-    Colors.prototype.Black = function()
+    let Colors = function()
+    {
+        Object.freeze(this);
+    };
+    
+    Colors.prototype.Black = Object.freeze(function()
     {
         return new Color(0, 0, 0, 1);
-    };
+    });
 
-    Colors.prototype.White = function()
+    Colors.prototype.White = Object.freeze(function()
     {
         return new Color(255, 255, 255, 1);
-    };
+    });
 
-    Colors.prototype.Red = function()
+    Colors.prototype.Red = Object.freeze(function()
     {
         return new Color(255, 0, 0, 1);
-    };
+    });
 
-    Colors.prototype.Green = function()
+    Colors.prototype.Green = Object.freeze(function()
     {
         return new Color(0, 255, 0, 1);
-    };
+    });
 
-    Colors.prototype.DarkGreen = function()
+    Colors.prototype.DarkGreen = Object.freeze(function()
     {
         return new Color(0, 153, 0, 1);
-    };
+    });
 
-    Colors.prototype.Blue = function()
+    Colors.prototype.Blue = Object.freeze(function()
     {
         return new Color(0, 0, 255, 1);
-    };
+    });
 
     Colors.prototype.DeathlyPink = Object.freeze(function()
     {
@@ -67,7 +70,7 @@ function(Debug, Exceptions, Color)
         CornflowerBlue: Object.freeze(Colors.prototype.CornflowerBlue())
     });
 
-    Colors = new Colors();
+    Colors.prototype = Object.freeze(Colors.prototype);
 
-    return Colors;
+    return new Colors();
 });

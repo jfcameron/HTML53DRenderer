@@ -5,9 +5,9 @@
 
 define(
 [
-
+    "Engine/Debug/Exceptions"
 ], 
-function() 
+function(Exceptions)
 {
     const TAG = "Debug";
 
@@ -15,30 +15,26 @@ function()
 
     Debug.prototype.Log = Object.freeze(function(aTag)
     {
-        if (typeof(aTag) !== 'string')
-            throw "aTag must be a string!"
+        if (!arguments.length > 0)     throw Exceptions.BadArgument;
+        if (typeof(aTag) !== 'string') throw Exceptions.BadArgument;
 
         let stringBuffer = "D/" + aTag + ": ";
 
-        for (let i = 1, s = arguments.length; i < s; i++)
-        {
-            stringBuffer += arguments[i];
-        }
+        for (let arg of arguments)
+            stringBuffer += arg;
     
         console.log(stringBuffer);
     });
 
     Debug.prototype.Error = Object.freeze(function(aTag)
     {
-        if (typeof(aTag) !== 'string')
-            throw "aTag must be a string!"
+        if (!arguments.length > 0)     throw Exceptions.BadArgument;
+        if (typeof(aTag) !== 'string') throw Exceptions.BadArgument;
 
         let stringBuffer = "E/" + aTag + ": ";
     
-        for (let i = 1, s = arguments.length; i < s; i++)
-        {
-            stringBuffer += arguments[i];
-        }
+        for (let arg of arguments)
+            stringBuffer += arg;
         
         console.log(stringBuffer);
     });

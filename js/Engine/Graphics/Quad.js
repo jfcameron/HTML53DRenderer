@@ -30,7 +30,7 @@ function(Debug, Exceptions, GraphicsObject, Vector2, Color, Colors)
             if (!aColor instanceof Color)    throw Exceptions.Constructor;
 
             GraphicsObject.call(this);
-
+            
             let root = this.GetRootDivHandle();
 
             let front = document.createElement("div");
