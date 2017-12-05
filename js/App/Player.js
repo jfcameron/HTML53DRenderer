@@ -10,9 +10,10 @@ define(
     "Engine/Input",
     "Engine/Math/Vector2",
     "Engine/Math/Vector3",
-    "Engine/Graphics/Quad"
+    "Engine/Graphics/Quad",
+    "Engine/Graphics/Sprite"
 ], 
-function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
+function(Debug, Exceptions, Input, Vector2, Vector3, Quad, Sprite)
 {
     const TAG = "Player";
 
@@ -25,7 +26,12 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
         const m_Rotation = new Vector3();
         const m_Scale    = new Vector3(1, 1, 1);
 
-        const m_GraphicsObject = new Quad(new Vector2(100, 100));
+        const m_Sprite = Sprite.createSprite();
+
+        const m_GraphicsObject = new Quad(new Vector2(100, 100), m_Sprite);
+
+        let m_Timer = 0;
+        let m_U = 0;
 
         this.Update = Object.freeze(function()
         {
@@ -90,8 +96,17 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad)
             {
                 m_Rotation.x -= c_RotateSpeed;  
             }
+
+            if (m_Timer++ > 10)
+            {
+                m_Timer = 0;
+
+                if (m_U++ > 2)
+                    m_U = 0;
+            }
             
             m_GraphicsObject.Update(m_Position, m_Rotation, m_Scale);
+            m_Sprite.Update(m_U,0, 16, 17);
         });
 
         // Constructors

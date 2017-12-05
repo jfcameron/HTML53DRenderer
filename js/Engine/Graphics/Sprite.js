@@ -12,38 +12,45 @@ function(Debug, Exceptions)
 {
     const TAG = "Sprite";
 
-    let Sprite = function()
+    /*let Sprite = function()
     {
-    let canvas = document.createElement("canvas"); 
+        let canvas = document.createElement("canvas"); 
 
-    console.log(canvas);
+        canvas.name = "asdf";
 
-    canvas.style.width='100%';
-    canvas.style.height='100%';
+        this = function() {};
 
-    let ctx = canvas.getContext('2d');
-    ctx.webkitImageSmoothingEnabled = false;
-    ctx.imageSmoothingEnabled       = false;
+        console.log(canvas);
+
+        canvas.style.width='100%';
+        canvas.style.height='100%';
+
+        let ctx = canvas.getContext('2d');
+        ctx.webkitImageSmoothingEnabled = false;
+        ctx.imageSmoothingEnabled       = false;
     
-    let img = new Image();
-    img.src = 'img/Blocky.png';
+        let img = new Image();
+        img.src = 'img/Blocky.png';
 
-    img.onload = function() 
-    {
-        let sx = 0;
-        let sy = 0;
-        let sWidth = 16;
-        let sHeight = 17;
+        img.onload = function() 
+        {
+            let sx = 0;
+            let sy = 0;
+            let sWidth = 16;
+            let sHeight = 17;
 
-        let dx = 0;
-        let dy = 0;
-        let dWidth = canvas.width;
-        let dHeight = canvas.height;
+            let dx = 0;
+            let dy = 0;
+            let dWidth = canvas.width;
+            let dHeight = canvas.height;
 
-        ctx.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-    }
-    //this = canvas;
+            ctx.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+        }
+
+        //this = canvas;
     };
+
+    Sprite.prototype = Object.create(Node.prototype);*/
 
     //let Sprite = canvas;
 
@@ -96,5 +103,57 @@ function(Debug, Exceptions)
 
     Sprite.prototype.toString = function() {return "{" + "Sprite" + "}";}*/
 
-    return Sprite;
+    ////////////////////////////////////
+
+    let Sprite = function()
+    {
+        Object.freeze(this);
+    };
+
+    Sprite.prototype.createSprite = Object.freeze(()=>
+    {
+        let canvas = document.createElement("canvas"); 
+        
+        canvas.style.width='100%';
+        canvas.style.height='100%';
+
+        let ctx = canvas.getContext('2d');
+        ctx.webkitImageSmoothingEnabled = false;
+        ctx.imageSmoothingEnabled       = false;
+    
+        let img = new Image();
+        img.src = 'img/Blocky.png';
+
+        canvas.SpriteData = Object.freeze(function()
+        {
+
+        });
+
+        img.onload = function() 
+        {
+            let sx = 0; //TODO: let etc.
+            let sy = 0;
+            let sWidth = 16;
+            let sHeight = 17;
+
+            let dx = 0;
+            let dy = 0;
+            let dWidth = canvas.width;
+            let dHeight = canvas.height;
+
+            ctx.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+        }
+
+        canvas.Update = Object.freeze(function(aU, aV, cellWidth, cellHeight)
+        {
+            if (arguments.length === 0) throw Exceptions.BadArgument;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, aU*16, aV*17, cellWidth, cellHeight, 0, 0, this.width, this.height);
+        });
+
+        return canvas;
+    });
+
+    return new Sprite();
 });

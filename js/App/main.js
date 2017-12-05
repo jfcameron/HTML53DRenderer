@@ -29,7 +29,10 @@ define(function(require)
 
     const Sprite = require("Engine/Graphics/Sprite");
 
-    Debug.Log("Neato", (new Sprite()) instanceof Node);
+    const mySprite = Sprite.createSprite();
+
+    Debug.Log("SpriteTest: ", mySprite instanceof Node? true : false);
+    console.log(mySprite);
 
     let myPlayer = new Player();
     let myNPC    = new NPC();

@@ -31,9 +31,8 @@ function(Debug, Exceptions, GraphicsObject, Vector2, Color, Colors)
 
             GraphicsObject.call(this);
             
-            let root = this.GetRootDivHandle();
-
-            let front = document.createElement("div");
+            const root  = this.GetRootDivHandle();
+            const front = document.createElement("div");
     
             front.style.position        = "absolute";
             front.style.width           = aSize.x + "px";
