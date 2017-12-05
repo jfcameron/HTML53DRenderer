@@ -78,7 +78,15 @@ function(Exceptions)
         return this;
     });
     
-    Vector3.prototype.toString = Object.freeze(function() {return "{" + this.x + ", " + this.y + ", " + this.z + "}";});
+    Vector3.prototype.toString = Object.freeze(function() 
+    {
+        return 
+        "{" + 
+            this.x + ", " + 
+            this.y + ", " + 
+            this.z + 
+        "}";
+    });
     
     return Vector3;
 });

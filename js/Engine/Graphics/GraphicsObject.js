@@ -19,11 +19,13 @@ function(Debug, Exceptions, Vector3)
         let m_RootDivHandle = null;
 
         // Public instanced inteface
-        this.GetRootDivHandle = Object.freeze(() => { return m_RootDivHandle; });
+        this.GetRootDivHandle = Object.freeze(() => 
+        { 
+            return m_RootDivHandle; 
+        });
         
-        this.Update = Object.freeze(function(aPosition, aRotation, aScale)
+        this.Update = Object.freeze((aPosition, aRotation, aScale) =>
         {
-            if (arguments.length !== 3)        throw Exceptions.BadArgument;
             if (!aPosition instanceof Vector3) throw Exceptions.BadArgument;
             if (!aRotation instanceof Vector3) throw Exceptions.BadArgument;
             if (!aScale    instanceof Vector3) throw Exceptions.BadArgument;
