@@ -41,12 +41,19 @@ function(Exceptions)
 
     Vector2.prototype = Object.create(Object.prototype);
 
-    Vector2.prototype.toString = function() {return "{" + this.x + ", " + this.y + "}";}
-
-    Vector2.prototype.Length = function()
+    Vector2.prototype.toString = Object.freeze(function() 
     {
+        if (arguments.length !== 0) throw Exceptions.BadArgument;
+        
+        return "{" + this.x + ", " + this.y + "}";
+    });
+
+    Vector2.prototype.Length = Object.freeze(function()
+    {
+        if (arguments.length !== 0) throw Exceptions.BadArgument;
+
         return Math.sqrt( Math.pow(this.x, 2) + Math.pow(this.y, 2) );
-    };
+    });
     
     return Vector2;
 });

@@ -37,7 +37,8 @@ function(Exceptions)
         // Constructors
         if (arguments.length === 2)
         {
-            let updateCallback = arguments[0], aTimeInMiliseconds = arguments[1];
+            const updateCallback     = arguments[0];
+            const aTimeInMiliseconds = arguments[1];
 
             if (typeof(updateCallback) !== 'function') throw Exceptions.Constructor;
             if (isNaN(aTimeInMiliseconds))             throw Exceptions.Constructor;

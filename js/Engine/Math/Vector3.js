@@ -80,6 +80,8 @@ function(Exceptions)
     
     Vector3.prototype.toString = Object.freeze(function() 
     {
+        if (arguments.length !== 0) throw Exceptions.BadArgument;
+
         return "{" + 
             this.x + ", " + 
             this.y + ", " + 

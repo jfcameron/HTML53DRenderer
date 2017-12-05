@@ -23,38 +23,32 @@ define(function(require)
     const Vector3 = require("Engine/Math/Vector3");
     const Cube    = require("Engine/Graphics/Cube");
     const Colors  = require("Engine/Graphics/Colors");
+    const Sprite  = require("Engine/Graphics/Sprite");
     //App inc
     const Player = require("./Player");
     const NPC    = require("./NPC");
 
-    const Sprite = require("Engine/Graphics/Sprite");
-
     const mySprite = Sprite.createSprite();
 
     Debug.Log("SpriteTest: ", mySprite instanceof Node? true : false);
-    console.log(mySprite);
 
-    let myPlayer = new Player();
-    let myNPC    = new NPC();
+    const myPlayer = new Player();
+    const myNPC    = new NPC();
 
-    let mySceneGraph = document.getElementById("MyHardcodedSceneGraph");
+    const mySceneGraph = document.getElementById("MyHardcodedSceneGraph");
 
-    let aPosition = new Vector3();
-    let aRotation = new Vector3();
+    const aPosition = new Vector3();
+    const aRotation = new Vector3();
 
-    let test = new Vector3(1,2,3);
+    const test = new Vector3(1,2,3);
     Debug.Log("TEST", test, ", ", test.Length(), ", ", test.Normalize());
 
-    let mytest = new Vector3();
+    const mytest = new Vector3();
     Debug.Log("CoolTest", mytest.test);
-    //Object.freeze(mytest);
-    //mytest.a = "hello";
-    let myColor = Colors.DarkGreen();
+    
+    const myColor = Colors.DarkGreen();
 
     Debug.Log("sadfasdf",Colors.Constants.DeathlyPink);
-    
-    //myColor.r = 1;
-
     Debug.Log("ColorTestConst: ",myColor, ", ", myColor.equalTo(Colors.Constants.DarkGreen));
 
     function update()
@@ -63,15 +57,13 @@ define(function(require)
 
         myNPC.Update();
 
-        //aRotation.y += 0.5;
-
         mySceneGraph.style.transform = 
             "translate3d(" + aPosition.x + "vw," + aPosition.y + "vw," + aPosition.z + "vw) " + 
             "rotateX(" + aRotation.x + "deg) " + "rotateY(" + aRotation.y + "deg) " + "rotateZ(" + aRotation.z + "deg) ";
     }
 
-    let obj = new Object();
-    let vec = new Vector3(1,0,0);
+    const obj = new Object();
+    const vec = new Vector3(1,0,0);
     console.log(vec);
     Debug.Log("Hello",vec.Length());
     Debug.Log("asdf", obj instanceof Vector3);
