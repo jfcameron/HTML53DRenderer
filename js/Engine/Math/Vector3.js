@@ -11,7 +11,7 @@ function(Exceptions)
 {
     const TAG = "Vector3";
 
-    let Vector3 = function()
+    const Vector3 = function()
     {
         // Public instance data
         this.x = 0.0;
@@ -66,7 +66,7 @@ function(Exceptions)
     {
         if (arguments.length > 0) throw Exceptions.BadArgument;
 
-        let magnitude = this.Length();
+        const magnitude = this.Length();
         
         if (magnitude !== 0)
         {
@@ -80,8 +80,7 @@ function(Exceptions)
     
     Vector3.prototype.toString = Object.freeze(function() 
     {
-        return 
-        "{" + 
+        return "{" + 
             this.x + ", " + 
             this.y + ", " + 
             this.z + 

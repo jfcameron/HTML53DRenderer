@@ -12,18 +12,18 @@ function(Exceptions, GraphicsObject)
 {
     const TAG = "Cube";
 
-    let Cube = function()
+    const Cube = function()
     {
         GraphicsObject.call(this);
 
-        let root = this.GetRootDivHandle();
+        const root = this.GetRootDivHandle();
 
-        let front  = document.createElement("div");
-        let back   = document.createElement("div");
-        let left   = document.createElement("div");
-        let right  = document.createElement("div");
-        let top    = document.createElement("div");
-        let bottom = document.createElement("div");
+        const front  = document.createElement("div");
+        const back   = document.createElement("div");
+        const left   = document.createElement("div");
+        const right  = document.createElement("div");
+        const top    = document.createElement("div");
+        const bottom = document.createElement("div");
 
         const size = 200;
         const halfSize = size / 2;

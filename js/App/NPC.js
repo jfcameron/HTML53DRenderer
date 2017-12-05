@@ -13,13 +13,13 @@ function(Exceptions, Vector3, Cube)
 {
     const Tag = "NPC";
 
-    let NPC = function()
+    const NPC = function()
     {
-        let m_Position = new Vector3(0,0,-10);
-        let m_Rotation = new Vector3();
-        let m_Scale    = new Vector3(1, 1, 1);
+        const m_Position = new Vector3(0, 0, -10);
+        const m_Rotation = new Vector3();
+        const m_Scale    = new Vector3(1, 1, 1);
 
-        let m_GraphicsObject = new Cube();
+        const m_GraphicsObject = new Cube();
 
         this.Update = Object.freeze(() =>
         {
@@ -38,6 +38,8 @@ function(Exceptions, Vector3, Cube)
         {
             throw Exceptions.Constructor;
         }
+
+        Object.preventExtensions(this);
     };
 
     NPC.prototype = Object.create(Object.prototype);

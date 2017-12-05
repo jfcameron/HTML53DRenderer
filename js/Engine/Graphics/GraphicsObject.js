@@ -13,7 +13,7 @@ function(Debug, Exceptions, Vector3)
 {
     const TAG = "GraphicsObject";
 
-    let GraphicsObject = function()
+    const GraphicsObject = function()
     {
         // Private instanced data
         let m_RootDivHandle = null;
@@ -51,6 +51,8 @@ function(Debug, Exceptions, Vector3)
         {
             throw Exceptions.Constructor;
         }
+
+        Object.freeze(this);
     };
 
     GraphicsObject.prototype = Object.create(Object.prototype);

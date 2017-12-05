@@ -12,13 +12,14 @@ function(Exceptions, Keys)
 {
     const TAG = "Input";
     
-    let Input = function()
+    const Input = function()
     {
         // Data members
-        let canvas = document.getElementById("canvas");
-        let m_CurrentMousePos = [0,0];
+        const m_Canvas = document.getElementById("m_Canvas");
+
+        const m_CurrentMousePos = [0,0];
         
-        let m_Keys = {};
+        const m_Keys = {};
         
         // Public interface
         this.KEY = Object.freeze(Keys);
@@ -43,9 +44,9 @@ function(Exceptions, Keys)
         // Private methods
         const mouselock = () =>
         {
-            canvas.requestPointerLock();
+            m_Canvas.requestPointerLock();
             
-            if ( document.pointerLockElement === canvas || document.mozPointerLockElement === canvas || document.webkitPointerLockElement === canvas )
+            if ( document.pointerLockElement === m_Canvas || document.mozPointerLockElement === m_Canvas || document.webkitPointerLockElement === m_Canvas )
             {
                 //document.removeEventListener("mousemove", mouseMove, false);
             }
@@ -57,14 +58,14 @@ function(Exceptions, Keys)
         
         const initMouseHandler = () =>
         {
-            canvas.onclick = mouselock;
+            m_Canvas.onclick = mouselock;
             
-            let check_pointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
+            const check_pointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
             if (check_pointerLock)
             {   
-                canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
-                canvas.requestPointerLock();  
+                m_Canvas.requestPointerLock = m_Canvas.requestPointerLock || m_Canvas.mozRequestPointerLock || m_Canvas.webkitRequestPointerLock;
+                m_Canvas.requestPointerLock();  
             }
         };
         
@@ -88,8 +89,8 @@ function(Exceptions, Keys)
         
         const mouseMove = (e) =>
         {
-            let movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
-            let movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
+            const movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
+            const movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
             
             m_CurrentMousePos = [movementX ,movementY];
         };
@@ -104,11 +105,11 @@ function(Exceptions, Keys)
         {
             throw Exceptions.Constructor;
         }
+
+        Object.freeze(this);
     }
 
     Input.prototype = Object.create(Object.prototype);
 
-    Input = new Input();
-
-    return Input;
+    return new Input();
 });

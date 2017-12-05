@@ -17,7 +17,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad, Sprite)
 {
     const TAG = "Player";
 
-    let Player = function()
+    const Player = function()
     {
         const c_TranslateSpeed = 1;
         const c_RotateSpeed    = 1;
@@ -33,7 +33,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad, Sprite)
         let m_Timer = 0;
         let m_U = 0;
 
-        this.Update = Object.freeze(function()
+        this.Update = Object.freeze(() =>
         {
             //Translation
             if (Input.getKey(Input.KEY.A) || Input.getKey(Input.KEY.LeftArrow))
@@ -106,7 +106,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad, Sprite)
             }
             
             m_GraphicsObject.Update(m_Position, m_Rotation, m_Scale);
-            m_Sprite.Update(m_U,0, 16, 17);
+            m_Sprite.Update(m_U, 0, 16, 17);
         });
 
         // Constructors
@@ -118,7 +118,7 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad, Sprite)
             throw Exceptions.Constructor;
         }
 
-        Player.prototype = Object.freeze(Object.prototype);
+        Object.preventExtensions(this);
     };
 
     Player.prototype = Object.freeze(Object.prototype);

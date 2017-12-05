@@ -13,7 +13,7 @@ function(Debug, Exceptions, Color)
 {
     const TAG = "Colors";
 
-    let Colors = function()
+    const Colors = function()
     {
         Object.freeze(this);
     };

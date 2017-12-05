@@ -11,7 +11,7 @@ function(Exceptions)
 {
     const Tag = "Vector2";
 
-    let Vector2 = function()
+    const Vector2 = function()
     {
         // Public interface
         this.x = 0.0;
@@ -23,7 +23,7 @@ function(Exceptions)
         }
         else if (arguments.length === 2)
         {
-            let aX = arguments[0], aY = arguments[1];
+            const aX = arguments[0], aY = arguments[1];
 
             if (isNaN(aX)) throw Exceptions.Constructor;
             if (isNaN(aY)) throw Exceptions.Constructor;
@@ -35,6 +35,8 @@ function(Exceptions)
         {
             throw Exceptions.Constructor;
         }
+
+        Object.preventExtensions(this);
     };
 
     Vector2.prototype = Object.create(Object.prototype);

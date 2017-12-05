@@ -11,7 +11,7 @@ function(Exceptions)
 {
     const TAG = "Debug";
 
-    let Debug = function()
+    const Debug = function()
     {
         Object.freeze(this);
     }
@@ -22,7 +22,7 @@ function(Exceptions)
 
         let stringBuffer = "D/" + aTag + ": ";
 
-        for (let arg of arguments)
+        for (const arg of arguments)
             stringBuffer += arg;
     
         console.log(stringBuffer);
@@ -34,13 +34,11 @@ function(Exceptions)
 
         let stringBuffer = "E/" + aTag + ": ";
     
-        for (let arg of arguments)
+        for (const arg of arguments)
             stringBuffer += arg;
         
         console.log(stringBuffer);
     });
 
-    Debug = new Debug();
-
-    return Debug;
+    return new Debug();
 });

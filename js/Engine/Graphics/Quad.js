@@ -16,7 +16,7 @@ function(Debug, Exceptions, GraphicsObject, Vector2, Color, Colors)
 {
     const TAG = "Quad";
 
-    let Quad = function()
+    const Quad = function()
     {
         // Constructors
         if (arguments.length === 1 || arguments.length === 2 || arguments.length === 3)
@@ -53,7 +53,7 @@ function(Debug, Exceptions, GraphicsObject, Vector2, Color, Colors)
         }
 
         // Extension rules
-        Object.preventExtensions(this);
+        Object.freeze(this);
     };
 
     Quad.prototype = Object.freeze(GraphicsObject.prototype);

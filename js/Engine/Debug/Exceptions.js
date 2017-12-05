@@ -9,9 +9,9 @@ define(
 ],
 function()
 {
-    return {
-        Constructor : "Invalid construction",
-        Unimplemented : "Unimplemented",
-        BadArgument : "Bad argument"
-    };
+    return Object.freeze({
+        Constructor :   Object.freeze("Invalid construction"),
+        Unimplemented : Object.freeze("Unimplemented"),
+        BadArgument :   Object.freeze("Bad argument")
+    });
 });

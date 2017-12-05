@@ -11,7 +11,7 @@ function(Exceptions)
 { 
     const TAG = "Time";
     
-    let Time = function()
+    const Time = function()
     {
         let m_IntervalHandle = null; 
         let m_TimeSinceStart = 0;

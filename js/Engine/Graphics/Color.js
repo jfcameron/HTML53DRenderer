@@ -12,7 +12,7 @@ function(Debug, Exceptions)
 {
     const TAG = "Color";
 
-    let Color = function()
+    const Color = function()
     {
         // Public interface
         this.r = 0;
@@ -26,10 +26,10 @@ function(Debug, Exceptions)
         }
         if (arguments.length === 3 || arguments.length === 4)
         {
-            let aR = arguments[0];
-            let aG = arguments[1]; 
-            let aB = arguments[2];
-            let aA = typeof (arguments[3]) !== "undefined" ? arguments[3] : 1;
+            const aR = arguments[0];
+            const aG = arguments[1]; 
+            const aB = arguments[2];
+            const aA = typeof (arguments[3]) !== "undefined" ? arguments[3] : 1;
 
             if (isNaN(aR)) throw Exceptions.Constructor;
             if (isNaN(aG)) throw Exceptions.Constructor;
@@ -45,27 +45,25 @@ function(Debug, Exceptions)
         {
             throw Exceptions.Constructor;
         }
+
+        Object.preventExtensions(this);
     };
 
     Color.prototype = Object.create(Object.prototype);
 
-    Color.prototype.toString = Object.freeze(() => 
+    Color.prototype.toString = Object.freeze(function() 
     {
+        if (arguments.length !== 0) throw Exceptions.BadArgument;
+
         return "{" + this.r + ", " + this.g + ", " + this.b + ", " + this.a + "}";
     });
 
-    Color.prototype.equalTo = Object.freeze(() =>
+    Color.prototype.equalTo = Object.freeze(function(aOther)
     {
-        let aOther = arguments[0];
-
-        if (!aOther instanceof Color) throw Exceptions.BadArgument;
+        if (arguments.length !== 1)    throw Exceptions.BadArgument;
+        if (!aOther instanceof(Color)) throw Exceptions.BadArgument;
         
-        return 
-            this.r === aOther.r && 
-            this.g === aOther.g && 
-            this.b === aOther.b && 
-            this.a === aOther.a ? 
-            true : false; 
+        return this.r === aOther.r && this.g === aOther.g && this.b === aOther.b && this.a === aOther.a ? true : false; 
     });
 
     return Color;
