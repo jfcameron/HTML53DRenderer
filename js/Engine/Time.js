@@ -9,7 +9,7 @@ define(
 ], 
 function(Exceptions) 
 { 
-    const Tag = "Time";
+    const TAG = "Time";
     
     let Time = function()
     {
@@ -17,23 +17,22 @@ function(Exceptions)
         let m_TimeSinceStart = 0;
 
         // Public interface
-        this.getTime = function()
+        this.getTime = Object.freeze(() =>
         {
             return m_TimeSinceStart;
-        };
+        });
         
-        this.setDeltaTime = function(aReferenceToAnUpdateFunction, aTimeInMiliseconds)
+        this.setDeltaTime = Object.freeze((aReferenceToAnUpdateFunction, aTimeInMiliseconds) =>
         {
+            if (typeof(aReferenceToAnUpdateFunction) !== 'function') throw Exceptions.BadArgument;
+            if (isNaN(aTimeInMiliseconds))                           throw Exceptions.BadArgument;
+
             clearInterval(aReferenceToAnUpdateFunction);
 
             m_IntervalHandle = setInterval(aReferenceToAnUpdateFunction, aTimeInMiliseconds);
 
-            setInterval
-            (
-                function(){ m_TimeSinceStart++; }, 
-                aTimeInMiliseconds
-            );
-        }
+            setInterval(()=>{ m_TimeSinceStart++; }, aTimeInMiliseconds);
+        });
 
         // Constructors
         if (arguments.length === 2)

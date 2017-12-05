@@ -18,45 +18,45 @@ function(Debug, Exceptions, Color)
         Object.freeze(this);
     };
     
-    Colors.prototype.Black = Object.freeze(function()
+    Colors.prototype.Black = Object.freeze(() =>
     {
         return new Color(0, 0, 0, 1);
     });
 
-    Colors.prototype.White = Object.freeze(function()
+    Colors.prototype.White = Object.freeze(() =>
     {
         return new Color(255, 255, 255, 1);
     });
 
-    Colors.prototype.Red = Object.freeze(function()
+    Colors.prototype.Red = Object.freeze(() =>
     {
         return new Color(255, 0, 0, 1);
     });
 
-    Colors.prototype.Green = Object.freeze(function()
+    Colors.prototype.Green = Object.freeze(() =>
     {
         return new Color(0, 255, 0, 1);
     });
 
-    Colors.prototype.DarkGreen = Object.freeze(function()
+    Colors.prototype.DarkGreen = Object.freeze(() =>
     {
         return new Color(0, 153, 0, 1);
     });
 
-    Colors.prototype.Blue = Object.freeze(function()
+    Colors.prototype.Blue = Object.freeze(() =>
     {
         return new Color(0, 0, 255, 1);
     });
 
-    Colors.prototype.DeathlyPink = Object.freeze(function()
+    Colors.prototype.DeathlyPink = Object.freeze(() =>
     {
         return new Color(255, 51, 204, 1);
     });
 
-    Colors.prototype.CornflowerBlue = function()
+    Colors.prototype.CornflowerBlue = Object.freeze(() =>
     {
         return new Color(100, 149, 237, 1);
-    };
+    });
 
     Colors.prototype.Constants = Object.freeze(
     {

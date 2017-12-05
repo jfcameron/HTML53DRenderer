@@ -39,12 +39,12 @@ function(Exceptions)
 
     Vector2.prototype = Object.create(Object.prototype);
 
+    Vector2.prototype.toString = function() {return "{" + this.x + ", " + this.y + "}";}
+
     Vector2.prototype.Length = function()
     {
         return Math.sqrt( Math.pow(this.x, 2) + Math.pow(this.y, 2) );
     };
     
-    Vector2.prototype.toString = function() {return "{" + this.x + ", " + this.y + "}";}
-
     return Vector2;
 });

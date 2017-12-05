@@ -49,16 +49,15 @@ function(Debug, Exceptions)
 
     Color.prototype = Object.create(Object.prototype);
 
-    Color.prototype.toString = Object.freeze(function() 
+    Color.prototype.toString = Object.freeze(() => 
     {
         return "{" + this.r + ", " + this.g + ", " + this.b + ", " + this.a + "}";
     });
 
-    Color.prototype.equalTo = Object.freeze(function()
+    Color.prototype.equalTo = Object.freeze(() =>
     {
         let aOther = arguments[0];
 
-        if (arguments.length !== 1)   throw Exceptions.BadArgument;
         if (!aOther instanceof Color) throw Exceptions.BadArgument;
         
         return 

@@ -17,8 +17,6 @@ function(Exceptions)
         this.x = 0.0;
         this.y = 0.0;
         this.z = 0.0;
-
-        this.test = Object.freeze("Public instance constant");
         
         // Constructors
         if (arguments.length === 0)
@@ -81,8 +79,6 @@ function(Exceptions)
     });
     
     Vector3.prototype.toString = Object.freeze(function() {return "{" + this.x + ", " + this.y + ", " + this.z + "}";});
-
-    //Vector3.prototype.freeze();
-
+    
     return Vector3;
 });

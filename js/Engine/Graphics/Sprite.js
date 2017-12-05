@@ -22,7 +22,6 @@ function(Debug, Exceptions)
     canvas.style.height='100%';
 
     let ctx = canvas.getContext('2d');
-    //ctx.mozImageSmoothingEnabled    = false;
     ctx.webkitImageSmoothingEnabled = false;
     ctx.imageSmoothingEnabled       = false;
     

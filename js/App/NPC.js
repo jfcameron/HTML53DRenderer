@@ -21,14 +21,14 @@ function(Exceptions, Vector3, Cube)
 
         let m_GraphicsObject = new Cube();
 
-        this.Update = function()
+        this.Update = Object.freeze(() =>
         {
             m_Rotation.x += 0.25;
             m_Rotation.y += 0.5;
             m_Rotation.z += 1;
 
             m_GraphicsObject.Update(m_Position, m_Rotation, m_Scale);
-        }
+        });
         
         // Constructors
         if (arguments.length === 0)
