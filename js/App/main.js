@@ -62,7 +62,7 @@ define(function(require)
     //
 //<iframe width="1024" height="768" src="http://www.bbc.com" style="-webkit-transform:scale(0.5);-moz-transform-scale(0.5);">
     
-    iframe.src = "http://jfcameron.github.io/";
+    iframe.src = "https://jfcameron.github.io/";
     iframe.style.width  ='100';
     iframe.style.height ='100';
     //iframe.style.transform = "scale(0.5);-moz-transform-scale(0.5)";
