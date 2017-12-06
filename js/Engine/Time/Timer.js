@@ -9,22 +9,29 @@ define(
 ], 
 function(Exceptions) 
 { 
-    const TAG = "Time";
+    const TAG = "Timer";
     
-    const Time = function()
+    const Timer = function()
     {
         let m_IntervalHandle = null; 
         let m_TimeSinceStart = 0;
 
         // Public interface
-        this.GetTime = Object.freeze(() =>
+        this.getTime = Object.freeze(() =>
         {
             return m_TimeSinceStart;
         });
-
-        this.Clear = Object.freeze(() =>
+        
+        this.setDeltaTime = Object.freeze((aReferenceToAnUpdateFunction, aTimeInMiliseconds) =>
         {
-            clearInterval(m_IntervalHandle);
+            if (typeof(aReferenceToAnUpdateFunction) !== 'function') throw Exceptions.BadArgument;
+            if (isNaN(aTimeInMiliseconds))                           throw Exceptions.BadArgument;
+
+            clearInterval(aReferenceToAnUpdateFunction);
+
+            m_IntervalHandle = setInterval(aReferenceToAnUpdateFunction, aTimeInMiliseconds);
+
+            setInterval(()=>{ m_TimeSinceStart++; }, aTimeInMiliseconds);
         });
 
         // Constructors
@@ -37,11 +44,7 @@ function(Exceptions)
             if (isNaN(aTimeInMiliseconds))             throw Exceptions.Constructor;
             if (aTimeInMiliseconds <= 0 )              throw Exceptions.Constructor;
 
-            clearInterval(updateCallback);
-
-            m_IntervalHandle = setInterval(updateCallback, aTimeInMiliseconds);
-
-            setInterval(()=>{ m_TimeSinceStart++; }, aTimeInMiliseconds);
+            this.setDeltaTime(updateCallback, aTimeInMiliseconds);
         }
         else
         {
@@ -49,7 +52,7 @@ function(Exceptions)
         }
     }
 
-    Time.prototype = Object.create(Object.prototype);
+    Timer.prototype = Object.create(Object.prototype);
     
-    return Time;
+    return Timer;
 });

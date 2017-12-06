@@ -17,9 +17,13 @@ function(Debug, Exceptions)
         Object.freeze(this);
     };
 
-    Sprite.prototype.createSprite = Object.freeze(()=>
+    Sprite.prototype.createSprite = Object.freeze((aImageURL) =>
     {
-        const canvas = document.createElement("canvas"); 
+        if (typeof(aImageURL) === 'undefined') aImageURL = "img/Blocky.png";
+
+        if (typeof(aImageURL) !== 'string') throw Exceptions.Constructor;
+
+        const canvas = document.createElement("canvas");
         canvas.style.width  ='100%';
         canvas.style.height ='100%';
 
@@ -28,34 +32,20 @@ function(Debug, Exceptions)
         context.imageSmoothingEnabled       = false;
     
         const img = new Image();
-        img.src = 'img/Blocky.png';
+        img.src = aImageURL;
 
-        canvas.SpriteData = Object.freeze(function()
+        img.onload = Object.freeze(() => 
         {
-            //TODO: Is state appropriate?
+            canvas.Update(0, 0, canvas.width, canvas.height);
         });
-
-        img.onload = function() 
-        {
-            const sx = 0; //TODO: Parameterize?
-            const sy = 0;
-            const sWidth = 16;
-            const sHeight = 17;
-
-            const dx = 0;
-            const dy = 0;
-            const dWidth = canvas.width;
-            const dHeight = canvas.height;
-
-            context.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-        }
 
         canvas.Update = Object.freeze(function(aU, aV, cellWidth, cellHeight)
         {
             if (arguments.length === 0) throw Exceptions.BadArgument;
 
             context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(img, aU * 16, aV * 17, cellWidth, cellHeight, 0, 0, this.width, this.height);
+
+            context.drawImage(img, aU * cellWidth, aV * cellHeight, cellWidth, cellHeight, 0, 0, this.width, this.height);
         });
 
         Object.freeze(canvas);
@@ -63,5 +53,5 @@ function(Debug, Exceptions)
         return canvas;
     });
 
-    return new Sprite();
+    return Object.freeze(new Sprite());
 });

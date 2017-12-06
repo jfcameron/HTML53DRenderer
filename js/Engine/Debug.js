@@ -16,11 +16,13 @@ function(Exceptions)
         Object.freeze(this);
     }
 
-    Debug.prototype.Log = Object.freeze((aTag) =>
+    Debug.prototype.Log = Object.freeze(function(aTag)
     {
         if (typeof(aTag) !== 'string') throw Exceptions.BadArgument;
 
         let stringBuffer = "D/" + aTag + ": ";
+
+        [].shift.call(arguments);
 
         for (const arg of arguments)
             stringBuffer += arg;
@@ -28,11 +30,13 @@ function(Exceptions)
         console.log(stringBuffer);
     });
 
-    Debug.prototype.Error = Object.freeze((aTag) =>
+    Debug.prototype.Error = Object.freeze(function(aTag)
     {
         if (typeof(aTag) !== 'string') throw Exceptions.BadArgument;
 
         let stringBuffer = "E/" + aTag + ": ";
+
+        [].shift.call(arguments);
     
         for (const arg of arguments)
             stringBuffer += arg;

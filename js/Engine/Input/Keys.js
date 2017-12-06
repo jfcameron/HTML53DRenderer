@@ -28,13 +28,13 @@ function(Debug, Exceptions)
          Tab : Object.freeze(9), OpenBracket : Object.freeze(219), CloseBracket : Object.freeze(221), Backslash : Object.freeze(220), Insert : Object.freeze(45), PageUp : Object.freeze(33),
         
         //A row
-         Capslock : Object.freeze(20), SemiColon : Object.freeze(186), Quote : Object.freeze(22), Enter : Object.freeze(13), Delete : Object.freeze(46), PageDown : Object.freeze(34),
+         Capslock : Object.freeze(20), SemiColon : Object.freeze(186), Quote : Object.freeze(222), Enter : Object.freeze(13), Delete : Object.freeze(46), PageDown : Object.freeze(34),
         
         //Z row
          LeftShift : Object.freeze(16), Comma : Object.freeze(188), Period : Object.freeze(190), ForwardSlash : Object.freeze(191), RightShift : Object.freeze(16),
         
         //Bottom row
-         LeftControl : Object.freeze(17), LeftAlt : Object.freeze(18), Space : Object.freeze(32), RightAlt : Object.freeze(18), RightControl : Object.freeze(17),
+         LeftCommand: Object.freeze(91), RightCommand:(93), LeftControl : Object.freeze(17), LeftAlt : Object.freeze(18), Space : Object.freeze(32), RightAlt : Object.freeze(18), RightControl : Object.freeze(17),
         
         //Arrow Keys
          LeftArrow : Object.freeze(37), RightArrow : Object.freeze(39), UpArrow : Object.freeze(38), DownArrow : Object.freeze(40),

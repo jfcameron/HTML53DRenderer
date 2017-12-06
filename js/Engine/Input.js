@@ -6,18 +6,19 @@
 define(
 [
     "Engine/Debug/Exceptions",
+    "Engine/Debug",
     "Engine/Input/Keys"
 ], 
-function(Exceptions, Keys)
+function(Exceptions, Debug, Keys)
 {
     const TAG = "Input";
     
     const Input = function()
     {
         // Data members
-        const m_Canvas = document.getElementById("m_Canvas");
+        const m_Canvas = Object.freeze(document.getElementById("m_Canvas"));
 
-        const m_CurrentMousePos = [0,0];
+        const m_CurrentMousePos = Object.preventExtensions([0,0]);
         
         const m_Keys = {};
         
@@ -100,6 +101,13 @@ function(Exceptions, Keys)
         {
             document.onkeydown = keyDown;
             document.onkeyup   = keyUp;
+
+            Object.keys(this.KEY).forEach((key) =>
+            {
+                m_Keys[Keys[key]] = false;
+            });
+            
+            Object.preventExtensions(m_Keys);
         }
         else
         {
@@ -111,5 +119,5 @@ function(Exceptions, Keys)
 
     Input.prototype = Object.create(Object.prototype);
 
-    return new Input();
+    return Object.freeze(new Input());
 });

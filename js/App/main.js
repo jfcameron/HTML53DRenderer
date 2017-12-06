@@ -8,7 +8,7 @@ requirejs.config(
     baseUrl: 'js/app',
 
     paths: {
-        Engine:     '../engine',
+        Engine:     '../Engine',
         Thirdparty: '../thirdparty'
     }
 });
@@ -17,17 +17,20 @@ requirejs.config(
 define(function(require)
 {
     //Eng inc
-    const Time    = new (require("Engine/Time"))(update, 16);
+    const Timer   = require("Engine/Time/Timer");
     const Debug   = require("Engine/Debug");
     const Input   = require("Engine/Input");
     const Vector3 = require("Engine/Math/Vector3");
+    const Vector2 = require("Engine/Math/Vector2");
     const Cube    = require("Engine/Graphics/Cube");
     const Colors  = require("Engine/Graphics/Colors");
     const Sprite  = require("Engine/Graphics/Sprite");
+    const Quad    = require("Engine/Graphics/Quad");
     //App inc
     const Player = require("./Player");
     const NPC    = require("./NPC");
 
+    const myTimer = new Timer(update, 16);
     const mySprite = Sprite.createSprite();
 
     Debug.Log("SpriteTest: ", mySprite instanceof Node? true : false);
@@ -48,8 +51,26 @@ define(function(require)
     
     const myColor = Colors.DarkGreen();
 
-    Debug.Log("sadfasdf",Colors.Constants.DeathlyPink);
-    Debug.Log("ColorTestConst: ",myColor, ", ", myColor.equalTo(Colors.Constants.DarkGreen));
+    const obj = new Object();
+    const vec = new Vector3(1,0,0);
+    console.log(vec);
+    
+    const iframe = document.createElement("iframe");
+    //var html = 'https://www.google.ca';
+    //iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
+    
+    //
+//<iframe width="1024" height="768" src="http://www.bbc.com" style="-webkit-transform:scale(0.5);-moz-transform-scale(0.5);">
+    
+    iframe.src = "http://jfcameron.github.io/";
+    iframe.style.width  ='100';
+    iframe.style.height ='100';
+    //iframe.style.transform = "scale(0.5);-moz-transform-scale(0.5)";
+
+    let scalar = 20;
+
+    const iframeQuad = new Quad(new Vector2(100, 100),iframe);
+    iframeQuad.Update(new Vector3(+0,0, -150),new Vector3(0,+40,0),new Vector3(scalar,scalar,scalar))
 
     function update()
     {
@@ -61,12 +82,4 @@ define(function(require)
             "translate3d(" + aPosition.x + "vw," + aPosition.y + "vw," + aPosition.z + "vw) " + 
             "rotateX(" + aRotation.x + "deg) " + "rotateY(" + aRotation.y + "deg) " + "rotateZ(" + aRotation.z + "deg) ";
     }
-
-    const obj = new Object();
-    const vec = new Vector3(1,0,0);
-    console.log(vec);
-    Debug.Log("Hello",vec.Length());
-    Debug.Log("asdf", obj instanceof Vector3);
-    Debug.Log("123", vec instanceof Vector3);
-    Debug.Log("123213", new Vector3(0,1,2));
 });
