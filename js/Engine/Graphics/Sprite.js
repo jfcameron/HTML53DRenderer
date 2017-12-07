@@ -20,7 +20,7 @@ function(Debug, Exceptions)
     Sprite.prototype.createSprite = Object.freeze((aImageURL) =>
     {
         if (typeof(aImageURL) === 'undefined') aImageURL = "img/Blocky.png";
-
+        
         if (typeof(aImageURL) !== 'string') throw Exceptions.Constructor;
 
         const canvas = document.createElement("canvas");

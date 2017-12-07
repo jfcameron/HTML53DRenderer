@@ -63,6 +63,8 @@ define(function(require)
     const iframeQuad = new Quad(new Vector2(100, 100),iframe);
     iframeQuad.Update(new Vector3(+0,0, -150),new Vector3(0,+40,0),new Vector3(scalar,scalar,scalar))*/
 
+   // mySceneGraph.appendChild(Sprite.createSprite());
+
     function update()
     {
         myPlayer.Update();

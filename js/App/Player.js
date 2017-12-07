@@ -11,9 +11,10 @@ define(
     "Engine/Math/Vector2",
     "Engine/Math/Vector3",
     "Engine/Graphics/Quad",
+    "Engine/Graphics/Color",
     "Engine/Graphics/Sprite"
 ], 
-function(Debug, Exceptions, Input, Vector2, Vector3, Quad, Sprite)
+function(Debug, Exceptions, Input, Vector2, Vector3, Quad, Color, Sprite)
 {
     const TAG = "Player";
 
@@ -24,11 +25,10 @@ function(Debug, Exceptions, Input, Vector2, Vector3, Quad, Sprite)
 
         const m_Position = new Vector3(0,0,0);
         const m_Rotation = new Vector3();
-        const m_Scale    = new Vector3(1, 1, 1);
+        const m_Scale    = new Vector3(10, 10, 10);
+        const m_Sprite   = Sprite.createSprite();
 
-        const m_Sprite = Sprite.createSprite();
-
-        const m_GraphicsObject = new Quad(new Vector2(100, 100), m_Sprite);
+        const m_GraphicsObject = new Quad(m_Position, m_Rotation, m_Scale, new Color(0,0,255,1), false, m_Sprite);
 
         let m_Timer = 0;
         let m_U = 0;

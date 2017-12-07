@@ -6,9 +6,13 @@
 define(
 [
     "Engine/Debug/Exceptions",
-    "Engine/Graphics/GraphicsObject"
+    "Engine/Graphics/GraphicsObject",
+    "Engine/Graphics/Quad",
+    "Engine/Graphics/Color",
+    "Engine/Math/Vector3",
+    "Engine/Math/Vector2"
 ], 
-function(Exceptions, GraphicsObject) 
+function(Exceptions, GraphicsObject, Quad, Color, Vector3, Vector2)
 {
     const TAG = "Cube";
 
@@ -18,15 +22,21 @@ function(Exceptions, GraphicsObject)
 
         const root = this.GetRootDivHandle();
 
-        const front  = document.createElement("div");
+        const len = 10;
+        const hlen = len/2;
+                
+        //const front = new Quad(new Vector3(0,0,hlen), new Vector3(), new Vector3(len,len,len), new Color(255,0,0,1), true);
+        //root.appendChild(front.GetRootDivHandle());
+
+        root.appendChild(new Quad(new Vector3(0,0, hlen), new Vector3(), new Vector3(len,len,len), new Color(255,0,0,1), true).GetRootDivHandle());
+        root.appendChild(new Quad(new Vector3(0,0,-hlen), new Vector3(), new Vector3(len,len,len), new Color(0,255,0,1), true).GetRootDivHandle());
+
+        /*const front  = document.createElement("div");
         const back   = document.createElement("div");
         const left   = document.createElement("div");
         const right  = document.createElement("div");
         const top    = document.createElement("div");
         const bottom = document.createElement("div");
-
-        const size = 200;
-        const halfSize = size / 2;
         
         front.style.position           = "absolute";
         front.style.width              = size + "px";
@@ -35,7 +45,7 @@ function(Exceptions, GraphicsObject)
         front.style.backgroundColor    = "orange";
         front.style.backgroundImage    = "url('img/Awesome.png')";
         front.style.backgroundSize     = "contain";
-        front.style.backfaceVisibility = "hidden";
+        //front.style.backfaceVisibility = "hidden";
         
         back.style.position           = "absolute";
         back.style.width              = size + "px";
@@ -44,7 +54,7 @@ function(Exceptions, GraphicsObject)
         back.style.backgroundColor    = "red";
         back.style.backgroundImage    = "url('img/Awesome.png')";
         back.style.backgroundSize     = "contain";
-        back.style.backfaceVisibility = "hidden";
+        //back.style.backfaceVisibility = "hidden";
         
         left.style.position           = "absolute";
         left.style.width              = size + "px";
@@ -54,7 +64,7 @@ function(Exceptions, GraphicsObject)
         left.style.backgroundColor    = "blue";
         left.style.backgroundImage    = "url('img/Awesome.png')";
         left.style.backgroundSize     = "contain";
-        left.style.backfaceVisibility = "hidden";
+        //left.style.backfaceVisibility = "hidden";
 
         right.style.position           = "absolute";
         right.style.width              = size + "px";
@@ -64,7 +74,7 @@ function(Exceptions, GraphicsObject)
         right.style.transformOrigin    = "top right";
         right.style.backgroundImage    = "url('img/Awesome.png')";
         right.style.backgroundSize     = "contain";
-        right.style.backfaceVisibility = "hidden";
+        //right.style.backfaceVisibility = "hidden";
 
         top.style.position           = "absolute";
         top.style.width              = size + "px";
@@ -74,7 +84,7 @@ function(Exceptions, GraphicsObject)
         top.style.transformOrigin    = "top center";
         top.style.backgroundImage    = "url('img/Awesome.png')";
         top.style.backgroundSize     = "contain";
-        top.style.backfaceVisibility = "hidden";
+        //top.style.backfaceVisibility = "hidden";
 
         bottom.style.position           = "absolute";
         bottom.style.width              = size + "px";
@@ -84,14 +94,14 @@ function(Exceptions, GraphicsObject)
         bottom.style.transformOrigin    = "bottom center";
         bottom.style.backgroundImage    = "url('img/Awesome.png')";
         bottom.style.backgroundSize     = "contain";
-        bottom.style.backfaceVisibility = "hidden";
+        //bottom.style.backfaceVisibility = "hidden";
 
         root.appendChild(front);
         root.appendChild(back);
         root.appendChild(left);
         root.appendChild(right);
         root.appendChild(top);
-        root.appendChild(bottom);
+        root.appendChild(bottom);*/
 
         // Constructors
         if (arguments.length === 0)
