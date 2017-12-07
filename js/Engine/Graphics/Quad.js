@@ -34,13 +34,14 @@ function(Debug, Exceptions, GraphicsObject, Vector2, Color, Colors)
             const root  = this.GetRootDivHandle();
             const front = document.createElement("div");
     
-            front.style.position        = "absolute";
-            front.style.width           = aSize.x + "px";
-            front.style.height          = aSize.y + "px";
-            front.style.transform       = "translate3d(" + (-aSize.y/2) + "px," + (-aSize.y/2) + "px," + 0 + "px)";
-            front.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
-            front.style.backgroundImage = "url('img/Awesome.png')";
-            front.style.backgroundSize  = "contain";
+            front.style.position           = "absolute";
+            front.style.width              = aSize.x + "px";
+            front.style.height             = aSize.y + "px";
+            front.style.transform          = "translate3d(" + (-aSize.y/2) + "px," + (-aSize.y/2) + "px," + 0 + "px)";
+            front.style.backgroundColor    = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
+            front.style.backgroundImage    = "url('img/Awesome.png')";
+            front.style.backgroundSize     = "contain";
+            //front.style.backfaceVisibility = "hidden";
             
             if (aChildNode)
                 front.appendChild(aChildNode);

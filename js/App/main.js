@@ -55,22 +55,13 @@ define(function(require)
     const vec = new Vector3(1,0,0);
     console.log(vec);
     
-    const iframe = document.createElement("iframe");
-    //var html = 'https://www.google.ca';
-    //iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
-    
-    //
-//<iframe width="1024" height="768" src="http://www.bbc.com" style="-webkit-transform:scale(0.5);-moz-transform-scale(0.5);">
-    
+    /*const iframe = document.createElement("iframe");
     iframe.src = "https://jfcameron.github.io/";
     iframe.style.width  ='100';
     iframe.style.height ='100';
-    //iframe.style.transform = "scale(0.5);-moz-transform-scale(0.5)";
-
     let scalar = 20;
-
     const iframeQuad = new Quad(new Vector2(100, 100),iframe);
-    iframeQuad.Update(new Vector3(+0,0, -150),new Vector3(0,+40,0),new Vector3(scalar,scalar,scalar))
+    iframeQuad.Update(new Vector3(+0,0, -150),new Vector3(0,+40,0),new Vector3(scalar,scalar,scalar))*/
 
     function update()
     {
