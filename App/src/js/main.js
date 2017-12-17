@@ -78,12 +78,12 @@ define(function(require)
     }
 });*/
 
-console.log("hello");
-
 import html from 'index.html'
 import icon from 'favicon.ico'
 
-import Exceptions from 'Engine/Debug/Exceptions.js'
+//import Exceptions from 'Engine/Debug/Exceptions.js'
+//throw Exceptions.BadArgument;
 
-throw Exceptions.BadArgument;
+import Debug from 'Engine/Debug.js'
 
+Debug.Log(1.145, "TEST", "Whats good");
