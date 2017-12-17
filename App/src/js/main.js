@@ -83,4 +83,7 @@ console.log("hello");
 import html from 'index.html'
 import icon from 'favicon.ico'
 
+import Exceptions from 'Engine/Debug/Exceptions.js'
+
+throw Exceptions.BadArgument;
 

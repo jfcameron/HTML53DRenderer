@@ -12,7 +12,7 @@ module.exports =
             path.resolve('./src/img'),
             path.resolve('./src/html'),
 
-            path.resolve('../Engine/src'),
+            path.resolve('./../Engine/src/'),
         ]
     },
 
