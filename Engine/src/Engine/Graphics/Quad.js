@@ -13,7 +13,7 @@ define(
     "Engine/Graphics/Color",
     "Engine/Graphics/Colors"
 ], 
-(Debug, Exceptions, GraphicsObject, Vector2, Vector3, Color, Colors) =>
+Object.freeze((Debug, Exceptions, GraphicsObject, Vector2, Vector3, Color, Colors) =>
 {
     const TAG = "Quad";
 
@@ -42,9 +42,11 @@ define(
             const front = document.createElement("div");
     
             front.style.position        = "absolute";
-            front.style.width           = 10 + "px";
-            front.style.height          = 10 + "px";
-            front.style.transform       = "translate3d(" + (-10/2) + "px," + (-10/2) + "px," + 0 + "px)";
+            front.style.width           = 1 + "px";
+            front.style.height          = 1 + "px";
+            front.style.transform       = //"translate3d(" + (0) + "px," + (-1/2) + "px," + 0 + "px)" +
+                                          "scale3d("+ aScale.x + "," + aScale.y + "," + aScale.z + ")";
+
             front.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
             front.style.backgroundImage = "url('img/Awesome.png')";
             front.style.backgroundSize  = "contain";
@@ -71,4 +73,4 @@ define(
     Quad.prototype = Object.freeze(GraphicsObject.prototype);
 
     return Quad;
-});
+}));

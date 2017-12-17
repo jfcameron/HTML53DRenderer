@@ -22,14 +22,20 @@ define(
 
         const root = this.GetRootDivHandle();
 
-        const len = 10;
+        const len = 7;
         const hlen = len/2;
                 
         //const front = new Quad(new Vector3(0,0,hlen), new Vector3(), new Vector3(len,len,len), new Color(255,0,0,1), true);
         //root.appendChild(front.GetRootDivHandle());
 
         root.appendChild(new Quad(new Vector3(0,0, hlen), new Vector3(), new Vector3(len,len,len), new Color(255,0,0,1), true).GetRootDivHandle());
-        root.appendChild(new Quad(new Vector3(0,0,-hlen), new Vector3(), new Vector3(len,len,len), new Color(0,255,0,1), true).GetRootDivHandle());
+        root.appendChild(new Quad(new Vector3(0,0,-hlen), new Vector3(), new Vector3(len,len,len), new Color( 0,255,0,1), true).GetRootDivHandle());
+
+        root.appendChild(new Quad(new Vector3(0, hlen,0), new Vector3(90,0,0), new Vector3(len,len,len), new Color(0,  0,255,1), true).GetRootDivHandle());
+        root.appendChild(new Quad(new Vector3(0,-hlen,0), new Vector3(90,0,0), new Vector3(len,len,len), new Color(0,255,255,1), true).GetRootDivHandle());
+
+        root.appendChild(new Quad(new Vector3( hlen, 0,0), new Vector3(0,90,0), new Vector3(len,len,len), new Color(255, 0,255,1), true).GetRootDivHandle());
+        root.appendChild(new Quad(new Vector3(-hlen, 0,0), new Vector3(0,90,0), new Vector3(len,len,len), new Color(255, 255,0,1), true).GetRootDivHandle());
 
         /*const front  = document.createElement("div");
         const back   = document.createElement("div");
