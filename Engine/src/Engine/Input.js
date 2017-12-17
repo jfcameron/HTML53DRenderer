@@ -9,7 +9,7 @@ define(
     "Engine/Debug",
     "Engine/Input/Keys"
 ], 
-function(Exceptions, Debug, Keys)
+(Exceptions, Debug, Keys) =>
 {
     const TAG = "Input";
     

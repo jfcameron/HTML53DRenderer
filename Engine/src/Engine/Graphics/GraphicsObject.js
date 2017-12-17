@@ -9,7 +9,7 @@ define(
     "Engine/Debug/Exceptions",
     "Engine/Math/Vector3"
 ], 
-function(Debug, Exceptions, Vector3)
+(Debug, Exceptions, Vector3) =>
 {
     const TAG = "GraphicsObject";
 

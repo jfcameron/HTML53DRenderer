@@ -8,7 +8,7 @@ define(
     "Engine/Debug",
     "Engine/Debug/Exceptions"
 ], 
-function(Debug, Exceptions) 
+(Debug, Exceptions) =>
 {
     return Object.freeze({    
         //Top Row

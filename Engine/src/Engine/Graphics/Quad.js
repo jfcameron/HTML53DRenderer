@@ -13,7 +13,7 @@ define(
     "Engine/Graphics/Color",
     "Engine/Graphics/Colors"
 ], 
-function(Debug, Exceptions, GraphicsObject, Vector2, Vector3, Color, Colors) 
+(Debug, Exceptions, GraphicsObject, Vector2, Vector3, Color, Colors) =>
 {
     const TAG = "Quad";
 

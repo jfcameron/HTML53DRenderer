@@ -7,7 +7,7 @@ define(
 [
     "Engine/Debug/Exceptions"
 ], 
-function(Exceptions) 
+(Exceptions) =>
 {
     const TAG = "Vector3";
 

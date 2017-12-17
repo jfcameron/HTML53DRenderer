@@ -12,7 +12,7 @@ define(
     "Engine/Math/Vector3",
     "Engine/Math/Vector2"
 ], 
-function(Exceptions, GraphicsObject, Quad, Color, Vector3, Vector2)
+(Exceptions, GraphicsObject, Quad, Color, Vector3, Vector2) =>
 {
     const TAG = "Cube";
 

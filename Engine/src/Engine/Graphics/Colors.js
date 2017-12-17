@@ -9,7 +9,7 @@ define(
     "Engine/Debug/Exceptions",
     "Engine/Graphics/Color"
 ], 
-function(Debug, Exceptions, Color) 
+(Debug, Exceptions, Color) =>
 {
     const TAG = "Colors";
 
