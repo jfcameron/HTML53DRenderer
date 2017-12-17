@@ -42,17 +42,6 @@ module.exports =
         rules: 
         [
             {
-                test: /\.(png|jpg|gif)$/,
-                use: 
-                [
-                    {
-                        loader: 'file-loader',
-                        options: {}  
-                    }
-                ]
-            },
-
-            {
                 test: /\.(html|ico)$/,
                 use: 
                 [
@@ -61,6 +50,34 @@ module.exports =
                         options: 
                         {
                             name: '[name].[ext]'
+                        }  
+                    }
+                ]
+            },
+
+            {
+                test: /\.(css)$/,
+                use: 
+                [
+                    {
+                        loader: 'file-loader',
+                        options: 
+                        {
+                            name: '/css/[name].[ext]'
+                        }  
+                    }
+                ]
+            },
+
+            {
+                test: /\.(png|jpg|gif)$/,
+                use: 
+                [
+                    {
+                        loader: 'file-loader',
+                        options: 
+                        {
+                            name: '/img/[name].[ext]'
                         }  
                     }
                 ]

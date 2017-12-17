@@ -3,7 +3,8 @@
 // Created on 2017-12-01.
 "use strict";
 
-//import Exceptions from "Engine/Debug/Exceptions"
+//import testest from "Engine/Debug/Exceptions.js"
+//import Exceptionsz from 'Engine/Debug/Exceptions.js'
 
 define(
 [
