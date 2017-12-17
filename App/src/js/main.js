@@ -3,9 +3,6 @@
 // Created on 2017-12-01.
 "use strict";
 
-import html from 'index.html';
-import icon from 'favicon.ico';
-
 /*
 requirejs.config(
 {
@@ -82,3 +79,8 @@ define(function(require)
 });*/
 
 console.log("hello");
+
+import html from 'index.html'
+import icon from 'favicon.ico'
+
+
