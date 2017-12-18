@@ -3,9 +3,9 @@
 // Created on 2017-12-03.
 "use strict";
 
-const Debug      = require("Engine/Debug");
-const Exceptions = require("Engine/Debug/Exceptions");
-const Color      = require("Engine/Graphics/Color");
+import Debug from "Engine/Debug"
+import Exceptions from "Engine/Debug/Exceptions"
+import Color from "Engine/Graphics/Color"
 
 const TAG = "Colors";
 
@@ -68,4 +68,4 @@ Colors.prototype.Constants = Object.freeze(
 
 Colors.prototype = Object.freeze(Colors.prototype);
 
-module.exports = new Colors();
+export default new Colors();

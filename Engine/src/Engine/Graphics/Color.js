@@ -3,8 +3,8 @@
 // Created on 2017-12-03.
 "use strict";
 
-const Debug      = require("Engine/Debug");
-const Exceptions = require("Engine/Debug/Exceptions");
+import Debug from "Engine/Debug"
+import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG = "Color";
 
@@ -62,4 +62,4 @@ Color.prototype.equalTo = Object.freeze(function(aOther)
     return this.r === aOther.r && this.g === aOther.g && this.b === aOther.b && this.a === aOther.a ? true : false; 
 });
 
-module.exports = Color;
+export default Color;

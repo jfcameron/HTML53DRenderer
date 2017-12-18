@@ -3,7 +3,7 @@
 // Created on 2017-12-01.
 "use strict";
 
-const Exceptions = require("Engine/Debug/Exceptions");
+import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG = "Debug";
 
@@ -40,4 +40,4 @@ Debug.prototype.Error = Object.freeze(function(aTag)
     console.log(stringBuffer);
 });
 
-module.exports = new Debug();
+export default new Debug();

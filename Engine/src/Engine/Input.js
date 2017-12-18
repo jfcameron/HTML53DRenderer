@@ -3,9 +3,9 @@
 // Created on 2017-12-01.
 "use strict";
 
-const Exceptions = require("Engine/Debug/Exceptions");
-const Debug      = require("Engine/Debug");
-const Keys       = require("Engine/Input/Keys");
+import Exceptions from "Engine/Debug/Exceptions"
+import Debug from "Engine/Debug"
+import Keys from "Engine/Input/Keys"
 
 const TAG = "Input";
     
@@ -68,6 +68,7 @@ const Input = function()
         
     const keyDown = (event) =>
     {
+        console.log(event.keyCode);
         m_Keys[event.keyCode] = true;
     };
 
@@ -115,4 +116,4 @@ const Input = function()
 
 Input.prototype = Object.create(Object.prototype);
 
-module.exports = Object.freeze(new Input());
+export default Object.freeze(new Input());

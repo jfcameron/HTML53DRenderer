@@ -3,9 +3,9 @@
 // Created on 2017-12-02.
 "use strict";
 
-const Exceptions = require("Engine/Debug/Exceptions");
+import Exceptions from "Engine/Debug/Exceptions"
 
-const Tag = "Vector2";
+const TAG = "Vector2";
 
 const Vector2 = function()
 {
@@ -51,4 +51,4 @@ Vector2.prototype.Length = Object.freeze(function()
     return Math.sqrt( Math.pow(this.x, 2) + Math.pow(this.y, 2) );
 });
     
-module.exports = () => Vector2;
+export default Vector2;

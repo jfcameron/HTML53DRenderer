@@ -3,12 +3,12 @@
 // Created on 2017-12-02.
 "use strict";
 
-const Exceptions     = require("Engine/Debug/Exceptions");
-const GraphicsObject = require("Engine/Graphics/GraphicsObject");
-const Quad           = require("Engine/Graphics/Quad");
-const Color          = require("Engine/Graphics/Color");
-const Vector3        = require("Engine/Math/Vector3");
-const Vector2        = require("Engine/Math/Vector2");
+import Exceptions from "Engine/Debug/Exceptions"
+import GraphicsObject from "Engine/Graphics/GraphicsObject"
+import Quad from "Engine/Graphics/Quad"
+import Color from "Engine/Graphics/Color"
+import Vector3 from "Engine/Math/Vector3"
+import Vector2 from "Engine/Math/Vector2"
     
 const TAG = "Cube";
 
@@ -119,4 +119,4 @@ const Cube = function()
 
 Cube.prototype = Object.freeze(GraphicsObject.prototype);
 
-module.exports = Cube;
+export default Cube;

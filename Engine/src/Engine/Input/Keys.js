@@ -3,10 +3,10 @@
 // Created on 2017-12-04.
 "use strict";
 
-const Debug = require("Engine/Debug");
-const Exceptions = require("Engine/Debug/Exceptions");
+import Default from "Engine/Debug"
+import Exceptions from "Engine/Debug/Exceptions"
 
-module.exports = Object.freeze
+export default Object.freeze
 ({    
     //Top Row
     Escape : Object.freeze(27), F1 : Object.freeze(112), F2 : Object.freeze(113), F3 : Object.freeze(114), F4 : Object.freeze(115), F5 : Object.freeze(116), F6 : Object.freeze(117), F7 : Object.freeze(118), F8 : Object.freeze(119), 
@@ -31,7 +31,7 @@ module.exports = Object.freeze
     LeftShift : Object.freeze(16), Comma : Object.freeze(188), Period : Object.freeze(190), ForwardSlash : Object.freeze(191), RightShift : Object.freeze(16),
         
     //Bottom row
-    LeftCommand: Object.freeze(91), RightCommand:(93), LeftControl : Object.freeze(17), LeftAlt : Object.freeze(18), Space : Object.freeze(32), RightAlt : Object.freeze(18), RightControl : Object.freeze(17),
+    LeftCommand: Object.freeze(91), RightCommand:(93), LeftControl : Object.freeze(17), LeftAlt : Object.freeze(18), Space : Object.freeze(32), RightAlt : Object.freeze(18), RightControl : Object.freeze(17), 
         
     //Arrow Keys
     LeftArrow : Object.freeze(37), RightArrow : Object.freeze(39), UpArrow : Object.freeze(38), DownArrow : Object.freeze(40),

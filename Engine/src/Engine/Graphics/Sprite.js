@@ -3,8 +3,8 @@
 // Created on 2017-12-03.
 "use strict";
 
-const Debug = require("Engine/Debug");
-const Exceptions = require("Engine/Debug/Exceptions");
+import Default from "Engine/Debug"
+import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG = "Sprite";
 
@@ -49,4 +49,4 @@ Sprite.prototype.createSprite = Object.freeze((aImageURL) =>
     return canvas;
 });
 
-module.exports = Object.freeze(new Sprite());
+export default Object.freeze(new Sprite());

@@ -3,9 +3,9 @@
 // Created on 2017-12-02.
 "use strict";
 
-const Debug = require("Engine/Debug");
-const Exceptions = require("Engine/Debug/Exceptions");
-const Vector3 = require("Engine/Math/Vector3");
+import Debug from "Engine/Debug"
+import Exceptions from "Engine/Debug/Exceptions"
+import Vector3 from "Engine/Math/Vector3"
 
 const TAG = "GraphicsObject";
 
@@ -65,4 +65,4 @@ const GraphicsObject = function()
 
 GraphicsObject.prototype = Object.create(Object.prototype);
 
-module.exports = GraphicsObject;
+export default GraphicsObject;

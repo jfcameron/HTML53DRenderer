@@ -3,7 +3,7 @@
 // Created on 2017-12-01.
 "use strict";
 
-const Exceptions = require("Engine/Debug/Exceptions");
+import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG = "Vector3";
 
@@ -85,4 +85,4 @@ Vector3.prototype.toString = Object.freeze(function()
     "}";
 });
     
-module.exports = Vector3;
+export default Vector3;
