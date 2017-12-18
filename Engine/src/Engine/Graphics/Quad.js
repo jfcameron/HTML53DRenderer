@@ -44,7 +44,7 @@ const Quad = function()
                                           "scale3d("+ aScale.x + "," + aScale.y + "," + aScale.z + ")";
 
         front.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
-        front.style.backgroundImage = "url('img/Awesome.png')";
+        //front.style.backgroundImage = "url('img/Awesome.png')";
         front.style.backgroundSize  = "contain";
 
         if (aBackfaceCull)

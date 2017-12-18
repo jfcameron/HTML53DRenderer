@@ -31,7 +31,7 @@ const mySprite = Sprite.createSprite();
 
 Debug.Log("SpriteTest: ", mySprite instanceof Node? true : false);
 
-const myPlayer = new Player();
+//const myPlayer = new Player();
 const myNPC    = new NPC();
 
 const mySceneGraph = document.getElementById("MyHardcodedSceneGraph");
@@ -53,7 +53,7 @@ console.log(vec);
 
 function update()
 {
-    myPlayer.Update();
+    //myPlayer.Update();
 
     myNPC.Update();
 
