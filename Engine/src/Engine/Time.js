@@ -3,11 +3,9 @@
 // Created on 2017-12-01.
 "use strict";
 
-define(
-[
-    "Engine/Debug/Exceptions"
-], 
-(Exceptions) =>
+const Exceptions = require("Engine/Debug/Exceptions");
+
+module.exports = () =>
 { 
     const TAG = "Time";
     
@@ -52,4 +50,4 @@ define(
     Time.prototype = Object.create(Object.prototype);
     
     return Time;
-});
+};

@@ -3,125 +3,120 @@
 // Created on 2017-12-02.
 "use strict";
 
-define(
-[
-    "Engine/Debug/Exceptions",
-    "Engine/Graphics/GraphicsObject",
-    "Engine/Graphics/Quad",
-    "Engine/Graphics/Color",
-    "Engine/Math/Vector3",
-    "Engine/Math/Vector2"
-], 
-(Exceptions, GraphicsObject, Quad, Color, Vector3, Vector2) =>
+const Exceptions     = require("Engine/Debug/Exceptions");
+const GraphicsObject = require("Engine/Graphics/GraphicsObject");
+const Quad           = require("Engine/Graphics/Quad");
+const Color          = require("Engine/Graphics/Color");
+const Vector3        = require("Engine/Math/Vector3");
+const Vector2        = require("Engine/Math/Vector2");
+    
+const TAG = "Cube";
+
+const Cube = function()
 {
-    const TAG = "Cube";
+    GraphicsObject.call(this);
 
-    const Cube = function()
-    {
-        GraphicsObject.call(this);
+    const root = this.GetRootDivHandle();
 
-        const root = this.GetRootDivHandle();
-
-        const len = 7;
-        const hlen = len/2;
+    const len = 7;
+    const hlen = len/2;
                 
-        //const front = new Quad(new Vector3(0,0,hlen), new Vector3(), new Vector3(len,len,len), new Color(255,0,0,1), true);
-        //root.appendChild(front.GetRootDivHandle());
+    //const front = new Quad(new Vector3(0,0,hlen), new Vector3(), new Vector3(len,len,len), new Color(255,0,0,1), true);
+    //root.appendChild(front.GetRootDivHandle());
 
-        root.appendChild(new Quad(new Vector3(0,0, hlen), new Vector3(), new Vector3(len,len,len), new Color(255,0,0,1), true).GetRootDivHandle());
-        root.appendChild(new Quad(new Vector3(0,0,-hlen), new Vector3(), new Vector3(len,len,len), new Color( 0,255,0,1), true).GetRootDivHandle());
+    root.appendChild(new Quad(new Vector3(0,0, hlen), new Vector3(), new Vector3(len,len,len), new Color(255,0,0,1), true).GetRootDivHandle());
+    root.appendChild(new Quad(new Vector3(0,0,-hlen), new Vector3(), new Vector3(len,len,len), new Color( 0,255,0,1), true).GetRootDivHandle());
 
-        root.appendChild(new Quad(new Vector3(0, hlen,0), new Vector3(90,0,0), new Vector3(len,len,len), new Color(0,  0,255,1), true).GetRootDivHandle());
-        root.appendChild(new Quad(new Vector3(0,-hlen,0), new Vector3(90,0,0), new Vector3(len,len,len), new Color(0,255,255,1), true).GetRootDivHandle());
+    root.appendChild(new Quad(new Vector3(0, hlen,0), new Vector3(90,0,0), new Vector3(len,len,len), new Color(0,  0,255,1), true).GetRootDivHandle());
+    root.appendChild(new Quad(new Vector3(0,-hlen,0), new Vector3(90,0,0), new Vector3(len,len,len), new Color(0,255,255,1), true).GetRootDivHandle());
 
-        root.appendChild(new Quad(new Vector3( hlen, 0,0), new Vector3(0,90,0), new Vector3(len,len,len), new Color(255, 0,255,1), true).GetRootDivHandle());
-        root.appendChild(new Quad(new Vector3(-hlen, 0,0), new Vector3(0,90,0), new Vector3(len,len,len), new Color(255, 255,0,1), true).GetRootDivHandle());
+    root.appendChild(new Quad(new Vector3( hlen, 0,0), new Vector3(0,90,0), new Vector3(len,len,len), new Color(255, 0,255,1), true).GetRootDivHandle());
+    root.appendChild(new Quad(new Vector3(-hlen, 0,0), new Vector3(0,90,0), new Vector3(len,len,len), new Color(255, 255,0,1), true).GetRootDivHandle());
 
-        /*const front  = document.createElement("div");
-        const back   = document.createElement("div");
-        const left   = document.createElement("div");
-        const right  = document.createElement("div");
-        const top    = document.createElement("div");
-        const bottom = document.createElement("div");
+    /*const front  = document.createElement("div");
+    const back   = document.createElement("div");
+    const left   = document.createElement("div");
+    const right  = document.createElement("div");
+    const top    = document.createElement("div");
+    const bottom = document.createElement("div");
         
-        front.style.position           = "absolute";
-        front.style.width              = size + "px";
-        front.style.height             = size + "px";
-        front.style.transform          = "translate3d(" + -halfSize + "px," + -halfSize + "px," + halfSize + "px)";
-        front.style.backgroundColor    = "orange";
-        front.style.backgroundImage    = "url('img/Awesome.png')";
-        front.style.backgroundSize     = "contain";
-        //front.style.backfaceVisibility = "hidden";
+    front.style.position           = "absolute";
+    front.style.width              = size + "px";
+    front.style.height             = size + "px";
+    front.style.transform          = "translate3d(" + -halfSize + "px," + -halfSize + "px," + halfSize + "px)";
+    front.style.backgroundColor    = "orange";
+    front.style.backgroundImage    = "url('img/Awesome.png')";
+    front.style.backgroundSize     = "contain";
+    //front.style.backfaceVisibility = "hidden";
         
-        back.style.position           = "absolute";
-        back.style.width              = size + "px";
-        back.style.height             = size + "px";
-        back.style.transform          = "translate3d(" + -halfSize + "px," + -halfSize + "px," + -halfSize + "px)rotateY(180deg)";
-        back.style.backgroundColor    = "red";
-        back.style.backgroundImage    = "url('img/Awesome.png')";
-        back.style.backgroundSize     = "contain";
-        //back.style.backfaceVisibility = "hidden";
+    back.style.position           = "absolute";
+    back.style.width              = size + "px";
+    back.style.height             = size + "px";
+    back.style.transform          = "translate3d(" + -halfSize + "px," + -halfSize + "px," + -halfSize + "px)rotateY(180deg)";
+    back.style.backgroundColor    = "red";
+    back.style.backgroundImage    = "url('img/Awesome.png')";
+    back.style.backgroundSize     = "contain";
+    //back.style.backfaceVisibility = "hidden";
         
-        left.style.position           = "absolute";
-        left.style.width              = size + "px";
-        left.style.height             = size + "px";
-        left.style.transform          = "translate3d(" + -halfSize + "px," + -halfSize + "px," + -halfSize + "px)rotateY(270deg)";
-        left.style.transformOrigin    = "center left";
-        left.style.backgroundColor    = "blue";
-        left.style.backgroundImage    = "url('img/Awesome.png')";
-        left.style.backgroundSize     = "contain";
-        //left.style.backfaceVisibility = "hidden";
+    left.style.position           = "absolute";
+    left.style.width              = size + "px";
+    left.style.height             = size + "px";
+    left.style.transform          = "translate3d(" + -halfSize + "px," + -halfSize + "px," + -halfSize + "px)rotateY(270deg)";
+    left.style.transformOrigin    = "center left";
+    left.style.backgroundColor    = "blue";
+    left.style.backgroundImage    = "url('img/Awesome.png')";
+    left.style.backgroundSize     = "contain";
+    //left.style.backfaceVisibility = "hidden";
 
-        right.style.position           = "absolute";
-        right.style.width              = size + "px";
-        right.style.height             = size + "px";
-        right.style.transform          = "translate3d(" + -halfSize + "px," + -halfSize + "px," + -halfSize + "px)rotateY(-270deg)";
-        right.style.backgroundColor    = "green";
-        right.style.transformOrigin    = "top right";
-        right.style.backgroundImage    = "url('img/Awesome.png')";
-        right.style.backgroundSize     = "contain";
-        //right.style.backfaceVisibility = "hidden";
+    right.style.position           = "absolute";
+    right.style.width              = size + "px";
+    right.style.height             = size + "px";
+    right.style.transform          = "translate3d(" + -halfSize + "px," + -halfSize + "px," + -halfSize + "px)rotateY(-270deg)";
+    right.style.backgroundColor    = "green";
+    right.style.transformOrigin    = "top right";
+    right.style.backgroundImage    = "url('img/Awesome.png')";
+    right.style.backgroundSize     = "contain";
+    //right.style.backfaceVisibility = "hidden";
 
-        top.style.position           = "absolute";
-        top.style.width              = size + "px";
-        top.style.height             = size + "px";
-        top.style.transform          = "translate3d(" + -halfSize + "px," + -halfSize + "px," + halfSize + "px)rotateX(-90deg)";
-        top.style.backgroundColor    = "yellow";
-        top.style.transformOrigin    = "top center";
-        top.style.backgroundImage    = "url('img/Awesome.png')";
-        top.style.backgroundSize     = "contain";
-        //top.style.backfaceVisibility = "hidden";
+    top.style.position           = "absolute";
+    top.style.width              = size + "px";
+    top.style.height             = size + "px";
+    top.style.transform          = "translate3d(" + -halfSize + "px," + -halfSize + "px," + halfSize + "px)rotateX(-90deg)";
+    top.style.backgroundColor    = "yellow";
+    top.style.transformOrigin    = "top center";
+    top.style.backgroundImage    = "url('img/Awesome.png')";
+    top.style.backgroundSize     = "contain";
+    //top.style.backfaceVisibility = "hidden";
 
-        bottom.style.position           = "absolute";
-        bottom.style.width              = size + "px";
-        bottom.style.height             = size + "px";
-        bottom.style.transform          = "translate3d(" + -halfSize + "px," + -halfSize + "px," + halfSize + "px)rotateX(90deg)";
-        bottom.style.backgroundColor    = "purple";
-        bottom.style.transformOrigin    = "bottom center";
-        bottom.style.backgroundImage    = "url('img/Awesome.png')";
-        bottom.style.backgroundSize     = "contain";
-        //bottom.style.backfaceVisibility = "hidden";
+    bottom.style.position           = "absolute";
+    bottom.style.width              = size + "px";
+    bottom.style.height             = size + "px";
+    bottom.style.transform          = "translate3d(" + -halfSize + "px," + -halfSize + "px," + halfSize + "px)rotateX(90deg)";
+    bottom.style.backgroundColor    = "purple";
+    bottom.style.transformOrigin    = "bottom center";
+    bottom.style.backgroundImage    = "url('img/Awesome.png')";
+    bottom.style.backgroundSize     = "contain";
+    //bottom.style.backfaceVisibility = "hidden";
 
-        root.appendChild(front);
-        root.appendChild(back);
-        root.appendChild(left);
-        root.appendChild(right);
-        root.appendChild(top);
-        root.appendChild(bottom);*/
+    root.appendChild(front);
+    root.appendChild(back);
+    root.appendChild(left);
+    root.appendChild(right);
+    root.appendChild(top);
+    root.appendChild(bottom);*/
 
-        // Constructors
-        if (arguments.length === 0)
-        {
-        }
-        else
-        {
-            throw Exceptions.Constructor;
-        }
+    // Constructors
+    if (arguments.length === 0)
+    {
+    }
+    else
+    {
+        throw Exceptions.Constructor;
+    }
 
-        Object.preventExtensions(this);
-    };
+    Object.preventExtensions(this);
+};
 
-    Cube.prototype = Object.freeze(GraphicsObject.prototype);
+Cube.prototype = Object.freeze(GraphicsObject.prototype);
 
-    return Cube;
-});
+module.exports = Cube;

@@ -3,48 +3,41 @@
 // Created on 2017-12-01.
 "use strict";
 
-//import Exceptions from 'Engine/Debug/Exceptions.js'
+const Exceptions = require("Engine/Debug/Exceptions");
 
-define(
-[
-    "Engine/Debug/Exceptions"
-], 
-(Exceptions) =>
+const TAG = "Debug";
+
+const Debug = function()
 {
-    const TAG = "Debug";
+    Object.freeze(this);
+}
 
-    const Debug = function()
-    {
-        Object.freeze(this);
-    }
+Debug.prototype.Log = Object.freeze(function(aTag)
+{
+    if (typeof(aTag) !== 'string') throw Exceptions.BadArgument;
 
-    Debug.prototype.Log = Object.freeze(function(aTag)
-    {
-        if (typeof(aTag) !== 'string') throw Exceptions.BadArgument;
+    let stringBuffer = "D/" + aTag + ": ";
 
-        let stringBuffer = "D/" + aTag + ": ";
+    [].shift.call(arguments);
 
-        [].shift.call(arguments);
-
-        for (const arg of arguments)
-            stringBuffer += arg;
+    for (const arg of arguments)
+        stringBuffer += arg;
     
-        console.log(stringBuffer);
-    });
-
-    Debug.prototype.Error = Object.freeze(function(aTag)
-    {
-        if (typeof(aTag) !== 'string') throw Exceptions.BadArgument;
-
-        let stringBuffer = "E/" + aTag + ": ";
-
-        [].shift.call(arguments);
-    
-        for (const arg of arguments)
-            stringBuffer += arg;
-        
-        console.log(stringBuffer);
-    });
-
-    return new Debug();
+    console.log(stringBuffer);
 });
+
+Debug.prototype.Error = Object.freeze(function(aTag)
+{
+    if (typeof(aTag) !== 'string') throw Exceptions.BadArgument;
+
+    let stringBuffer = "E/" + aTag + ": ";
+
+    [].shift.call(arguments);
+    
+    for (const arg of arguments)
+        stringBuffer += arg;
+        
+    console.log(stringBuffer);
+});
+
+module.exports = new Debug();

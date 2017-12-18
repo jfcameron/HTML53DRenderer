@@ -3,121 +3,116 @@
 // Created on 2017-12-01.
 "use strict";
 
-define(
-[
-    "Engine/Debug/Exceptions",
-    "Engine/Debug",
-    "Engine/Input/Keys"
-], 
-(Exceptions, Debug, Keys) =>
-{
-    const TAG = "Input";
+const Exceptions = require("Engine/Debug/Exceptions");
+const Debug      = require("Engine/Debug");
+const Keys       = require("Engine/Input/Keys");
+
+const TAG = "Input";
     
-    const Input = function()
+const Input = function()
+{
+    // Data members
+    const m_Canvas = Object.freeze(document.getElementById("m_Canvas"));
+
+    const m_CurrentMousePos = Object.preventExtensions([0,0]);
+        
+    const m_Keys = {};
+        
+    // Public interface
+    this.KEY = Object.freeze(Keys);
+
+    this.update = Object.freeze(() =>
     {
-        // Data members
-        const m_Canvas = Object.freeze(document.getElementById("m_Canvas"));
+        mouseUpdate();
+    });
+        
+    this.getKey = Object.freeze((aKey) =>
+    {
+        if (isNaN(aKey)) throw Exceptions.BadArgument;
 
-        const m_CurrentMousePos = Object.preventExtensions([0,0]);
+        return m_Keys[aKey];
+    });
         
-        const m_Keys = {};
+    this.getMouseDelta = Object.freeze(() =>
+    {
+        return m_CurrentMousePos;
+    });
         
-        // Public interface
-        this.KEY = Object.freeze(Keys);
-
-        this.update = Object.freeze(() =>
-        {
-            mouseUpdate();
-        });
-        
-        this.getKey = Object.freeze((aKey) =>
-        {
-            if (isNaN(aKey)) throw Exceptions.BadArgument;
-
-            return m_Keys[aKey];
-        });
-        
-        this.getMouseDelta = Object.freeze(() =>
-        {
-            return m_CurrentMousePos;
-        });
-        
-        // Private methods
-        const mouselock = () =>
-        {
-            m_Canvas.requestPointerLock();
+    // Private methods
+    const mouselock = () =>
+    {
+        m_Canvas.requestPointerLock();
             
-            if ( document.pointerLockElement === m_Canvas || document.mozPointerLockElement === m_Canvas || document.webkitPointerLockElement === m_Canvas )
-            {
-                //document.removeEventListener("mousemove", mouseMove, false);
-            }
-            else 
-            {
-                document.addEventListener("mousemove", mouseMove, false);
-            }
-        };
-        
-        const initMouseHandler = () =>
+        if ( document.pointerLockElement === m_Canvas || document.mozPointerLockElement === m_Canvas || document.webkitPointerLockElement === m_Canvas )
         {
-            m_Canvas.onclick = mouselock;
-            
-            const check_pointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
-
-            if (check_pointerLock)
-            {   
-                m_Canvas.requestPointerLock = m_Canvas.requestPointerLock || m_Canvas.mozRequestPointerLock || m_Canvas.webkitRequestPointerLock;
-                m_Canvas.requestPointerLock();  
-            }
-        };
-        
-        const keyDown = (event) =>
-        {
-            m_Keys[event.keyCode] = true;
-        };
-
-        const keyUp = (event) =>
-        {
-            m_Keys[event.keyCode] = false;
-        };
-        
-        const mouseUpdate = () =>
-        {
-            m_CurrentMousePos = [0,0];
-            
-            if (getKey(Input.KEY.Escape))
-                document.removeEventListener("mousemove", mouseMove, false);
-        };
-        
-        const mouseMove = (e) =>
-        {
-            const movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
-            const movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
-            
-            m_CurrentMousePos = [movementX ,movementY];
-        };
-
-        // Constructors
-        if (arguments.length === 0)
-        {
-            document.onkeydown = keyDown;
-            document.onkeyup   = keyUp;
-
-            Object.keys(this.KEY).forEach((key) =>
-            {
-                m_Keys[Keys[key]] = false;
-            });
-            
-            Object.preventExtensions(m_Keys);
+            //document.removeEventListener("mousemove", mouseMove, false);
         }
-        else
+        else 
         {
-            throw Exceptions.Constructor;
+            document.addEventListener("mousemove", mouseMove, false);
         }
+    };
+        
+    const initMouseHandler = () =>
+    {
+        m_Canvas.onclick = mouselock;
+            
+        const check_pointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
-        Object.freeze(this);
+        if (check_pointerLock)
+        {   
+            m_Canvas.requestPointerLock = m_Canvas.requestPointerLock || m_Canvas.mozRequestPointerLock || m_Canvas.webkitRequestPointerLock;
+            m_Canvas.requestPointerLock();  
+        }
+    };
+        
+    const keyDown = (event) =>
+    {
+        m_Keys[event.keyCode] = true;
+    };
+
+    const keyUp = (event) =>
+    {
+        m_Keys[event.keyCode] = false;
+    };
+        
+    const mouseUpdate = () =>
+    {
+        m_CurrentMousePos = [0,0];
+            
+        if (getKey(Input.KEY.Escape))
+            document.removeEventListener("mousemove", mouseMove, false);
+    };
+        
+    const mouseMove = (e) =>
+    {
+        const movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
+        const movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
+            
+        m_CurrentMousePos = [movementX ,movementY];
+    };
+
+    // Constructors
+    if (arguments.length === 0)
+    {
+        document.onkeydown = keyDown;
+        document.onkeyup   = keyUp;
+
+        Object.keys(this.KEY).forEach((key) =>
+        {
+            m_Keys[Keys[key]] = false;
+        });
+            
+        Object.preventExtensions(m_Keys);
+    }
+    else
+    {
+        throw Exceptions.Constructor;
     }
 
-    Input.prototype = Object.create(Object.prototype);
+    Object.freeze(this);
+}
 
-    return Object.freeze(new Input());
-});
+Input.prototype = Object.create(Object.prototype);
+
+module.exports = Object.freeze(new Input());

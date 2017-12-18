@@ -3,7 +3,7 @@
 // Created on 2017-12-02.
 "use strict";
 
-define(() =>
+module.exports = () =>
 {
     return Object.freeze
     ({
@@ -11,4 +11,4 @@ define(() =>
         Unimplemented : Object.freeze("Unimplemented"),
         BadArgument :   Object.freeze("Bad argument")
     });
-});
+};

@@ -11,6 +11,7 @@ import "Blocky.png"
 import "Awesome.png"
 
 //Eng inc
+//import Timer from "Engine/Time/Timer.js";
 const Timer   = require("Engine/Time/Timer");
 const Debug   = require("Engine/Debug");
 const Input   = require("Engine/Input");
