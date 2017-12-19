@@ -6,3 +6,11 @@
 ![asdf](https://img.shields.io/badge/platforms-web-lightgrey.svg)
 
 Exploring 3D transform and perspective projection capabilities of CSS
+
+## Language Standard
+ES6
+
+## Tools used
+Node
+WebPack
+Jest

@@ -12,32 +12,35 @@ const Debug = function()
     Object.freeze(this);
 }
 
-Debug.prototype.Log = Object.freeze(function(aTag)
+Object.defineProperties(Debug.prototype,
 {
-    if (typeof(aTag) !== 'string') throw Exceptions.BadArgument;
+    "Log": {value: function(aTag)
+    {
+        if (typeof(aTag) !== 'string') throw Exceptions.BadArgument;
 
-    let stringBuffer = "D/" + aTag + ": ";
+        let stringBuffer = "D/" + aTag + ": ";
 
-    [].shift.call(arguments);
+        [].shift.call(arguments);
 
-    for (const arg of arguments)
-        stringBuffer += arg;
+        for (const arg of arguments)
+            stringBuffer += arg;
     
-    console.log(stringBuffer);
-});
+        console.log(stringBuffer);
+    }},
 
-Debug.prototype.Error = Object.freeze(function(aTag)
-{
-    if (typeof(aTag) !== 'string') throw Exceptions.BadArgument;
+    "Error": {value: function(aTag)
+    {
+        if (typeof(aTag) !== 'string') throw Exceptions.BadArgument;
 
-    let stringBuffer = "E/" + aTag + ": ";
+        let stringBuffer = "E/" + aTag + ": ";
 
-    [].shift.call(arguments);
+        [].shift.call(arguments);
     
-    for (const arg of arguments)
-        stringBuffer += arg;
+        for (const arg of arguments)
+            stringBuffer += arg;
         
-    console.log(stringBuffer);
+        console.log(stringBuffer);
+    }}
 });
 
 export default new Debug();

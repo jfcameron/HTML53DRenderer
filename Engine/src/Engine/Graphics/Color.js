@@ -10,17 +10,15 @@ const TAG = "Color";
 
 const Color = function()
 {
-    // Public interface
     this.r = 0;
     this.g = 0;
     this.b = 0;
     this.a = 1;
-        
-    // Constructors
+    
     if (arguments.length === 0)
     {
     }
-    if (arguments.length === 3 || arguments.length === 4)
+    else if (arguments.length === 3 || arguments.length === 4)
     {
         const aR = arguments[0];
         const aG = arguments[1]; 
@@ -47,19 +45,22 @@ const Color = function()
 
 Color.prototype = Object.create(Object.prototype);
 
-Color.prototype.toString = Object.freeze(function() 
+Object.defineProperties(Color.prototype,
 {
-    if (arguments.length !== 0) throw Exceptions.BadArgument;
+    "toString": {value: function()
+    {
+        if (arguments.length !== 0) throw Exceptions.BadArgument;
 
-    return "{" + this.r + ", " + this.g + ", " + this.b + ", " + this.a + "}";
-});
+        return "{" + this.r + ", " + this.g + ", " + this.b + ", " + this.a + "}";
+    }},
 
-Color.prototype.equalTo = Object.freeze(function(aOther)
-{
-    if (arguments.length !== 1)    throw Exceptions.BadArgument;
-    if (!aOther instanceof(Color)) throw Exceptions.BadArgument;
-        
-    return this.r === aOther.r && this.g === aOther.g && this.b === aOther.b && this.a === aOther.a ? true : false; 
+    "equalTo": {value: function(aOther)
+    {
+        if (arguments.length !== 1)    throw Exceptions.BadArgument;
+        if (!aOther instanceof(Color)) throw Exceptions.BadArgument;
+
+        return this.r === aOther.r && this.g === aOther.g && this.b === aOther.b && this.a === aOther.a ? true : false;
+    }}
 });
 
 export default Color;
