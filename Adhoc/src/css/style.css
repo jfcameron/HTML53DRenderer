@@ -6,6 +6,7 @@ body
 {
     background: rgba(100, 149, 237, 255);
 	overflow: hidden;
+	margin:0 auto;
 }
 
 iframe
@@ -16,17 +17,24 @@ iframe
 
 .Camera
 {
-	perspective: 800px;
-	perspective-origin: 50% 100px;
-
+	/*perspective: 800px;
+	perspective-origin: 100px 100px;*/
 	/*transform: "translate3d(0px, 0px, 0px)";*/
 
+	-webkit-perspective:800px;
+	-moz-perspective:800px;
+	perspective:800px;
+	position: absolute;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	font-size: 100%;
 }
 
 .SceneGraph 
 {
-	top:30vh;
-	left:50vw;
+	/*top:30vh;
+	left:50vw;*/
 
 	/*transform: "translate3d(10vw, 10vh, 0vw)";*/
 	
@@ -39,9 +47,7 @@ iframe
 	background-color: rgba(0, 0, 1, 1);
 	/*background-image: url('../img/Blocky.png');*/
 
-
 	position: absolute;
 
 	clip-path: inset(0px 0px 0px 0px);
-
 }
