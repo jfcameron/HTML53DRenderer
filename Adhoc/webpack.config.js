@@ -5,6 +5,13 @@ module.exports =
 {
     resolve: 
     {
+        extensions:
+        [
+            '.tsx',
+            '.ts',
+            '.js'
+        ],
+
         modules: 
         [
             path.resolve('./src/js'),
@@ -18,7 +25,7 @@ module.exports =
 
     context: path.resolve(__dirname, './src/'),
 
-    entry: './js/main.js',
+    entry: './js/main.ts',
 
     output: 
     {
@@ -41,6 +48,12 @@ module.exports =
     {
         rules: 
         [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
+            },
+
             {
                 test: /\.(html|ico)$/,
                 use: 

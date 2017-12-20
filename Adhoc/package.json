@@ -1,42 +1,29 @@
 {
   "name": "webpack-reference",
-  
   "version": "1.0.0",
-  
   "description": "reference material for the js pm webpack",
-  
   "main": "main.js",
-  
-  "scripts": 
-  {
+  "scripts": {
     "build": "webpack",
     "something": "echo 'hello'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  
-  "repository": 
-  {
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/jfcameron/webpack-reference.git"
   },
-  
   "keywords": [],
-  
   "author": "Joseph Cameron",
-  
-  "bugs": 
-  {
+  "bugs": {
     "url": "https://github.com/jfcameron/webpack-reference/issues"
   },
-  
   "homepage": "https://github.com/jfcameron/webpack-reference#readme",
-  
-  "devDependencies": 
-  {
+  "devDependencies": {
     "file-loader": "^1.1.6",
     "html-webpack-plugin": "^2.30.1",
+    "ts-loader": "^3.2.0",
+    "typescript": "^2.6.2",
     "webpack": "^3.10.0"
   },
-  
   "dependencies": {}
 }
