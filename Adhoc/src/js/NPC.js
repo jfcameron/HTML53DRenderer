@@ -11,7 +11,7 @@ const Tag = "NPC";
 
 const NPC = function()
 {
-    const m_Position = new Vector3(0, 0, -10);
+    const m_Position = new Vector3(0, 0, 750);
     const m_Rotation = new Vector3();
     const m_Scale    = new Vector3(1, 1, 1);
 
@@ -39,5 +39,26 @@ const NPC = function()
 };
 
 NPC.prototype = Object.create(Object.prototype);
+NPC.prototype.constructor = NPC;
+
+Object.defineProperties(NPC.prototype,
+{
+    "toString": {value: function()
+    {
+        if (arguments.length !== 0) throw Exceptions.BadArgument;
+            
+        throw Exceptions.Unimplemented;
+    }},
+            
+    "equalTo": {value: function(aOther)
+    {
+        if (arguments.length !== 1)       throw Exceptions.BadArgument;
+        if (!aOther instanceof(Collider)) throw Exceptions.BadArgument;
+            
+        throw Exceptions.Unimplemented;
+    }}
+});
+
+Object.freeze(NPC);
 
 export default NPC;

@@ -17,12 +17,11 @@ function Quad()
 {
     GraphicsObject.call(this);
 
-    // Constructors
     if (arguments.length >= 2 && arguments.length <= 6)
     {
         const aPosition     = arguments[0];
         const aRotation     = arguments[1];
-        const aScale        = new Vector3(1,1,1);//typeof (arguments[2]) !== "undefined" ? arguments[2] : new Vector3(1,1,1);
+        const aScale        = typeof (arguments[2]) !== "undefined" ? arguments[2] : new Vector3(1,1,1);
         const aColor        = typeof (arguments[3]) !== "undefined" ? arguments[3] : Colors.DeathlyPink();
         const aBackfaceCull = typeof (arguments[4]) !== "boolean"   ? arguments[4] : false;
         const aChildNode    = typeof (arguments[5]) !== "undefined" ? arguments[5] : null;
@@ -35,18 +34,25 @@ function Quad()
         if (aChildNode != null) if (!(aChildNode    instanceof Node))        throw Exceptions.Constructor;
             
         const root  = this.GetRootDivHandle();
+
         const front = document.createElement("div");
-    
-        front.style.position        = "absolute";
-        front.style.width           = 100 + "px";
-        front.style.height          = 100 + "px";
-        front.style.transform       = //"translate3d(" + (0) + "px," + (-1/2) + "px," + 0 + "px)" +
-                                          "scale3d("+ aScale.x + "," + aScale.y + "," + aScale.z + ")";
+
+        front.style.position           = "absolute";
+
+        front.style.width           = aScale.x + "px";
+        front.style.height          = aScale.y + "px";
+
+        front.style.transform       = "translate3d(" + (-aScale.x/2) + "px," + (-aScale.y/2) + "px," + 0 + "px)";
 
         front.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
         //front.style.backgroundImage = "url('img/Awesome.png')";
         front.style.backgroundImage = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAbSURBVBhXY/j////Mm68wSQasokByMOr4/x8A0warIZLZpA8AAAAASUVORK5CYII=')";
         front.style.backgroundSize  = "contain";
+
+        /*front.style.borderStyle = "solid solid solid solid";
+        front.style.borderWidth = "1px";
+        front.style.padding = "0px";
+        front.style.boxSizing = "border-box";*/
 
         if (aBackfaceCull)
             front.style.backfaceVisibility = "hidden";

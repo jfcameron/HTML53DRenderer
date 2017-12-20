@@ -27,9 +27,9 @@ function GraphicsObject()
             if (!aScale    instanceof Vector3) throw Exceptions.BadArgument;
 
             m_RootDivHandle.style.transform = 
-                "translate3d(" + aPosition.x + "vw," + aPosition.y + "vw," + aPosition.z + "vw)" + 
-                "rotateX(" + aRotation.x + "deg)" + "rotateY(" + aRotation.y + "deg)" + "rotateZ(" + aRotation.z + "deg)" +
-                "scale3d("+ aScale.x + "," + aScale.y + "," + aScale.z + ")"
+                "translate3d(" + aPosition.x + "px," + aPosition.y + "px," + aPosition.z + "px)" + 
+                "rotateX(" + aRotation.x + "deg)" + "rotateY(" + aRotation.y + "deg)" + "rotateZ(" + aRotation.z + "deg)";
+                //"scale3d("+ aScale.x + "," + aScale.y + "," + aScale.z + ")"
         }}
     });
 
@@ -38,7 +38,7 @@ function GraphicsObject()
     {
         m_RootDivHandle = document.createElement("div");
             
-        m_RootDivHandle.style.position = "relative";
+        m_RootDivHandle.style.position = "absolute";
         m_RootDivHandle.style.transformStyle = "preserve-3d";
             
         document.getElementById("MyHardcodedSceneGraph").appendChild(m_RootDivHandle);

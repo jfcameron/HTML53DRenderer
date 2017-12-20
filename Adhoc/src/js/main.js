@@ -28,11 +28,8 @@ import Vector3 from "Engine/Math/Vector3"
 import GameObject from "GameObject"
 import NPC from "NPC"
 import Player from "Player"
-import Collider from "Collider"
 
 const TAG = "Main";
-
-//const myCollider = new Collider();
 
 (()=>
 {

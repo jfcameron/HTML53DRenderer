@@ -18,7 +18,7 @@ function Cube()
 
     const root = this.GetRootDivHandle();
 
-    const len = 7;
+    const len = 10;
     const hlen = len/2;
 
     root.appendChild(new Quad(new Vector3(0,0, hlen), new Vector3(), new Vector3(len,len,len), new Color(255,0,0,1), true).GetRootDivHandle());

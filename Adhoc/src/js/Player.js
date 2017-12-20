@@ -17,9 +17,9 @@ const TAG = "Player";
 const c_TranslateSpeed = 1;
 const c_RotateSpeed = 1;
 
-const Player = function()
+function Player()
 {
-    const m_Position = new Vector3(0,0,0);
+    const m_Position = new Vector3(0,0,750);
     const m_Rotation = new Vector3();
     const m_Scale = new Vector3(10, 10, 10);
     const m_Sprite = Sprite.createSprite();
@@ -122,6 +122,25 @@ const Player = function()
 
 Player.prototype = Object.create(Object.prototype);
 Player.prototype.constructor = Player;
+
+Object.defineProperties(Player.prototype,
+{
+    "toString": {value: function()
+    {
+        if (arguments.length !== 0) throw Exceptions.BadArgument;
+        
+        throw Exceptions.Unimplemented;
+    }},
+        
+    "equalTo": {value: function(aOther)
+    {
+        if (arguments.length !== 1)       throw Exceptions.BadArgument;
+        if (!aOther instanceof(Collider)) throw Exceptions.BadArgument;
+        
+        throw Exceptions.Unimplemented;
+    }}
+});
+
 Object.freeze(Player);
 
 export default Player;
