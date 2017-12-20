@@ -13,8 +13,10 @@ import Colors from "Engine/Graphics/Colors"
 
 const TAG = "Quad";
 
-const Quad = function()
+function Quad()
 {
+    GraphicsObject.call(this);
+
     // Constructors
     if (arguments.length >= 2 && arguments.length <= 6)
     {
@@ -31,8 +33,6 @@ const Quad = function()
                                 if (!(aColor        instanceof Color))       throw Exceptions.Constructor;
                                 if (!(typeof(aBackfaceCull) === "boolean" )) throw Exceptions.Constructor;
         if (aChildNode != null) if (!(aChildNode    instanceof Node))        throw Exceptions.Constructor;
-
-        GraphicsObject.call(this);
             
         const root  = this.GetRootDivHandle();
         const front = document.createElement("div");
@@ -63,10 +63,30 @@ const Quad = function()
         throw Exceptions.Constructor;
     }
 
-    // Extension rules
     Object.freeze(this);
 };
 
-Quad.prototype = Object.freeze(GraphicsObject.prototype);
+Quad.prototype = Object.create(GraphicsObject.prototype);
+Quad.prototype.constructor = Quad;
+
+Object.defineProperties(Quad.prototype,
+{
+    "toString": {value: function()
+    {
+        if (arguments.length !== 0) throw Exceptions.BadArgument;
+        
+        throw Exceptions.Unimplemented;
+    }},
+        
+    "equalTo": {value: function(aOther)
+    {
+        if (arguments.length !== 1)    throw Exceptions.BadArgument;
+        if (!aOther instanceof(Color)) throw Exceptions.BadArgument;
+        
+        throw Exceptions.Unimplemented;
+    }}
+});
+
+Object.freeze(Quad);
 
 export default Quad;

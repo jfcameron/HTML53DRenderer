@@ -9,28 +9,28 @@ import Vector3 from "Engine/Math/Vector3"
 
 const TAG = "GraphicsObject";
 
-const GraphicsObject = function()
+function GraphicsObject()
 {
-    // Private instanced data
     let m_RootDivHandle = null;
 
-    // Public instanced inteface
-    this.GetRootDivHandle = Object.freeze(() => 
-    { 
-        return m_RootDivHandle; 
-    });
-        
-    this.Update = Object.freeze((aPosition, aRotation, aScale) =>
+    Object.defineProperties(this,
     {
-        if (!aPosition instanceof Vector3) throw Exceptions.BadArgument;
-        if (!aRotation instanceof Vector3) throw Exceptions.BadArgument;
-        if (!aScale    instanceof Vector3) throw Exceptions.BadArgument;
+        "GetRootDivHandle": {value: () =>
+        { 
+            return m_RootDivHandle; 
+        }},
 
-        m_RootDivHandle.style.transform = 
-            "translate3d(" + aPosition.x + "vw," + aPosition.y + "vw," + aPosition.z + "vw)" + 
-            "rotateX(" + aRotation.x + "deg)" + "rotateY(" + aRotation.y + "deg)" + "rotateZ(" + aRotation.z + "deg)" +
-            "scale3d("+ aScale.x + "," + aScale.y + "," + aScale.z + ")"
-        ;
+        "Update": {value: (aPosition, aRotation, aScale) =>
+        {
+            if (!aPosition instanceof Vector3) throw Exceptions.BadArgument;
+            if (!aRotation instanceof Vector3) throw Exceptions.BadArgument;
+            if (!aScale    instanceof Vector3) throw Exceptions.BadArgument;
+
+            m_RootDivHandle.style.transform = 
+                "translate3d(" + aPosition.x + "vw," + aPosition.y + "vw," + aPosition.z + "vw)" + 
+                "rotateX(" + aRotation.x + "deg)" + "rotateY(" + aRotation.y + "deg)" + "rotateZ(" + aRotation.z + "deg)" +
+                "scale3d("+ aScale.x + "," + aScale.y + "," + aScale.z + ")"
+        }}
     });
 
     // Constructors
@@ -38,7 +38,7 @@ const GraphicsObject = function()
     {
         m_RootDivHandle = document.createElement("div");
             
-        m_RootDivHandle.style.position       = "relative";
+        m_RootDivHandle.style.position = "relative";
         m_RootDivHandle.style.transformStyle = "preserve-3d";
             
         document.getElementById("MyHardcodedSceneGraph").appendChild(m_RootDivHandle);
@@ -60,9 +60,36 @@ const GraphicsObject = function()
         throw Exceptions.Constructor;
     }
 
-        Object.freeze(this);
-    };
+    Debug.Log(TAG, this.constructor.name);
+
+    console.log(this);
+
+    if (this.constructor.name === GraphicsObject.name) throw Exceptions.AbstractBaseType;
+
+    Object.freeze(this);
+};
 
 GraphicsObject.prototype = Object.create(Object.prototype);
+GraphicsObject.prototype.constructor = GraphicsObject;
+
+Object.defineProperties(GraphicsObject.prototype,
+{
+    "toString": {value: function()
+    {
+        if (arguments.length !== 0) throw Exceptions.BadArgument;
+    
+        throw Exceptions.Unimplemented;
+    }},
+    
+    "equalTo": {value: function(aOther)
+    {
+        if (arguments.length !== 1)    throw Exceptions.BadArgument;
+        if (!aOther instanceof(Color)) throw Exceptions.BadArgument;
+    
+        throw Exceptions.Unimplemented;
+    }}
+});
+
+Object.freeze(GraphicsObject);
 
 export default GraphicsObject;

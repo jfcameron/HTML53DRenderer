@@ -7,7 +7,7 @@ import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG = "Vector3";
 
-const Vector3 = function()
+function Vector3()
 {
     // Public instance data
     this.x = 0.0;
@@ -20,7 +20,7 @@ const Vector3 = function()
     }
     else if (arguments.length === 1)
     {
-        let aVector3 = arguments[0];
+        const aVector3 = arguments[0];
 
         if (!aVector3 instanceof Vector3) throw Exceptions.Constructor;
 
@@ -30,7 +30,7 @@ const Vector3 = function()
     }
     else if (arguments.length === 3)
     {
-        let aX = arguments[0], aY = arguments[1], aZ = arguments[2];
+        const aX = arguments[0], aY = arguments[1], aZ = arguments[2];
 
         if (isNaN(aX)) throw Exceptions.Constructor;
         if (isNaN(aY)) throw Exceptions.Constructor;
@@ -45,44 +45,60 @@ const Vector3 = function()
         throw Exceptions.Constructor;
     }
 
-    // Extension rules
     Object.preventExtensions(this);
 };
 
 Vector3.prototype = Object.create(Object.prototype);
+Vector3.prototype.constructor = Vector3;
 
-Vector3.prototype.Length = Object.freeze(function()
+Object.defineProperties(Vector3.prototype,
 {
-    if (arguments.length > 0) throw Exceptions.BadArgument;
-
-    return Math.sqrt( Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2) );
-});
-
-Vector3.prototype.Normalize = Object.freeze(function()
-{
-    if (arguments.length > 0) throw Exceptions.BadArgument;
-
-    const magnitude = this.Length();
-        
-    if (magnitude !== 0)
+    "toString": {value: function() 
     {
-        this.x /= magnitude;
-        this.y /= magnitude;
-        this.z /= magnitude;
-    }
-
-    return this;
-});
+        if (arguments.length !== 0) throw Exceptions.BadArgument;
+        
+        return "{" + 
+                    this.x + ", " + 
+                    this.y + ", " + 
+                    this.z + 
+                "}";
+    }},
     
-Vector3.prototype.toString = Object.freeze(function() 
-{
-    if (arguments.length !== 0) throw Exceptions.BadArgument;
+    "equalTo": {value: function(aOther)
+    {
+        if (arguments.length !== 1)    throw Exceptions.BadArgument;
+        if (!aOther instanceof(Color)) throw Exceptions.BadArgument;
+    
+        return  this.x === aOther.x &&
+                this.y === aOther.y && 
+                this.z === aOther.z ? 
+                true : false;
+    }},
+    
+    "Length": {value: function()
+    {
+        if (arguments.length > 0) throw Exceptions.BadArgument;
 
-    return "{" + 
-        this.x + ", " + 
-        this.y + ", " + 
-        this.z + 
-    "}";
+        return Math.sqrt( Math.pow(this.x, 2) + Math.pow(this.y, 2) + Math.pow(this.z, 2) );
+    }},
+
+    "Normalize": {value: function()
+    {
+        if (arguments.length > 0) throw Exceptions.BadArgument;
+        
+        const magnitude = this.Length();
+                
+        if (magnitude !== 0)
+        {
+            this.x /= magnitude;
+            this.y /= magnitude;
+            this.z /= magnitude;
+        }
+        
+        return this;
+    }}
 });
+
+Object.freeze(Vector3);
     
 export default Vector3;

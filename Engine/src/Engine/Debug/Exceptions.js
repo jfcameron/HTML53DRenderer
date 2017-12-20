@@ -5,7 +5,8 @@
 
 export default Object.freeze
 ({
-    Constructor :   "Invalid construction",
-    Unimplemented : "Unimplemented",
-    BadArgument :   "Bad argument"
+    Constructor :      "Invalid construction",
+    Unimplemented :    "Unimplemented",
+    BadArgument :      "Bad argument",
+    AbstractBaseType : "AbstractBaseType"
 });

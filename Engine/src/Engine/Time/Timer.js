@@ -7,30 +7,31 @@ import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG = "Timer";
     
-const Timer = function()
+function Timer()
 {
     let m_IntervalHandle = null; 
     let m_TimeSinceStart = 0;
 
-    // Public interface
     this.getTime = Object.freeze(() =>
     {
         return m_TimeSinceStart;
     });
-        
-    this.setDeltaTime = Object.freeze((aReferenceToAnUpdateFunction, aTimeInMiliseconds) =>
+
+    Object.defineProperties(this,
     {
-        if (typeof(aReferenceToAnUpdateFunction) !== 'function') throw Exceptions.BadArgument;
-        if (isNaN(aTimeInMiliseconds))                           throw Exceptions.BadArgument;
+        "setDeltaTime": {value: (aReferenceToAnUpdateFunction, aTimeInMiliseconds) => 
+        {
+            if (typeof(aReferenceToAnUpdateFunction) !== 'function') throw Exceptions.BadArgument;
+            if (isNaN(aTimeInMiliseconds))                           throw Exceptions.BadArgument;
 
-        clearInterval(aReferenceToAnUpdateFunction);
+            clearInterval(aReferenceToAnUpdateFunction);
 
-        m_IntervalHandle = setInterval(aReferenceToAnUpdateFunction, aTimeInMiliseconds);
+            m_IntervalHandle = setInterval(aReferenceToAnUpdateFunction, aTimeInMiliseconds);
 
-        setInterval(()=>{ m_TimeSinceStart++; }, aTimeInMiliseconds);
+            setInterval(()=>{ m_TimeSinceStart++; }, aTimeInMiliseconds);
+        }}
     });
-
-    // Constructors
+    
     if (arguments.length === 2)
     {
         const updateCallback     = arguments[0];
@@ -46,8 +47,31 @@ const Timer = function()
     {
         throw Exceptions.Constructor;
     }
+
+    Object.preventExtensions(this);
 }
 
 Timer.prototype = Object.create(Object.prototype);
+Timer.prototype.constructor = Timer;
+
+Object.defineProperties(Timer.prototype,
+{
+    "toString": {value: function()
+    {
+        if (arguments.length !== 0) throw Exceptions.BadArgument;
+
+        throw Exceptions.Unimplemented;
+    }},
+
+    "equalTo": {value: function(aOther)
+    {
+        if (arguments.length !== 1)    throw Exceptions.BadArgument;
+        if (!aOther instanceof(Color)) throw Exceptions.BadArgument;
+
+        throw Exceptions.Unimplemented;
+    }}
+});
+
+Object.freeze(Timer);
     
 export default Timer;

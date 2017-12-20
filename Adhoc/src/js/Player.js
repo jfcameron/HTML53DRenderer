@@ -121,11 +121,7 @@ const Player = function()
 };
 
 Player.prototype = Object.create(Object.prototype);
-
-/*Object.defineProperties(Player.prototype,
-{
-    "c_TranslateSpeed": {value: 1},
-    "c_RotateSpeed":    {value: 1}
-});*/
+Player.prototype.constructor = Player;
+Object.freeze(Player);
 
 export default Player;

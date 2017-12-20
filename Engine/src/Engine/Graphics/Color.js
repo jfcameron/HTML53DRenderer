@@ -8,7 +8,7 @@ import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG = "Color";
 
-const Color = function()
+function Color()
 {
     this.r = 0;
     this.g = 0;
@@ -44,6 +44,7 @@ const Color = function()
 };
 
 Color.prototype = Object.create(Object.prototype);
+Color.prototype.constructor = Color;
 
 Object.defineProperties(Color.prototype,
 {
@@ -62,5 +63,7 @@ Object.defineProperties(Color.prototype,
         return this.r === aOther.r && this.g === aOther.g && this.b === aOther.b && this.a === aOther.a ? true : false;
     }}
 });
+
+Object.freeze(Color);
 
 export default Color;

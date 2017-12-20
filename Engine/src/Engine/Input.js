@@ -13,11 +13,10 @@ const Input = function()
 {
     // Data members
     const m_Canvas = Object.freeze(document.getElementById("m_Canvas"));
-
     const m_CurrentMousePos = Object.preventExtensions([0,0]);
-        
+
     const m_Keys = {};
-        
+    
     // Public interface
     this.KEY = Object.freeze(Keys);
 
@@ -115,5 +114,26 @@ const Input = function()
 }
 
 Input.prototype = Object.create(Object.prototype);
+Input.prototype.constructor = Input;
+
+Object.defineProperties(Input.prototype,
+{
+    "toString": {value: function()
+    {
+        if (arguments.length !== 0) throw Exceptions.BadArgument;
+            
+        throw Exceptions.Unimplemented;
+    }},
+            
+    "equalTo": {value: function(aOther)
+    {
+        if (arguments.length !== 1)    throw Exceptions.BadArgument;
+        if (!aOther instanceof(Color)) throw Exceptions.BadArgument;
+            
+        throw Exceptions.Unimplemented;
+    }}
+});
+
+Object.freeze(Input);
 
 export default Object.freeze(new Input());

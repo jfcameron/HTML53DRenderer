@@ -4,31 +4,35 @@
 "use strict";
 
 //Resources
-import "index.html"
-import "favicon.ico"
-import "style.css"
-import "Blocky.png"
 import "Awesome.png"
+import "Blocky.png"
+import "favicon.ico"
+import "index.html"
+import "style.css"
 
 //Eng inc
-import Timer from "Engine/Time/Timer"
-import Debug from "Engine/Debug"
-import Input from "Engine/Input"
-import Vector3 from "Engine/Math/Vector3"
-import Vector2 from "Engine/Math/Vector2"
-import Cube from "Engine/Graphics/Cube"
-import Colors from "Engine/Graphics/Colors"
-import Sprite from "Engine/Graphics/Sprite"
-import Quad from "Engine/Graphics/Quad"
-import Exceptions from "Engine/Debug/Exceptions"
 import Color from "Engine/Graphics/Color"
+import Colors from "Engine/Graphics/Colors"
+import Cube from "Engine/Graphics/Cube"
+import Debug from "Engine/Debug"
+import Exceptions from "Engine/Debug/Exceptions"
+import GraphicsObject from "Engine/Graphics/GraphicsObject"
+import Input from "Engine/Input"
+import Quad from "Engine/Graphics/Quad"
+import Sprite from "Engine/Graphics/Sprite"
+import Timer from "Engine/Time/Timer"
+import Vector2 from "Engine/Math/Vector2"
+import Vector3 from "Engine/Math/Vector3"
 
 //App inc
-import Player from "Player"
-import NPC from "NPC"
 import GameObject from "GameObject"
+import NPC from "NPC"
+import Player from "Player"
+import Collider from "Collider"
 
 const TAG = "Main";
+
+//const myCollider = new Collider();
 
 (()=>
 {
@@ -66,6 +70,10 @@ const TAG = "Main";
     const myPlayer = new Player();
     const myNPC    = new NPC();
 
+//    const asdf = new GraphicsObject();
+
+    //Debug.Log(TAG, myPlayer.constructor.name);
+
     //myPlayer.Update = 0;
     //console.log(myPlayer.prototype);
     //myPlayer.prototype.c_TranslateSpeed = 123;
@@ -97,4 +105,4 @@ const TAG = "Main";
             "translate3d(" + aPosition.x + "vw," + aPosition.y + "vw," + aPosition.z + "vw) " + 
             "rotateX(" + aRotation.x + "deg) " + "rotateY(" + aRotation.y + "deg) " + "rotateZ(" + aRotation.z + "deg) ";*/
     }, 16);
-});//();
+})();

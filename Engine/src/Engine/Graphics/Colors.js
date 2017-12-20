@@ -9,7 +9,7 @@ import Color from "Engine/Graphics/Color"
 
 const TAG = "Colors";
 
-const Colors = function()
+function Colors()
 {
     Object.freeze(this);
 };
@@ -54,10 +54,12 @@ Object.defineProperties(Colors.prototype,
     "CornflowerBlue": {value: () =>
     {
         return new Color(100, 149, 237, 1);
-    }}
+    }},
+
+    "Constants": {value: {}}
 });
 
-Colors.prototype.Constants = Object.freeze(
+Object.defineProperties(Colors.prototype.Constants,
 {
     Black:          Object.freeze(Colors.prototype.Black()),
     White:          Object.freeze(Colors.prototype.White()),
@@ -69,6 +71,6 @@ Colors.prototype.Constants = Object.freeze(
     CornflowerBlue: Object.freeze(Colors.prototype.CornflowerBlue())
 });
 
-Colors.prototype = Object.freeze(Colors.prototype);
+Object.freeze(Colors);
 
 export default new Colors();
