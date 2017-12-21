@@ -19,12 +19,18 @@ class Vector2
 
     public toString(): string
     {
-        return "{" + this.x + ", " + this.y + "}";
+        return "{" + 
+            this.x + ", " + 
+            this.y + 
+        "}";
     }
 
     public equalTo(aOther: Vector2): boolean
     {
-        return this.x === aOther.x && this.y === aOther.y ? true : false;
+        return (
+            this.x === aOther.x && 
+            this.y === aOther.y
+        );
     }
 
     constructor()
