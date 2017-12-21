@@ -6,11 +6,20 @@ import Timer from "Engine/Time/Timer"
 import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
 
+import Vector2 from "Engine/Math/Vector2"
+import Vector3 from "Engine/Math/Vector3"
+
+const TAG: string = "Main";
+
 function Update(): void
 {
     console.log("hello");
 }
 
-Debug.Log("MYTAG", 123, "asdf", true);
+Debug.Log(TAG, 123, "asdf", true);
+
+const myVector2: Vector2 = new Vector2(1,3);
+
+Debug.Log(TAG, myVector2);
 
 const myTimer = new Timer(Update, 16);

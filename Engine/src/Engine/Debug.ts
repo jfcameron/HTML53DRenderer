@@ -8,7 +8,7 @@ const TAG: string = "Debug";
 
 abstract class Debug
 {
-    public static Log = function(aTag: string, ...rest: any[])
+    public static Log(aTag: string, ...rest: any[])
     {
         let stringBuffer: string = "D/" + aTag + ": ";
 
@@ -18,7 +18,7 @@ abstract class Debug
         console.log(stringBuffer);
     }
 
-    public static Error = function(aTag: string, ...rest: any[])
+    public static Error(aTag: string, ...rest: any[])
     {
         let stringBuffer: string = "E/" + aTag + ": ";
 
@@ -26,16 +26,6 @@ abstract class Debug
             stringBuffer += arg;
     
         console.log(stringBuffer);
-    }
-
-    public toString = () : string => 
-    {
-        throw new Exceptions.Unimplemented();
-    }
-
-    public equalTo = () : boolean =>
-    {
-        throw new Exceptions.Unimplemented();
     }
 }
 
