@@ -18,7 +18,7 @@ function Update(): void
 
 Debug.Log(TAG, 123, "asdf", true);
 
-const myVector2: Vector2 = new Vector2(1,3);
+const myVector2: Vector2 = new Vector2(1);
 
 Debug.Log(TAG, myVector2);
 

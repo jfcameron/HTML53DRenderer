@@ -12,22 +12,6 @@ class Vector2
     public x: number = 0;
     public y: number = 0;
 
-    constructor()
-    constructor(aX: number, aY: number)
-    constructor(a1?: any, a2?: any)
-    {
-        if (arguments.length === 0)
-        {
-            this.x = 0;
-            this.y = 0;
-        }
-        else
-        {
-            this.x = a1;
-            this.y = a2;
-        }
-    }
-
     public length(): number
     {
         return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
@@ -41,6 +25,23 @@ class Vector2
     public equalTo(aOther: Vector2): boolean
     {
         return this.x === aOther.x && this.y === aOther.y ? true : false;
+    }
+
+    constructor()
+    constructor(aVector2: Vector2)
+    constructor(aX: number, aY: number)
+    constructor(a1?: any, a2?: any)
+    {
+        if (arguments.length === 1)
+        {
+            this.x = a1.x;
+            this.y = a1.y;
+        }
+        else if (arguments.length === 2)
+        {
+            this.x = a1;
+            this.y = a2;
+        }
     }
 };
 

@@ -42,13 +42,23 @@ class Vector3
         throw new Exceptions.Unimplemented();
     }
 
-    constructor(aVector3: Vector3 = {} as Vector3)
-    {
-        let {x = 0, y = 0, z = 0} = aVector3;
-        
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    constructor()
+    constructor(aVector3: Vector3)
+    constructor(aX: number, aY: number, aZ: number)
+    constructor(a1?: any, a2?: any, a3?: any)
+    {   
+        if (arguments.length === 1)
+        {
+            this.x = a1.x;
+            this.y = a1.y;
+            this.z = a1.z;
+        }
+        else if (arguments.length === 3)
+        {
+            this.x = a1;
+            this.y = a2;
+            this.z = a3;
+        }
     }
 };
 
