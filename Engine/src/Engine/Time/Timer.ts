@@ -1,8 +1,10 @@
 // © 2017 Joseph Cameron - All Rights Reserved
-// Project: CSS3DRenderer
+// Project: HTML53DRenderer
 // Created on 2017-12-20.
 
 import Exceptions from "Engine/Debug/Exceptions"
+
+const TAG: string = "Timer";
 
 interface updateSignature { (): void }
 
@@ -10,6 +12,11 @@ class Timer
 {
     private readonly m_IntervalHandle: number; 
     private m_TimeSinceStart: number;
+
+    public getElapsedTime(): number
+    {
+        return this.m_TimeSinceStart;
+    }
 
     public clear(): void
     {

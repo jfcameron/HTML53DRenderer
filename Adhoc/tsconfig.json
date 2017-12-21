@@ -7,7 +7,8 @@
     "target": "es5",
     "jsx": "react",
     "allowJs": true,
-
+    "alwaysStrict": true,
+    "version": true,
 
     "baseUrl": ".",
     "paths": 
