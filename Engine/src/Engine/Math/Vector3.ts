@@ -34,12 +34,19 @@ class Vector3
 
     public toString(): string
     {
-        throw new Exceptions.Unimplemented();
+        return "{" + 
+                    this.x + ", " + 
+                    this.y + ", " + 
+                    this.z + 
+                "}";
     }
 
     public equalTo(aOther: Vector3): boolean
     {
-        throw new Exceptions.Unimplemented();
+        return  this.x === aOther.x &&
+                this.y === aOther.y && 
+                this.z === aOther.z ? 
+                true : false;
     }
 
     constructor()
