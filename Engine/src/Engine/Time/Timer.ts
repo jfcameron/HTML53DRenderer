@@ -2,16 +2,41 @@
 // Project: CSS3DRenderer
 // Created on 2017-12-20.
 
+import Exceptions from "Engine/Debug/Exceptions"
+
+interface updateSignature { (): void }
+
 class Timer
 {
-    fullName: string;
+    private readonly m_IntervalHandle: number; 
+    private m_TimeSinceStart: number;
 
-    //let m_IntervalHandle = null; 
-    //let m_TimeSinceStart = 0;
-
-    constructor(public firstName: string, public middleInitial: string, public lastName: string) 
+    public clear(): void
     {
-        this.fullName = firstName + " " + middleInitial + " " + lastName;
+        clearInterval(this.m_IntervalHandle);
+    }
+
+    public toString = () : string => 
+    {
+        throw new Exceptions.Unimplemented();
+    }
+
+    public equalTo = () : boolean =>
+    {
+        throw new Exceptions.Unimplemented();
+    }
+
+    constructor(aUpdateCallback: updateSignature, aTimeInMiliseconds: number) 
+    {
+        this.m_IntervalHandle = setInterval
+        (
+            () =>
+            {
+                aUpdateCallback();
+                this.m_TimeSinceStart++;
+            }, 
+            aTimeInMiliseconds
+        );
     }
 }
 
