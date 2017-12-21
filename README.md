@@ -8,9 +8,10 @@
 Exploring 3D transform and perspective projection capabilities of HTML5's transform style
 
 ## Language Standard
-ES6
+Moving from ES6 to TypeScript 2.6.2.
 
 ## Tools used
 Node
 WebPack
 Jest
+Typescript
