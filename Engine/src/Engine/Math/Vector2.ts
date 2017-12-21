@@ -38,6 +38,8 @@ class Vector2
     constructor(aX: number, aY: number)
     constructor(a1?: any, a2?: any)
     {
+        if (!(this instanceof Vector2)) throw new Exceptions.Sealed();
+        
         if (arguments.length === 1)
         {
             this.x = a1.x;

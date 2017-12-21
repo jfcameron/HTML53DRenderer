@@ -2,6 +2,7 @@
 // Project: CSS3DRenderer
 // Created on 2017-12-02.
 "use strict";
+"DEPRECATED";
 
 import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"

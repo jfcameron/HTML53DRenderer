@@ -55,6 +55,8 @@ class Vector3
     constructor(aX: number, aY: number, aZ: number)
     constructor(a1?: any, a2?: any, a3?: any)
     {   
+        if (!(this instanceof Vector3)) throw new Exceptions.Sealed();
+
         if (arguments.length === 1)
         {
             this.x = a1.x;

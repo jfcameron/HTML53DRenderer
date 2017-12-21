@@ -6,9 +6,14 @@ import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG: string = "Debug";
 
+interface toStringAble 
+{
+    toString(): string;
+}
+
 abstract class Debug
 {
-    public static Log(aTag: string, ...rest: any[])
+    public static Log(aTag: string, ...rest: toStringAble[])
     {
         let stringBuffer: string = "D/" + aTag + ": ";
 
@@ -18,7 +23,7 @@ abstract class Debug
         console.log(stringBuffer);
     }
 
-    public static Error(aTag: string, ...rest: any[])
+    public static Error(aTag: string, ...rest: toStringAble[])
     {
         let stringBuffer: string = "E/" + aTag + ": ";
 

@@ -13,6 +13,16 @@ module Exceptions
             this.stack = (<any> new Error()).stack;
         }
     }
+
+    export class Sealed extends Error 
+    {
+        constructor()
+        {
+            super("Sealed");
+            this.name = "Sealed";
+            this.stack = (<any> new Error()).stack;
+        }
+    }
 }
 
 export default Exceptions;

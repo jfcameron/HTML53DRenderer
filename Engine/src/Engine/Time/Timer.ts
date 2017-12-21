@@ -23,17 +23,7 @@ class Timer
         clearInterval(this.m_IntervalHandle);
     }
 
-    public toString = () : string => 
-    {
-        throw new Exceptions.Unimplemented();
-    }
-
-    public equalTo = () : boolean =>
-    {
-        throw new Exceptions.Unimplemented();
-    }
-
-    constructor(aUpdateCallback: updateSignature, aTimeInMiliseconds: number) 
+    constructor(aTimeInMiliseconds: number, aUpdateCallback: updateSignature) 
     {
         this.m_IntervalHandle = setInterval
         (
