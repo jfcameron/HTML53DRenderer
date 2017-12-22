@@ -2,9 +2,12 @@
 // Project: HTML53DRenderer
 // Created on 2017-12-21.
 
+import Debug from "Engine/Debug"
 import Vector3 from "Engine/Math/Vector3"
 import Color from "Engine/Graphics/Color"
 import Colors from "Engine/Graphics/Colors"
+
+const TAG: string = "Shapes";
 
 module Shapes
 {
@@ -26,7 +29,7 @@ module Shapes
         face.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
         face.style.backgroundImage = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAbSURBVBhXY/j////Mm68wSQasokByMOr4/x8A0warIZLZpA8AAAAASUVORK5CYII=')";
         face.style.backgroundSize  = "contain";
-        face.style.backfaceVisibility = "hidden";
+        //face.style.backfaceVisibility = "hidden";
         //face.style.backgroundImage = "url('img/Awesome.png')";
 
         return face;
@@ -34,21 +37,75 @@ module Shapes
 
     export function Cube(aPosition: Vector3, aRotation: Vector3, aScale: Vector3): Array<HTMLDivElement>
     {
-        const output: Array<HTMLDivElement> = new Array<HTMLDivElement>();
+        return Voxel(aPosition, aRotation, aScale, true, true, true, true, true, true);
+    }
 
-        //const size = 100;
-        //const hsize = size/2;
+    export function Voxel(aPosition: Vector3, aRotation: Vector3, aScale: Vector3, aNorth: boolean, aSouth: boolean, aEast: boolean, aWest: boolean, aUp: boolean, aDown: boolean): Array<HTMLDivElement>
+    {
+        const output: Array<HTMLDivElement> = new Array<HTMLDivElement>();
 
         const hsize = new Vector3(aScale.x/2, aScale.y/2, aScale.z/2);
 
-        output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z +  hsize.z), new Vector3(aRotation.x + 0, aRotation.y +   0, aRotation.z + 0), aScale));
-        output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z + -hsize.z), new Vector3(aRotation.x + 0, aRotation.y + 180, aRotation.z + 0), aScale));
+        if (aNorth)
+            output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z +  hsize.z), new Vector3(aRotation.x + 0, aRotation.y +   0, aRotation.z + 0), aScale));
+        
+        if (aSouth)
+            output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z + -hsize.z), new Vector3(aRotation.x + 0, aRotation.y + 180, aRotation.z + 0), aScale));
 
-        output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + aPosition.z +  hsize.y,  0), new Vector3(aRotation.x + 90, aRotation.y + 180, aRotation.z + 0), aScale));
-        output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + aPosition.z + -hsize.y,  0), new Vector3(aRotation.x + 90, aRotation.y +   0, aRotation.z + 0), aScale));
+        if (aEast)
+            output.push(Quad(new Vector3(aPosition.x + -hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y + 270, aRotation.z + 0), aScale));
 
-        output.push(Quad(new Vector3(aPosition.x +  hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y +  90, aRotation.z + 0), aScale));
-        output.push(Quad(new Vector3(aPosition.x + -hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y + 270, aRotation.z + 0), aScale));
+        if (aWest)
+            output.push(Quad(new Vector3(aPosition.x +  hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y +  90, aRotation.z + 0), aScale));
+        
+        if (aUp)    
+            output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + aPosition.z + -hsize.y,  0), new Vector3(aRotation.x + 90, aRotation.y +   0, aRotation.z + 0), aScale));
+
+        if (aDown)    
+            output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + aPosition.z +  hsize.y,  0), new Vector3(aRotation.x + 90, aRotation.y + 180, aRotation.z + 0), aScale));
+                
+        return output;
+    }
+
+    export function VoxelField(aDataField: number[][][]): Array<HTMLDivElement>
+    {
+        /*Debug.Log(TAG, aDataField
+            [1]//z
+            [0]//y
+            [1]//x
+        );*/
+
+        const voxelSize = new Vector3(10,10,10);
+
+        const output: Array<HTMLDivElement> = new Array<HTMLDivElement>();
+
+        let zi = 0;
+        for(const zPlane of aDataField)
+        {
+            let yi = 0;//zPlane.length-1;
+
+            for (const yLine of zPlane)
+            {
+                let xi = 0;
+
+                for (const xPos of yLine)
+                {
+                    if (aDataField[zi][yi][xi] !== 0)
+                    {
+                        const voxbuff: Array<HTMLDivElement> = Cube(new Vector3(xi*voxelSize.x,yi*voxelSize.y,zi*voxelSize.z),new Vector3(0,0,0),voxelSize);
+
+                        for (const vox of voxbuff)
+                            output.push(vox);
+                    }
+
+                    xi++;
+                }
+
+                yi++;
+            }
+
+            zi++;
+        }
 
         return output;
     }
