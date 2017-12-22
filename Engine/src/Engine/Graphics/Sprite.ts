@@ -11,7 +11,7 @@ class Sprite
 {
     private readonly m_Canvas  = document.createElement("canvas");
     private readonly m_Context = this.m_Canvas.getContext('2d');
-    private readonly m_Image   = new Image();
+    private readonly m_Image: HTMLImageElement;
 
     public toString(): string
     {
@@ -25,12 +25,16 @@ class Sprite
 
     public Update(aU: number, aV: number, cellWidth: number, cellHeight: number): void
     {
+        
+
         this.m_Context.clearRect(0, 0, this.m_Canvas.width, this.m_Canvas.height);
 
         this.m_Context.drawImage(this.m_Image, aU * cellWidth, aV * cellHeight, cellWidth, cellHeight, 0, 0, this.m_Canvas.width, this.m_Canvas.height);
     }
 
+    constructor(aDiv: HTMLDivElement, aImage: HTMLImageElement)
     constructor(aDiv: HTMLDivElement, aImageURL: string)
+    constructor(aDiv: HTMLDivElement, aData?: any)
     {
         if (!(this instanceof Sprite)) throw new Exceptions.Sealed();
 
@@ -39,14 +43,22 @@ class Sprite
 
         this.m_Context.webkitImageSmoothingEnabled = false;
         this.m_Context.imageSmoothingEnabled       = false;
-        
-        this.m_Image.src = aImageURL;
-        this.m_Image.onload = () =>
-        {
-            this.Update(0, 0, this.m_Canvas.width, this.m_Canvas.height);
-        };
 
         aDiv.appendChild(this.m_Canvas);
+        
+        if (typeof aData === "string")
+        {
+            this.m_Image = new Image();
+            this.m_Image.src = aData;
+        }
+        else if (aData instanceof HTMLImageElement)
+        {
+            this.m_Image = aData;
+        }
+
+        this.m_Image.complete ? 
+            this.Update(0, 0, this.m_Canvas.width, this.m_Canvas.height): 
+            this.m_Image.onload = () => { this.Update(0, 0, this.m_Canvas.width, this.m_Canvas.height);};
     }
 };
 

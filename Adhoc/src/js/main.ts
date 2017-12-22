@@ -27,8 +27,20 @@ const TAG: string = "Main";
 
 Mouse.test();
 
+const sh = Shapes.Quad(new Vector3(), new Vector3(), new Vector3(100,100,100));
+const sp = new Sprite(sh, "img/Blocky.png");
+const go = new GraphicsObject(sh);
+
+const pos = new Vector3();
+const rot = new Vector3();
+const sca = new Vector3(1,1,1);
+
+const updater: Array<string> = new Array<string>();
+
 const myTimer = new Timer(16,() =>
 {
-    //Debug.Log(TAG, Keyboard.getKey("Digit1"));
-    
+    rot.x += 1;
+
+    sp.Update(0,0,16,17);
+    go.Update(pos,rot,sca);
 });
