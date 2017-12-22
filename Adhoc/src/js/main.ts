@@ -25,8 +25,6 @@ import Mouse from "Engine/Input/Mouse"
 
 const TAG: string = "Main";
 
-Mouse.test();
-
 const sh = Shapes.Quad(new Vector3(), new Vector3(), new Vector3(100,100,100));
 const sp = new Sprite(sh, "img/Blocky.png");
 const go = new GraphicsObject(sh);
@@ -43,4 +41,8 @@ const myTimer = new Timer(16,() =>
 
     sp.Update(0,0,16,17);
     go.Update(pos,rot,sca);
+
+    Debug.Log(TAG, Mouse.getDelta());
+    
+    Mouse.update();
 });

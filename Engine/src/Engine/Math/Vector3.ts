@@ -50,6 +50,13 @@ class Vector3
         );
     }
 
+    public set(aX: number, aY: number, aZ: number)
+    {
+        this.x = aX;
+        this.y = aY;
+        this.z = aZ;
+    }
+
     constructor()
     constructor(aVector3: Vector3)
     constructor(aX: number, aY: number, aZ: number)
@@ -59,15 +66,11 @@ class Vector3
 
         if (arguments.length === 1)
         {
-            this.x = a1.x;
-            this.y = a1.y;
-            this.z = a1.z;
+            this.set(a1.x, a1.y, a1.z);
         }
         else if (arguments.length === 3)
         {
-            this.x = a1;
-            this.y = a2;
-            this.z = a3;
+            this.set(a1, a2, a3);
         }
     }
 };

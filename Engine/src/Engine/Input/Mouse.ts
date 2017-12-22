@@ -10,24 +10,59 @@ const TAG: string = "Mouse";
 
 class Mouse
 {
-    private m_Position: Vector2 = new Vector2();
+    private m_Buttons: {[code: number]: boolean} = {};
+
+    private m_ClientPosition: Vector2 = new Vector2();
     private m_Delta: Vector2 = new Vector2();
 
-    public test(): void {}
+    public getButton(aButton: number): boolean
+    {
+        return this.m_Buttons[aButton] != undefined ? this.m_Buttons[aButton] : false;
+    }
 
-    public lock(aCanvas: HTMLCanvasElement): void {throw new Exceptions.Unimplemented;}
-    public unlock(): void {throw new Exceptions.Unimplemented;}
+    public lock(aCanvas: HTMLCanvasElement): void 
+    {
+        aCanvas.requestPointerLock();
+    }
+
+    public unlock(): void 
+    {
+        document.exitPointerLock();
+    }
     
-    public getScreenPosition(): Vector2 {throw new Exceptions.Unimplemented;}
-    public getDelta(): Vector2 {throw new Exceptions.Unimplemented;}
+    public getViewportPosition(): Vector2 
+    {
+        return this.m_ClientPosition;
+    }
+
+    public getDelta(): Vector2 
+    {
+        return this.m_Delta;
+    }
+
+    public update()
+    {
+        this.m_Delta.set(0,0);
+    }
 
     constructor()
     {
         if (!(this instanceof Mouse)) throw new Exceptions.Sealed();
 
+        document.body.onmousedown = (event: MouseEvent) =>
+        {
+            this.m_Buttons[event.button] = true;
+        };
+
+        document.body.onmouseup = (event: MouseEvent) =>
+        {
+            this.m_Buttons[event.button] = false;
+        };
+
         document.addEventListener("mousemove", (event: MouseEvent) =>
         {
-            console.log(event);
+            this.m_Delta.set(event.movementX, event.movementY);
+            this.m_ClientPosition.set(event.clientX, event.clientY);
         }, 
         false);
     }

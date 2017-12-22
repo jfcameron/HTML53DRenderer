@@ -33,6 +33,12 @@ class Vector2
         );
     }
 
+    public set(aX: number, aY: number)
+    {
+        this.x = aX;
+        this.y = aY;
+    }
+
     constructor()
     constructor(aVector2: Vector2)
     constructor(aX: number, aY: number)
@@ -42,13 +48,11 @@ class Vector2
         
         if (arguments.length === 1)
         {
-            this.x = a1.x;
-            this.y = a1.y;
+            this.set(a1.x, a1.y);
         }
         else if (arguments.length === 2)
         {
-            this.x = a1;
-            this.y = a2;
+            this.set(a1, a2);
         }
     }
 };
