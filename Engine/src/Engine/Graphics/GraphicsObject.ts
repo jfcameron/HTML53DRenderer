@@ -10,7 +10,7 @@ const TAG: string = "GraphicsObject";
 
 class GraphicsObject
 {
-    protected readonly m_RootDivHandle : HTMLDivElement = document.createElement("div");
+    private readonly m_RootDivHandle : HTMLDivElement = document.createElement("div");
 
     public Update(aPosition: Vector3, aRotation: Vector3, aScale: Vector3): void
     {

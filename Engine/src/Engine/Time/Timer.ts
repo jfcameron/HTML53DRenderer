@@ -11,7 +11,7 @@ interface updateSignature { (): void }
 class Timer
 {
     private readonly m_IntervalHandle: number; 
-    private m_TimeSinceStart: number;
+    private m_TimeSinceStart: number = 0;
 
     public getElapsedTime(): number
     {
