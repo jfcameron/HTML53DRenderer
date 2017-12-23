@@ -12,7 +12,7 @@ class GraphicsObject
 {
     private readonly m_RootDivHandle : HTMLDivElement = document.createElement("div");
 
-    public Update(aPosition: Vector3, aRotation: Vector3, aScale: Vector3): void
+    public draw(aPosition: Vector3, aRotation: Vector3, aScale: Vector3): void
     {
         this.m_RootDivHandle.style.transform = 
             "translate3d(" + aPosition.x + "px," +          aPosition.y + "px," +          aPosition.z + "px)" + 
@@ -60,15 +60,15 @@ class GraphicsObject
 
         if (arguments.length === 1)
         {
-            this.Update(new Vector3(), new Vector3(), new Vector3(1, 1, 1));
+            this.draw(new Vector3(), new Vector3(), new Vector3(1, 1, 1));
         }
         else if (arguments.length === 3)
         {
-            this.Update(a2, a3, new Vector3(1, 1, 1));
+            this.draw(a2, a3, new Vector3(1, 1, 1));
         }
         else if (arguments.length === 4)
         {
-            this.Update(a2, a3, a4);
+            this.draw(a2, a3, a4);
         }
     }
 };

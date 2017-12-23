@@ -23,10 +23,8 @@ class Sprite
         throw new Exceptions.Unimplemented();
     }
 
-    public Update(aU: number, aV: number, cellWidth: number, cellHeight: number): void
+    public draw(aU: number, aV: number, cellWidth: number, cellHeight: number): void
     {
-        
-
         this.m_Context.clearRect(0, 0, this.m_Canvas.width, this.m_Canvas.height);
 
         this.m_Context.drawImage(this.m_Image, aU * cellWidth, aV * cellHeight, cellWidth, cellHeight, 0, 0, this.m_Canvas.width, this.m_Canvas.height);
@@ -57,8 +55,8 @@ class Sprite
         }
 
         this.m_Image.complete ? 
-            this.Update(0, 0, this.m_Canvas.width, this.m_Canvas.height): 
-            this.m_Image.onload = () => { this.Update(0, 0, this.m_Canvas.width, this.m_Canvas.height);};
+            this.draw(0, 0, this.m_Canvas.width, this.m_Canvas.height): 
+            this.m_Image.onload = () => { this.draw(0, 0, this.m_Canvas.width, this.m_Canvas.height);};
     }
 };
 

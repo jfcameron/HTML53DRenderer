@@ -46,65 +46,48 @@ module Shapes
 
         const hsize = new Vector3(aScale.x/2, aScale.y/2, aScale.z/2);
 
-        if (aNorth)
-            output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z +  hsize.z), new Vector3(aRotation.x + 0, aRotation.y +   0, aRotation.z + 0), aScale));
+        if (aNorth) output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z +  hsize.z), new Vector3(aRotation.x + 0, aRotation.y +   0, aRotation.z + 0), aScale));
+        if (aSouth) output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z + -hsize.z), new Vector3(aRotation.x + 0, aRotation.y + 180, aRotation.z + 0), aScale));
+
+        if (aEast) output.push(Quad(new Vector3(aPosition.x + -hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y + 270, aRotation.z + 0), aScale));
+        if (aWest) output.push(Quad(new Vector3(aPosition.x +  hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y +  90, aRotation.z + 0), aScale));
         
-        if (aSouth)
-            output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z + -hsize.z), new Vector3(aRotation.x + 0, aRotation.y + 180, aRotation.z + 0), aScale));
-
-        if (aEast)
-            output.push(Quad(new Vector3(aPosition.x + -hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y + 270, aRotation.z + 0), aScale));
-
-        if (aWest)
-            output.push(Quad(new Vector3(aPosition.x +  hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y +  90, aRotation.z + 0), aScale));
-        
-        if (aUp)    
-            output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + aPosition.z + -hsize.y,  0), new Vector3(aRotation.x + 90, aRotation.y +   0, aRotation.z + 0), aScale));
-
-        if (aDown)    
-            output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + aPosition.z +  hsize.y,  0), new Vector3(aRotation.x + 90, aRotation.y + 180, aRotation.z + 0), aScale));
+        if (aUp)   output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + aPosition.z + -hsize.y,  0), new Vector3(aRotation.x + 90, aRotation.y +   0, aRotation.z + 0), aScale));
+        if (aDown) output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + aPosition.z +  hsize.y,  0), new Vector3(aRotation.x + 90, aRotation.y + 180, aRotation.z + 0), aScale));
                 
         return output;
     }
 
     export function VoxelField(aDataField: number[][][]): Array<HTMLDivElement>
     {
-        /*Debug.Log(TAG, aDataField
-            [1]//z
+        Debug.Log(TAG, aDataField
+            [0]//z
             [0]//y
             [1]//x
-        );*/
+        );
 
         const voxelSize = new Vector3(10,10,10);
 
         const output: Array<HTMLDivElement> = new Array<HTMLDivElement>();
-
-        let zi = 0;
-        for(const zPlane of aDataField)
-        {
-            let yi = 0;//zPlane.length-1;
-
-            for (const yLine of zPlane)
+        let count = 0;
+        //for(let zi = 0; zi < aDataField.length; ++zi)
+        {const zi = 2;
+            for (let yi = 0; yi < aDataField[0].length; ++yi)
             {
-                let xi = 0;
-
-                for (const xPos of yLine)
+                for (let xi = 0; xi < aDataField[0][0].length; ++xi)
                 {
+                    count ++;
+                    console.log("voxel ", count, ": ", xi,", ",yi,", ",zi," val: ",aDataField[zi][yi][xi]);
+
                     if (aDataField[zi][yi][xi] !== 0)
                     {
-                        const voxbuff: Array<HTMLDivElement> = Cube(new Vector3(xi*voxelSize.x,yi*voxelSize.y,zi*voxelSize.z),new Vector3(0,0,0),voxelSize);
+                        const voxbuff: Array<HTMLDivElement> = Cube(new Vector3(xi * voxelSize.x, yi * voxelSize.y, zi * voxelSize.z), new Vector3(0,0,0), voxelSize);
 
                         for (const vox of voxbuff)
                             output.push(vox);
                     }
-
-                    xi++;
                 }
-
-                yi++;
             }
-
-            zi++;
         }
 
         return output;

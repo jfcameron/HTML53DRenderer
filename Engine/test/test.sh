@@ -1,3 +1,4 @@
 #!/bin/bash
-cd test
+#!/bin/sh
+
 npm run test

@@ -25,24 +25,59 @@ import Mouse from "Engine/Input/Mouse"
 
 const TAG: string = "Main";
 
-const sh = Shapes.Quad(new Vector3(), new Vector3(), new Vector3(100,100,100));
-const sp = new Sprite(sh, "img/Blocky.png");
-const go = new GraphicsObject(sh);
-
 const pos = new Vector3();
 const rot = new Vector3();
-const sca = new Vector3(1,1,1);
+const sca = new Vector3(10,10,10);
 
-const updater: Array<string> = new Array<string>();
+const voxdat = 
+[
+    [
+        [1,0,1],
+        [0,1,0],
+        [1,0,1]
+    ],
 
+    [
+        [1,0,1],
+        [0,1,0],
+        [1,0,1]
+    ],
+
+    [
+        [1,0,1],
+        [0,1,0],
+        [1,0,1]
+    ]
+];
+
+const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);
+
+//=========
+// Mainline
+//=========
 const myTimer = new Timer(16,() =>
 {
-    rot.x += 1;
+    if (Keyboard.getKey("KeyA")) rot.y += 1;
+    if (Keyboard.getKey("KeyD")) rot.y -= 1;
+    if (Keyboard.getKey("KeyW")) rot.x -= 1;
+    if (Keyboard.getKey("KeyS")) rot.x += 1;
 
-    sp.Update(0,0,16,17);
-    go.Update(pos,rot,sca);
+    if (Keyboard.getKey("ArrowUp"))    pos.z += 3;
+    if (Keyboard.getKey("ArrowDown"))  pos.z -= 3;
+    if (Keyboard.getKey("ArrowLeft"))  pos.x += 3;
+    if (Keyboard.getKey("ArrowRight")) pos.x -= 3;
 
-    Debug.Log(TAG, Mouse.getDelta());
-    
     Mouse.update();
 });
+
+(()=>
+{
+    const draw = (timestamp: number) =>
+    {
+        gfxobj.draw(pos,rot,sca);
+
+        window.requestAnimationFrame(draw);
+    }
+
+    window.requestAnimationFrame(draw);
+})();
