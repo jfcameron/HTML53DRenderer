@@ -40,7 +40,7 @@ class Mouse
         return this.m_Delta;
     }
 
-    public update()
+    public update(): void
     {
         this.m_Delta.set(0,0);
     }
