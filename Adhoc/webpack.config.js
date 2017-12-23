@@ -109,9 +109,16 @@ module.exports = (env) =>
         [
             new webpack.optimize.UglifyJsPlugin
             ({
-                minimize: true,
+                parallel: true,
                 mangle: true,
-                compress: true,
+
+                minimize: true,
+                
+                compress: 
+                {
+                    passes: 10
+                },
+
                 warnings: true
             }),
         ]

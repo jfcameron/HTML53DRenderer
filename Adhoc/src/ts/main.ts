@@ -50,7 +50,9 @@ const voxdat =
     ]
 ];
 
-const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);
+//Cube(aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
+//const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);
+const gfxobj = new GraphicsObject(Shapes.Cube(new Vector3(0,0,10), new Vector3(), new Vector3(10,10,10)),pos,rot,sca);
 
 //=========
 // Mainline
@@ -81,3 +83,5 @@ const myTimer = new Timer(16,() =>
 
     window.requestAnimationFrame(draw);
 })();
+
+Debug.Log("hello");
