@@ -1,5 +1,5 @@
-const path    = require('path');
 const webpack = require("webpack");
+const path    = require('path');
 
 module.exports = (env) =>
 {
@@ -12,14 +12,12 @@ module.exports = (env) =>
         {
             extensions:
             [
-                '.tsx',
                 '.ts',
                 '.js'
             ],
 
             modules: 
             [
-                path.resolve('./src/js'),
                 path.resolve('./src/css'),
                 path.resolve('./src/img'),
                 path.resolve('./src/html'),
@@ -48,12 +46,13 @@ module.exports = (env) =>
             [
                 {
                     test: /\.tsx?$/,
-                    use: 'ts-loader',
-                    exclude: /node_modules/
+                    exclude: /node_modules/,
+                    use: 'ts-loader'
                 },
 
                 {
                     test: /\.(html|ico)$/,
+                    exclude: /node_modules/,
                     use: 
                     [
                         {
@@ -63,12 +62,12 @@ module.exports = (env) =>
                                 name: '[name].[ext]'
                             }  
                         }
-                    ],
-                    exclude: /node_modules/
+                    ]
                 },
 
                 {
                     test: /\.(css)$/,
+                    exclude: /node_modules/,
                     use: 
                     [
                         {
@@ -78,12 +77,12 @@ module.exports = (env) =>
                                 name: '/css/[name].[ext]'
                             }  
                         }
-                    ],
-                    exclude: /node_modules/
+                    ]
                 },
 
                 {
                     test: /\.(png|jpg|gif)$/,
+                    exclude: /node_modules/,
                     use: 
                     [
                         {
@@ -93,8 +92,7 @@ module.exports = (env) =>
                                 name: '/img/[name].[ext]'
                             }  
                         }
-                    ],
-                    exclude: /node_modules/
+                    ]
                 }
             ]
         }
@@ -107,7 +105,6 @@ module.exports = (env) =>
 
     const releasecfg =
     {
-
         plugins: 
         [
             new webpack.optimize.UglifyJsPlugin
