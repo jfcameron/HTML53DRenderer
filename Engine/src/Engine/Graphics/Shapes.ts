@@ -23,24 +23,24 @@ module Shapes
         face.style.width           = aScale.x + "px";
         face.style.height          = aScale.y + "px";
 
-        
-        face.style.transform = 
+        /*face.style.transform = 
         "translate3d(" + ((-aScale.x/2) + (aPosition.x)) + "px," + (((-aScale.y/2)) + ((aPosition.y))) + "px," + ((0) + (aPosition.z)) + "px)" +
         "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
-        "";
-        
-
-        /*face.style.transform =
-        "translate3d(" + aPosition.x + "px," +          aPosition.y + "px," +          aPosition.z + "px)" +
-        "scale3d(" +     aScale.x +    "," +            aScale.y +    "," +            aScale.z + ")" +    
-        "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
         "";*/
+
+        face.style.transform = 
+            "translate3d(" + aPosition.x + "px," +          (aPosition.y) + "px," +          aPosition.z + "px)" + 
+            "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" + //wrong
+            //"scale3d(" +     aScale.x +    "," +            aScale.y +    "," +            aScale.z + ")"
+        "";
 
         face.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
         face.style.backgroundImage = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAbSURBVBhXY/j////Mm68wSQasokByMOr4/x8A0warIZLZpA8AAAAASUVORK5CYII=')";
         face.style.backgroundSize  = "contain";
         //face.style.backfaceVisibility = "hidden";
         //face.style.backgroundImage = "url('img/Awesome.png')";
+
+        (<any>face.style).willChange = "transform"; //prevents composite draw stage issues
 
         return face;
     }
@@ -70,18 +70,18 @@ module Shapes
 
     export function VoxelField(aDataField: number[][][]): Array<HTMLDivElement>
     {
-        Debug.Log(TAG, aDataField
+        /*Debug.Log(TAG, aDataField
             [0]//z
             [0]//y
             [1]//x
-        );
+        );*/
 
         const voxelSize = new Vector3(10,10,10);
 
         const output: Array<HTMLDivElement> = new Array<HTMLDivElement>();
         let count = 0;
-        //for(let zi = 0; zi < aDataField.length; ++zi)
-        {const zi = 2;
+        for(let zi = 0; zi < aDataField.length; ++zi)
+        {
             for (let yi = 0; yi < aDataField[0].length; ++yi)
             {
                 for (let xi = 0; xi < aDataField[0][0].length; ++xi)

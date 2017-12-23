@@ -8,12 +8,16 @@ import Vector2 from "Engine/Math/Vector2"
 
 const TAG: string = "Mouse";
 
+const DELTA_VALUE_LIFETIME_MS: number = 16;
+
 class Mouse
 {
     private m_Buttons: {[code: number]: boolean} = {};
 
     private m_ClientPosition: Vector2 = new Vector2();
+
     private m_Delta: Vector2 = new Vector2();
+    private m_DeltaTimestamp: number = 0;
 
     public getButton(aButton: number): boolean
     {
@@ -37,12 +41,10 @@ class Mouse
 
     public getDelta(): Vector2 
     {
-        return this.m_Delta;
-    }
+        if (performance.now() - this.m_DeltaTimestamp > DELTA_VALUE_LIFETIME_MS)
+            this.m_Delta.set(0,0);
 
-    public update(): void
-    {
-        this.m_Delta.set(0,0);
+        return this.m_Delta;
     }
 
     constructor()
@@ -61,8 +63,10 @@ class Mouse
 
         document.addEventListener("mousemove", (event: MouseEvent) =>
         {
-            this.m_Delta.set(event.movementX, event.movementY);
             this.m_ClientPosition.set(event.clientX, event.clientY);
+
+            this.m_Delta.set(event.movementX, event.movementY);
+            this.m_DeltaTimestamp = event.timeStamp;
         }, 
         false);
     }
