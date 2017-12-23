@@ -4,8 +4,8 @@
   "description": "reference material for the js pm webpack",
   "main": "main.js",
   "scripts": {
-    "build": "webpack",
-    "something": "echo 'hello'",
+    "build-release": "webpack --env.release",
+    "build-debug": "webpack --env.debug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

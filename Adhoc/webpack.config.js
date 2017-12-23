@@ -1,100 +1,138 @@
 const path    = require('path');
 const webpack = require("webpack");
 
-module.exports = 
+module.exports = (env) =>
 {
-    resolve: 
+    //--------------
+    // Build configs
+    //--------------
+    const stdconfig = 
     {
-        extensions:
+        resolve: 
+        {
+            extensions:
+            [
+                '.tsx',
+                '.ts',
+                '.js'
+            ],
+
+            modules: 
+            [
+                path.resolve('./src/js'),
+                path.resolve('./src/css'),
+                path.resolve('./src/img'),
+                path.resolve('./src/html'),
+
+                path.resolve('./../Engine/src/'),
+            ]
+        },
+
+        context: path.resolve(__dirname, './src/'),
+
+        entry: './ts/main.ts',
+
+        output: 
+        {
+            filename: 'bundle.js',
+            path: path.resolve(__dirname, 'dist')
+        },
+
+        plugins: 
         [
-            '.tsx',
-            '.ts',
-            '.js'
         ],
 
-        modules: 
-        [
-            path.resolve('./src/js'),
-            path.resolve('./src/css'),
-            path.resolve('./src/img'),
-            path.resolve('./src/html'),
+        module: 
+        {
+            rules: 
+            [
+                {
+                    test: /\.tsx?$/,
+                    use: 'ts-loader',
+                    exclude: /node_modules/
+                },
 
-            path.resolve('./../Engine/src/'),
-        ]
-    },
+                {
+                    test: /\.(html|ico)$/,
+                    use: 
+                    [
+                        {
+                            loader: 'file-loader',
+                            options: 
+                            {
+                                name: '[name].[ext]'
+                            }  
+                        }
+                    ],
+                    exclude: /node_modules/
+                },
 
-    context: path.resolve(__dirname, './src/'),
+                {
+                    test: /\.(css)$/,
+                    use: 
+                    [
+                        {
+                            loader: 'file-loader',
+                            options: 
+                            {
+                                name: '/css/[name].[ext]'
+                            }  
+                        }
+                    ],
+                    exclude: /node_modules/
+                },
 
-    entry: './js/main.ts',
+                {
+                    test: /\.(png|jpg|gif)$/,
+                    use: 
+                    [
+                        {
+                            loader: 'file-loader',
+                            options: 
+                            {
+                                name: '/img/[name].[ext]'
+                            }  
+                        }
+                    ],
+                    exclude: /node_modules/
+                }
+            ]
+        }
+    };
 
-    output: 
+    const debugcfg =
     {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
-    },
-
-    plugins: 
-    [
-        /*new webpack.optimize.UglifyJsPlugin //Requires ES5 transpilation
-        ({
-            minimize: true,
-            mangle: true,
-            compress: true,
-            warnings: true
-        }),*/
-    ],
-
-    module: 
-    {
-        rules: 
-        [
-            {
-                test: /\.tsx?$/,
-                use: 'ts-loader',
-                exclude: /node_modules/
-            },
-
-            {
-                test: /\.(html|ico)$/,
-                use: 
-                [
-                    {
-                        loader: 'file-loader',
-                        options: 
-                        {
-                            name: '[name].[ext]'
-                        }  
-                    }
-                ]
-            },
-
-            {
-                test: /\.(css)$/,
-                use: 
-                [
-                    {
-                        loader: 'file-loader',
-                        options: 
-                        {
-                            name: '/css/[name].[ext]'
-                        }  
-                    }
-                ]
-            },
-
-            {
-                test: /\.(png|jpg|gif)$/,
-                use: 
-                [
-                    {
-                        loader: 'file-loader',
-                        options: 
-                        {
-                            name: '/img/[name].[ext]'
-                        }  
-                    }
-                ]
-            }
-        ]
+        devtool: 'inline-source-map'
     }
-};
+
+    const releasecfg =
+    {
+
+        plugins: 
+        [
+            new webpack.optimize.UglifyJsPlugin
+            ({
+                minimize: true,
+                mangle: true,
+                compress: true,
+                warnings: true
+            }),
+        ]
+    };
+
+    //--------------------
+    // Export final config
+    //--------------------
+    let config;
+
+    if (env.release === true)
+    {
+        config = Object.assign(stdconfig, releasecfg);
+    }
+    else if (env.debug === true)
+    {
+        config = Object.assign(stdconfig, debugcfg);
+    }
+
+    return config;
+}

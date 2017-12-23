@@ -9,6 +9,7 @@
     "allowJs": false,
     "alwaysStrict": true,
     "version": true,
+    "inlineSourceMap": true,
 
     "baseUrl": ".",
     "paths": 
