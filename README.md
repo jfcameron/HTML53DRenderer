@@ -13,4 +13,4 @@ TypeScript 2.6.2.
 ## Tools used
 Node
 WebPack
-Jest
+Chai

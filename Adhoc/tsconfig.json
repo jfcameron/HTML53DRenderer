@@ -6,7 +6,7 @@
     "module": "es6",
     "target": "es5",
     "jsx": "react",
-    "allowJs": true,
+    "allowJs": false,
     "alwaysStrict": true,
     "version": true,
 
@@ -15,8 +15,8 @@
     {
       "*": 
       [
-        "*",
-        "../Engine/src/"
+        "../Engine/src/*",
+        "*"
       ]
     }
   }
