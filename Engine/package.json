@@ -1,14 +1,16 @@
 {
-  "name": "test",
+  "name": "HTML53DRenderer",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "NODE_PATH=../src mocha -r ts-node/register src/test.ts"
+  "scripts": 
+  {
+    "test": "NODE_PATH=./src mocha -r ts-node/register tests/*.ts"
   },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
+  "author": "Joseph Cameron",
+  "license": "MIT",
+  "devDependencies": 
+  {
     "@types/chai": "^4.0.10",
     "@types/mocha": "^2.2.44",
     "chai": "^4.1.2",
