@@ -20,10 +20,10 @@ Exploring 3D transform and perspective projection capabilities of HTML5's transf
 ## Usage
 Repo is split into Engine and Adhoc. Engine represents the abstraction I am building, Adhoc is an example App that depends on it.
 
-###Engine scripts:
+### Engine scripts:
 * ./Engine/unit-tests.sh - run test suite
 * ./Engine/generate-documents.sh - generate html docs
 
-###Adhoc scripts:
+### Adhoc scripts:
 * ./Adhoc/build-debug.sh - build adhoc with sourcemaps etc. 
 * ./Adhoc/build-release.sh - build mangled, minified build
