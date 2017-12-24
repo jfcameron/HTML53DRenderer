@@ -22,6 +22,9 @@ import Shapes from "Engine/Graphics/Shapes"
 import Sprite from "Engine/Graphics/Sprite"
 import Keyboard from "Engine/Input/Keyboard"
 import Mouse from "Engine/Input/Mouse"
+import Gamepad from "Engine/Input/Gamepad"
+
+import "Engine/Input/Mouse"
 
 const TAG: string = "Main";
 
@@ -70,7 +73,9 @@ const myTimer = new Timer(16,() =>
     if (Keyboard.getKey("ArrowLeft"))  pos.x += 3;
     if (Keyboard.getKey("ArrowRight")) pos.x -= 3;
 
-    Debug.Log(TAG, Mouse.getDelta());
+    //Debug.Log(TAG, Mouse.getDelta());
+
+    Debug.Log(TAG, "Button: ", gamepad.getButton(0), " Axis: ", gamepad.getAxis(0));
 });
 
 (()=>
@@ -86,3 +91,10 @@ const myTimer = new Timer(16,() =>
 })();
 
 const array: Array<number> = new Array();
+
+
+///////
+console.log("hello");
+
+const gamepad = new Gamepad(0);
+
