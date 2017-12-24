@@ -61,6 +61,8 @@ const gfxobj = new GraphicsObject(Shapes.Cube(new Vector3(0,0,10), new Vector3()
 //=========
 // Mainline
 //=========
+const gamepad = new Gamepad(0);
+
 const myTimer = new Timer(16,() =>
 {
     if (Keyboard.getKey("KeyA")) rot.y += 1;
@@ -73,7 +75,10 @@ const myTimer = new Timer(16,() =>
     if (Keyboard.getKey("ArrowLeft"))  pos.x += 3;
     if (Keyboard.getKey("ArrowRight")) pos.x -= 3;
 
-    //Debug.Log(TAG, Mouse.getDelta());
+    pos.x += gamepad.getAxis(0);
+    pos.y += gamepad.getAxis(1);
+    rot.y += gamepad.getAxis(2);
+    rot.x += gamepad.getAxis(3);
 
     Debug.Log(TAG, "Button: ", gamepad.getButton(0), " Axis: ", gamepad.getAxis(0));
 });
@@ -95,6 +100,3 @@ const array: Array<number> = new Array();
 
 ///////
 console.log("hello");
-
-const gamepad = new Gamepad(0);
-

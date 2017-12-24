@@ -19,14 +19,14 @@ namespace HTML53DRenderer
 
         public getButton(aButtonIndex: number): boolean
         {
-            return this.m_GamepadHandle && this.m_GamepadHandle.buttons.length >= aButtonIndex -1?
+            return this.m_GamepadHandle && this.m_GamepadHandle.buttons.length >= aButtonIndex -1 ?
                 this.m_GamepadHandle.buttons[aButtonIndex].pressed : 
                 false;
         }
 
         public getAxis(aAxisIndex: number): number
         {
-            return this.m_GamepadHandle && this.m_GamepadHandle.axes.length >= aAxisIndex -1? 
+            return this.m_GamepadHandle && this.m_GamepadHandle.axes.length >= aAxisIndex -1 ?
                 this.m_GamepadHandle.axes[aAxisIndex] : 
                 0;
         }
@@ -39,26 +39,14 @@ namespace HTML53DRenderer
             if (!(this instanceof Gamepad)) throw new Exceptions.Sealed();
             
             if (aIndex < 0) throw "index must be positive";
-
-            window.addEventListener("gamepadconnected", (e: any) =>
-            {
-                console.log(e.gamepad);
-                if (e.gamepad.index === aIndex)
-                    this.m_GamepadHandle = e.gamepad;
-            });
-
+            
             setInterval(() =>
             {
-                if (navigator.getGamepads().length >= aIndex-1)
-                    this.m_GamepadHandle = navigator.getGamepads()[aIndex];
+                this.m_GamepadHandle = navigator.getGamepads().length >= aIndex -1 ?
+                    this.m_GamepadHandle = navigator.getGamepads()[aIndex] :
+                    this.m_GamepadHandle = undefined;
             }, 
             GAMEPAD_POLL_INTERVAL_MS);
-
-            window.addEventListener("gamepaddisconnected", (e: any) =>
-            {
-                if (e.gamepad.index === this.m_GamepadHandle.index)
-                    this.m_GamepadHandle = undefined;
-            });
         }
     };
 }
