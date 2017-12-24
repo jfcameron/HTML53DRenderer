@@ -2,11 +2,6 @@
 // Project: HTML53DRenderer
 // Created on 2017-12-24.
 
-let document = 
-{
-    "onkeydown": 0
-};
-
 import { expect } from 'chai'
 import Keyboard from "Engine/Input/Keyboard"
 
@@ -17,6 +12,8 @@ describe("Keyboard tests", () =>
     //=================
     it("set", () => 
     {
+        const document = {onkeydown: function () { return null; }};
+
         const a = new Keyboard();
 
         expect
@@ -28,7 +25,7 @@ describe("Keyboard tests", () =>
 
     it("toString", () => 
     {
-        const a = new Keyboard();
+        //const a = new Keyboard();
 
         expect
         (
@@ -39,7 +36,7 @@ describe("Keyboard tests", () =>
 
     it("equalTo", () => 
     {
-        const a = new Keyboard();
+        //const a = new Keyboard();
 
         expect
         (
@@ -53,7 +50,7 @@ describe("Keyboard tests", () =>
     //=============
     it("Default constructor", () => 
     {
-        const a = new Keyboard();
+        //const a = new Keyboard();
 
         expect
         (
@@ -64,7 +61,7 @@ describe("Keyboard tests", () =>
 
     it("Default constructor", () => 
     {
-        const a = new Keyboard();
+        //const a = new Keyboard();
 
         expect
         (
