@@ -8,6 +8,11 @@ const TAG: string = "Timer";
 
 interface updateSignature { (): void }
 
+/**
+* @Brief a brief description of Timer
+* 
+* @Warning Timer has not been documented!
+*/
 class Timer
 {
     private readonly m_IntervalHandle: number; 

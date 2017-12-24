@@ -13,6 +13,12 @@ const GAMEPAD_POLL_INTERVAL_MS = 16;
 
 namespace HTML53DRenderer
 {
+    /**
+    * @Brief Tracks the input state of the gamepad connected at the provided index.
+    * Can survive reconnection events.
+    * 
+    * @Warning Only works on Chrome browser.
+    */
     export class Gamepad
     {
         private m_GamepadHandle: _Gamepad;
@@ -23,7 +29,7 @@ namespace HTML53DRenderer
                 this.m_GamepadHandle.buttons[aButtonIndex].pressed : 
                 false;
         }
-
+        
         public getAxis(aAxisIndex: number): number
         {
             return this.m_GamepadHandle && this.m_GamepadHandle.axes.length >= aAxisIndex -1 ?

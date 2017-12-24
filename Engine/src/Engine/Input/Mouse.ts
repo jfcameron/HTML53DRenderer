@@ -10,6 +10,9 @@ const TAG: string = "Mouse";
 
 const DELTA_VALUE_LIFETIME_MS: number = 16;
 
+/**
+* @Brief synchronous wrapper for mouse related apis.
+*/
 class Mouse
 {
     private m_Buttons: {[code: number]: boolean} = {};

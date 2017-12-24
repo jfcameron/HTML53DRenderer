@@ -9,6 +9,9 @@ import Colors from "Engine/Graphics/Colors"
 
 const TAG: string = "Shapes";
 
+/**
+* @Brief contains definitions for basic HTMLDivElement based geometry.
+*/
 module Shapes
 {
     export function Quad(aPosition: Vector3, aRotation: Vector3, aScale: Vector3): HTMLDivElement

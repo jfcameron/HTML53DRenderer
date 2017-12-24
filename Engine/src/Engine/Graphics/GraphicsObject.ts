@@ -8,6 +8,11 @@ import Vector3 from "Engine/Math/Vector3"
 
 const TAG: string = "GraphicsObject";
 
+/**
+* @Brief Creates and manages an empty 3D root node.
+* The root has no graphical representation on its own and must be appended to.
+* the ctor params HTMLDivElement/HTMLDivElement[] determines appearance, appending these to root.
+*/
 class GraphicsObject
 {
     private readonly m_RootDivHandle : HTMLDivElement = document.createElement("div");

@@ -2,6 +2,9 @@
 // Project: CSS3DRenderer
 // Created on 2017-12-20.
 
+/**
+* @Brief defines projectwide exceptions
+*/
 module Exceptions
 {
     export class Unimplemented extends Error 

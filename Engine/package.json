@@ -1,21 +1,25 @@
 {
   "name": "HTML53DRenderer",
   "version": "1.0.0",
-  "description": "",
+  "description": "exploration of 3d transforms etc. with dom elements",
   "main": "index.js",
-  "scripts": 
-  {
-    "test": "NODE_PATH=./src mocha -r ts-node/register tests/*.ts"
+  "scripts": {
+    "test": "NODE_PATH=./src mocha -r ts-node/register tests/*.ts",
+    "docs": "./node_modules/.bin/typedoc --module commonjs --target ES6 --out ./docs/ ./src/Engine/Debug/  ./src/Engine/Graphics/  ./src/Engine/Input/  ./src/Engine/Math/  ./src/Engine/Thirdparty/"
   },
   "author": "Joseph Cameron",
   "license": "MIT",
-  "devDependencies": 
-  {
+  "devDependencies": {
     "@types/chai": "^4.0.10",
     "@types/mocha": "^2.2.44",
     "chai": "^4.1.2",
     "mocha": "^4.0.1",
     "ts-node": "^4.0.2",
+    "typedoc": "^0.9.0",
     "typings": "^2.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jfcameron/HTML53DRenderer.git"
   }
 }

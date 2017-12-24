@@ -7,6 +7,11 @@ import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG: string = "Color";
 
+/**
+* @Brief represents 4 channel color
+* @Note A value is a normalized value (0-1) range
+* @Note RGB values are 0-255.
+*/
 class Color
 {
     public r: number = 0;

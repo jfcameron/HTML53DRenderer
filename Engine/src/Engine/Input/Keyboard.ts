@@ -7,6 +7,9 @@ import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG: string = "Keyboard";
 
+/**
+* @Brief synchronous wrapper for keyboard related apis
+*/
 class Keyboard
 {
     private m_Keys: {[code: string]: boolean} = {};

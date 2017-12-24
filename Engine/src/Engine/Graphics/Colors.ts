@@ -4,6 +4,9 @@
 
 import Color from "Engine/Graphics/Color"
 
+/**
+* @Brief contains definitions for useful colors
+*/
 module Colors
 {
     export const Black: Color          = Object.freeze(new Color(  0,   0,   0, 1));

@@ -7,6 +7,9 @@ import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG: string = "Vector2";
 
+/**
+* @Brief Represents 2d position, speed, rotation, etc.
+*/
 class Vector2
 {
     public x: number = 0;

@@ -7,6 +7,11 @@ import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG: string = "Sprite";
 
+/**
+* @Brief draws subsections of an image using canvas 2d context.
+* Useful for rendering packed textures or spritesheets.
+* @Note can be thought of as a kind of canvas view controller
+*/
 class Sprite
 {
     private readonly m_Canvas  = document.createElement("canvas");
