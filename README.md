@@ -7,10 +7,23 @@
 
 Exploring 3D transform and perspective projection capabilities of HTML5's transform style
 
-## Language Standard
-TypeScript 2.6.2.
-
 ## Tools used
-Node
-WebPack
-Chai
+* TypeScript 2.6.2.
+* Node
+* Chai
+* Typedoc
+* WebPack
+* ts-loader
+* file-loader
+* UglifyJs
+
+## Usage
+Repo is split into Engine and Adhoc. Engine represents the abstraction I am building, Adhoc is an example App that depends on it.
+
+###Engine scripts:
+* ./Engine/unit-tests.sh - run test suite
+* ./Engine/generate-documents.sh - generate html docs
+
+###Adhoc scripts:
+* ./Adhoc/build-debug.sh - build adhoc with sourcemaps etc. 
+* ./Adhoc/build-release.sh - build mangled, minified build
