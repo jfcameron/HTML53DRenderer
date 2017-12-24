@@ -24,7 +24,8 @@ import Keyboard from "Engine/Input/Keyboard"
 import Mouse from "Engine/Input/Mouse"
 import Gamepad from "Engine/Input/Gamepad"
 
-import "Engine/Input/Mouse"
+// Adhoc
+import API from "./apiTests"
 
 const TAG: string = "Main";
 
@@ -92,20 +93,3 @@ const myTimer = new Timer(16,() =>
 
     window.requestAnimationFrame(draw);
 })();
-
-function FetchGitHubRepos()
-{
-    let user = "jfcameron";
-    let page = 1;
-    let perPage = 30;
-    fetch(`https://api.github.com/users/${user}/repos?page=${page}&per_page=${perPage}`)
-        .then((response) => response.text())
-            .then((data: any) =>
-            {
-                console.log(data);
-            }
-        ).catch((error) => 
-        {
-            console.log(error);
-        });
-};
