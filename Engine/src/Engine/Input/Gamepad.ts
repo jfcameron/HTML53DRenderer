@@ -11,7 +11,7 @@ type _Gamepad = Gamepad;
 
 const GAMEPAD_POLL_INTERVAL_MS = 16;
 
-namespace HTML53DRenderer
+namespace Input
 {
     /**
     * @Brief Tracks the input state of the gamepad connected at the provided index.
@@ -57,4 +57,4 @@ namespace HTML53DRenderer
     };
 }
 
-export default HTML53DRenderer.Gamepad;
+export default Input.Gamepad;

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_PATH=./src mocha -r ts-node/register tests/*.ts",
-    "docs": "./node_modules/.bin/typedoc --module commonjs --target ES6 --out ./docs/ ./src/Engine/Debug/  ./src/Engine/Graphics/  ./src/Engine/Input/  ./src/Engine/Math/  ./src/Engine/Thirdparty/"
+    "docs": "./node_modules/.bin/typedoc --mode file --module commonjs --target ES6 --out ./docs/ ./src/Engine/Debug/  ./src/Engine/Graphics/  ./src/Engine/Input/  ./src/Engine/Math/  ./src/Engine/Thirdparty/"
   },
   "author": "Joseph Cameron",
   "license": "MIT",

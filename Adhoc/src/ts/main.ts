@@ -56,8 +56,8 @@ const voxdat =
 
 //Cube(aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
 //const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);
-const gfxobj = new GraphicsObject(Shapes.Cube(new Vector3(0,0,10), new Vector3(), new Vector3(10,10,10)),pos,rot,sca);
-//const gfxobj = new GraphicsObject(Shapes.Quad(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(10,10,10)),pos,rot,sca);
+//const gfxobj = new GraphicsObject(Shapes.Cube(new Vector3(0,0,10), new Vector3(), new Vector3(10,10,10)),pos,rot,sca);
+const gfxobj = new GraphicsObject(Shapes.Quad(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(100,10,10)),pos,rot,sca);
 
 //=========
 // Mainline
@@ -82,14 +82,11 @@ const myTimer = new Timer(16,() =>
     rot.x += gamepad.getAxis(3);
 });
 
-(()=>
+const draw = (timestamp: number) =>
 {
-    const draw = (timestamp: number) =>
-    {
-        gfxobj.draw(pos,rot,sca);
-
-        window.requestAnimationFrame(draw);
-    }
+    gfxobj.draw(pos,rot,sca);
 
     window.requestAnimationFrame(draw);
-})();
+}
+
+window.requestAnimationFrame(draw);
