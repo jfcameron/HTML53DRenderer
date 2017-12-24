@@ -75,12 +75,10 @@ const myTimer = new Timer(16,() =>
     if (Keyboard.getKey("ArrowLeft"))  pos.x += 3;
     if (Keyboard.getKey("ArrowRight")) pos.x -= 3;
 
-    pos.x += gamepad.getAxis(0);
-    pos.y += gamepad.getAxis(1);
+    pos.x += gamepad.getAxis(0) *3;
+    pos.y += gamepad.getAxis(1) *3;
     rot.y += gamepad.getAxis(2);
     rot.x += gamepad.getAxis(3);
-
-    Debug.Log(TAG, "Button: ", gamepad.getButton(0), " Axis: ", gamepad.getAxis(0));
 });
 
 (()=>
@@ -95,8 +93,19 @@ const myTimer = new Timer(16,() =>
     window.requestAnimationFrame(draw);
 })();
 
-const array: Array<number> = new Array();
-
-
-///////
-console.log("hello");
+function FetchGitHubRepos()
+{
+    let user = "jfcameron";
+    let page = 1;
+    let perPage = 30;
+    fetch(`https://api.github.com/users/${user}/repos?page=${page}&per_page=${perPage}`)
+        .then((response) => response.text())
+            .then((data: any) =>
+            {
+                console.log(data);
+            }
+        ).catch((error) => 
+        {
+            console.log(error);
+        });
+};
