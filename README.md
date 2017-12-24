@@ -8,13 +8,11 @@
 Exploring 3D transform and perspective projection capabilities of HTML5's transform style
 
 ## Tools used
-* TypeScript 2.6.2.
+* TypeScript 2.6.2
 * Node
 * Chai
 * Typedoc
 * WebPack
-* ts-loader
-* file-loader
 * UglifyJs
 
 ## Usage
