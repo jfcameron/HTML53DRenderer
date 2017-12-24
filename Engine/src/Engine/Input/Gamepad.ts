@@ -9,7 +9,7 @@ const TAG: string = "Gamepad";
 
 type _Gamepad = Gamepad;
 
-const GAMEPAD_POLL_INTERVAL_MS = 16;
+const GAMEPAD_POLL_INTERVAL_MS: number = 16;
 
 namespace Input
 {
