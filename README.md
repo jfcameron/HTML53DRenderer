@@ -23,57 +23,59 @@ add Engine/src/ to your project's include path.
 See html docs for more info.
 
 ### Example code
-    import Gamepad from "Engine/Input/Gamepad"
-    import Shapes from "Engine/Graphics/Shapes"
-    import GraphicsObject from "Engine/Graphics/GraphicsObject"
-    import Vector3 from "Engine/Math/Vector3"
-    import Timer from "Engine/Time/Timer"
+```typescript
+import Gamepad from "Engine/Input/Gamepad"
+import Shapes from "Engine/Graphics/Shapes"
+import GraphicsObject from "Engine/Graphics/GraphicsObject"
+import Vector3 from "Engine/Math/Vector3"
+import Timer from "Engine/Time/Timer"
 
-    const voxdat = 
+const voxdat = 
+[
     [
-        [
-            [1,0,1],
-            [0,0,0],
-            [1,0,1]
-        ],
+        [1,0,1],
+        [0,0,0],
+        [1,0,1]
+    ],
     
-        [
-            [0,0,0],
-            [0,1,0],
-            [0,0,0]
-        ],
+    [
+        [0,0,0],
+        [0,1,0],
+        [0,0,0]
+    ],
 
-        [
-            [1,0,1],
-            [0,0,0],
-            [1,0,1]
-        ]
-    ];
+    [
+        [1,0,1],
+        [0,0,0],
+        [1,0,1]
+    ]
+];
 
-    const pos = new Vector3();
-    const rot = new Vector3();
-    const sca = new Vector3(10,10,10);
+const pos = new Vector3();
+const rot = new Vector3();
+const sca = new Vector3(10,10,10);
 
-    const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);
+const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);
 
-    const gamepad = new Gamepad(0);
+const gamepad = new Gamepad(0);
 
-    const myTimer = new Timer(16,() =>
-    {
-        pos.x += gamepad.getAxis(0) *3;
-        pos.y += gamepad.getAxis(1) *3;
-        rot.y += gamepad.getAxis(2);
-        rot.x += gamepad.getAxis(3);
-    });
+const myTimer = new Timer(16,() =>
+{
+    pos.x += gamepad.getAxis(0) *3;
+    pos.y += gamepad.getAxis(1) *3;
+    rot.y += gamepad.getAxis(2);
+    rot.x += gamepad.getAxis(3);
+});
 
-    const draw = () =>
-    {
-        gfxobj.draw(pos,rot,sca);
-
-        window.requestAnimationFrame(draw);
-    }
+const draw = () =>
+{
+    gfxobj.draw(pos,rot,sca);
 
     window.requestAnimationFrame(draw);
+}
+
+window.requestAnimationFrame(draw);
+```
 
 ## Tools used
 * TypeScript 2.6.2
