@@ -22,10 +22,7 @@ class Vector2
 
     public toString(): string
     {
-        return "{" + 
-            this.x + ", " + 
-            this.y + 
-        "}";
+        return `{${this.x}, ${this.y}}`
     }
 
     public equalTo(aOther: Vector2): boolean

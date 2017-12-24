@@ -35,13 +35,16 @@ class Vector3
         return this;
     }
 
+    public set(aX: number, aY: number, aZ: number)
+    {
+        this.x = aX;
+        this.y = aY;
+        this.z = aZ;
+    }
+    
     public toString(): string
     {
-        return "{" + 
-            this.x + ", " + 
-            this.y + ", " + 
-            this.z + 
-        "}";
+        return `{${this.x}, ${this.y}, ${this.z}}`
     }
 
     public equalTo(aOther: Vector3): boolean
@@ -51,13 +54,6 @@ class Vector3
             this.y === aOther.y && 
             this.z === aOther.z
         );
-    }
-
-    public set(aX: number, aY: number, aZ: number)
-    {
-        this.x = aX;
-        this.y = aY;
-        this.z = aZ;
     }
 
     constructor()
