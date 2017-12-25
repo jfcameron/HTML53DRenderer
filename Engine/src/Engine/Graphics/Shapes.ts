@@ -26,16 +26,16 @@ module Shapes
         face.style.width           = aScale.x + "px";
         face.style.height          = aScale.y + "px";
 
-        /*face.style.transform = 
+        face.style.transform = 
         "translate3d(" + ((-aScale.x/2) + (aPosition.x)) + "px," + (((-aScale.y/2)) + ((aPosition.y))) + "px," + ((0) + (aPosition.z)) + "px)" +
         "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
-        "";*/
+        "";
 
-        face.style.transform = 
+        /*face.style.transform = 
             "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
             "translate3d(" + (aPosition.x - (aScale.x/2)) + "px," + (aPosition.y - (aScale.y/2)) + "px," +          aPosition.z + "px)" + 
             //"scale3d(" +     aScale.x +    "," +            aScale.y +    "," +            aScale.z + ")"
-        "";
+        "";*/
 
         face.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
         face.style.backgroundImage = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAbSURBVBhXY/j////Mm68wSQasokByMOr4/x8A0warIZLZpA8AAAAASUVORK5CYII=')";
@@ -59,16 +59,16 @@ module Shapes
 
         const hsize = new Vector3(aScale.x/2, aScale.y/2, aScale.z/2);
 
-        output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z +  hsize.z), new Vector3(aRotation.x + 0, aRotation.y +   0, aRotation.z + 0), aScale));
+        //output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z +  hsize.z), new Vector3(aRotation.x + 0, aRotation.y +   0, aRotation.z + 0), aScale));
 
-        //if (aNorth) output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z +  hsize.z), new Vector3(aRotation.x + 0, aRotation.y +   0, aRotation.z + 0), aScale));
-        //if (aSouth) output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z + -hsize.z), new Vector3(aRotation.x + 0, aRotation.y + 0, aRotation.z + 0), aScale));
+        if (aNorth) output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z +  hsize.z), new Vector3(aRotation.x + 0, aRotation.y +   0, aRotation.z + 0), aScale));
+        if (aSouth) output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z + -hsize.z), new Vector3(aRotation.x + 0, aRotation.y + 0, aRotation.z + 0), aScale));
 
-        //if (aEast) output.push(Quad(new Vector3(aPosition.x + -hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y + 270, aRotation.z + 0), aScale));
-        //if (aWest) output.push(Quad(new Vector3(aPosition.x +  hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y +  90, aRotation.z + 0), aScale));
+        if (aEast) output.push(Quad(new Vector3(aPosition.x + -hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y + 270, aRotation.z + 0), aScale));
+        if (aWest) output.push(Quad(new Vector3(aPosition.x +  hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y +  90, aRotation.z + 0), aScale));
         
-        //if (aUp)   output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + aPosition.z + -hsize.y,  0), new Vector3(aRotation.x + 90, aRotation.y +   0, aRotation.z + 0), aScale));
-        //if (aDown) output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + aPosition.z +  hsize.y,  0), new Vector3(aRotation.x + 90, aRotation.y + 180, aRotation.z + 0), aScale));
+        if (aUp)   output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + aPosition.z + -hsize.y,  0), new Vector3(aRotation.x + 90, aRotation.y +   0, aRotation.z + 0), aScale));
+        if (aDown) output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + aPosition.z +  hsize.y,  0), new Vector3(aRotation.x + 90, aRotation.y + 180, aRotation.z + 0), aScale));
                 
         return output;
     }
@@ -81,7 +81,7 @@ module Shapes
             [1]//x
         );*/
 
-        const voxelSize = new Vector3(10,10,10);
+        const voxelSize = new Vector3(1,1,1);
 
         const output: Array<HTMLDivElement> = new Array<HTMLDivElement>();
         let count = 0;
@@ -96,10 +96,33 @@ module Shapes
 
                     if (aDataField[zi][yi][xi] !== 0)
                     {
-                        const voxbuff: Array<HTMLDivElement> = Cube(new Vector3(xi * voxelSize.x, yi * voxelSize.y, zi * voxelSize.z), new Vector3(0,0,0), voxelSize);
+                        //const voxbuff: Array<HTMLDivElement> = Cube(new Vector3(xi * voxelSize.x, yi * voxelSize.y, zi * voxelSize.z), new Vector3(0,0,0), voxelSize);
+
+                        const aScale: Vector3 = voxelSize;
+                        const aPosition: Vector3 = new Vector3(xi * voxelSize.x, yi * voxelSize.y, zi * voxelSize.z);
+
+                        //aPosition.x -= xi * aScale.x;
+                        //aPosition.y -= yi * aScale.y;
+                        //aPosition.z -= zi * aScale.z;
+
+                        const aRotation: Vector3 = new Vector3();
+
+                        const voxbuff: Array<HTMLDivElement> = Cube(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1));
+
+                        const wrapper: HTMLDivElement = document.createElement("div");
+                        wrapper.style.position       = "absolute";
+                        wrapper.style.transformStyle = "preserve-3d";
+                        wrapper.style.transform = 
+                            "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
+                            "translate3d(" + (aPosition.x - (aScale.x/2)) + "px," + (aPosition.y - (aScale.y/2)) + "px," +          aPosition.z + "px)" + 
+                            "scale3d(" +     aScale.x +    "," +            aScale.y +    "," +            aScale.z + ")"
+                        "";
 
                         for (const vox of voxbuff)
-                            output.push(vox);
+                            wrapper.appendChild(vox);
+                            //output.push(vox);
+                        
+                        output.push(wrapper);
                     }
                 }
             }

@@ -31,7 +31,7 @@ const TAG: string = "Main";
 
 const pos = new Vector3();
 const rot = new Vector3();
-const sca = new Vector3(10,10,10);
+const sca = new Vector3(100,100,100);
 
 const voxdat = 
 [
@@ -55,9 +55,9 @@ const voxdat =
 ];
 
 //Cube(aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
-//const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);
-//const gfxobj = new GraphicsObject(Shapes.Cube(new Vector3(0,0,10), new Vector3(), new Vector3(10,10,10)),pos,rot,sca);
-const gfxobj = new GraphicsObject(Shapes.Quad(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(100,10,10)),pos,rot,sca);
+const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);
+//const gfxobj = new GraphicsObject(Shapes.Cube(new Vector3(0,0,0), new Vector3(), new Vector3(1,1,1)),pos,rot,sca);
+//const gfxobj = new GraphicsObject(Shapes.Quad(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1)),pos,rot,sca);
 
 //=========
 // Mainline
@@ -90,6 +90,3 @@ const draw = (timestamp: number) =>
 }
 
 window.requestAnimationFrame(draw);
-
-Debug.Log(TAG, "hahahah");
-Debug.Error(TAG, "hahahah");
