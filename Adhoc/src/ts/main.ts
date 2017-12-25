@@ -36,22 +36,44 @@ const sca = new Vector3(100,100,100);
 const voxdat = 
 [
     [
-        [1,0,1],
-        [0,0,0],
-        [1,0,1]
+        [1,1,1,1,1],
+        [1,0,0,0,1],
+        [1,0,0,0,1],
+        [1,0,0,0,1],
+        [1,1,1,1,1],
     ],
 
     [
-        [0,0,0],
-        [0,1,0],
-        [0,0,0]
+        [1,0,0,0,1],
+        [0,0,0,0,0],
+        [0,0,0,0,0],
+        [0,0,0,0,0],
+        [1,1,1,1,1],
     ],
 
     [
-        [1,1,1],
-        [1,1,1],
-        [1,1,1]
-    ]
+        [1,0,0,0,1],
+        [0,0,0,0,0],
+        [0,0,1,0,0],
+        [0,0,1,0,0],
+        [1,1,1,1,1],
+    ],
+
+    [
+        [1,0,0,0,1],
+        [0,0,0,0,0],
+        [0,0,0,0,0],
+        [0,0,0,0,0],
+        [1,1,1,1,1],
+    ],
+
+    [
+        [1,1,1,1,1],
+        [1,0,0,0,1],
+        [1,0,0,0,1],
+        [1,0,0,0,1],
+        [1,1,1,1,1],
+    ],
 ];
 
 //Cube(aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
@@ -64,6 +86,8 @@ const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);
 //=========
 const gamepad = new Gamepad(0);
 
+const tspeed = 100;
+
 const myTimer = new Timer(16,() =>
 {
     if (Keyboard.getKey("KeyA")) rot.y += 1;
@@ -71,10 +95,10 @@ const myTimer = new Timer(16,() =>
     if (Keyboard.getKey("KeyW")) rot.x -= 1;
     if (Keyboard.getKey("KeyS")) rot.x += 1;
 
-    if (Keyboard.getKey("ArrowUp"))    pos.z += 3;
-    if (Keyboard.getKey("ArrowDown"))  pos.z -= 3;
-    if (Keyboard.getKey("ArrowLeft"))  pos.x += 3;
-    if (Keyboard.getKey("ArrowRight")) pos.x -= 3;
+    if (Keyboard.getKey("ArrowUp"))    pos.z += tspeed;
+    if (Keyboard.getKey("ArrowDown"))  pos.z -= tspeed;
+    if (Keyboard.getKey("ArrowLeft"))  pos.x += tspeed;
+    if (Keyboard.getKey("ArrowRight")) pos.x -= tspeed;
 
     pos.x += gamepad.getAxis(0) *3;
     pos.y += gamepad.getAxis(1) *3;

@@ -20,8 +20,8 @@ module Shapes
 
         const face: HTMLDivElement = document.createElement("div");
 
-        face.style.position       = "absolute";
-        face.style.transformStyle = "preserve-3d";
+        face.style.position       = "absolute";//position:relative absolute
+        face.style.transformStyle = "preserve-3d"; 
 
         face.style.width           = aScale.x + "px";
         face.style.height          = aScale.y + "px";
@@ -31,20 +31,14 @@ module Shapes
         "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
         "";
 
-        /*face.style.transform = 
-            "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
-            "translate3d(" + (aPosition.x - (aScale.x/2)) + "px," + (aPosition.y - (aScale.y/2)) + "px," +          aPosition.z + "px)" + 
-            //"scale3d(" +     aScale.x +    "," +            aScale.y +    "," +            aScale.z + ")"
-        "";*/
-
         face.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
         face.style.backgroundImage = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAbSURBVBhXY/j////Mm68wSQasokByMOr4/x8A0warIZLZpA8AAAAASUVORK5CYII=')";
         face.style.backgroundSize  = "contain";
-        //face.style.backfaceVisibility = "hidden";
-        //face.style.backgroundImage = "url('img/Awesome.png')";
+        face.style.backfaceVisibility = "hidden";
+        face.style.backgroundImage = "url('img/Awesome.png')";
 
         (<any>face.style).willChange = "transform"; //prevents composite draw stage issues
-
+        
         return face;
     }
 
@@ -59,10 +53,8 @@ module Shapes
 
         const hsize = new Vector3(aScale.x/2, aScale.y/2, aScale.z/2);
 
-        //output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z +  hsize.z), new Vector3(aRotation.x + 0, aRotation.y +   0, aRotation.z + 0), aScale));
-
         if (aNorth) output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z +  hsize.z), new Vector3(aRotation.x + 0, aRotation.y +   0, aRotation.z + 0), aScale));
-        if (aSouth) output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z + -hsize.z), new Vector3(aRotation.x + 0, aRotation.y + 0, aRotation.z + 0), aScale));
+        if (aSouth) output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z + -hsize.z), new Vector3(aRotation.x + 0, aRotation.y + 180, aRotation.z + 0), aScale));
 
         if (aEast) output.push(Quad(new Vector3(aPosition.x + -hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y + 270, aRotation.z + 0), aScale));
         if (aWest) output.push(Quad(new Vector3(aPosition.x +  hsize.x, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y +  90, aRotation.z + 0), aScale));
@@ -75,12 +67,6 @@ module Shapes
 
     export function VoxelField(aDataField: number[][][]): Array<HTMLDivElement>
     {
-        /*Debug.Log(TAG, aDataField
-            [0]//z
-            [0]//y
-            [1]//x
-        );*/
-
         const voxelSize = new Vector3(1,1,1);
 
         const output: Array<HTMLDivElement> = new Array<HTMLDivElement>();
@@ -96,16 +82,13 @@ module Shapes
 
                     if (aDataField[zi][yi][xi] !== 0)
                     {
-                        //const voxbuff: Array<HTMLDivElement> = Cube(new Vector3(xi * voxelSize.x, yi * voxelSize.y, zi * voxelSize.z), new Vector3(0,0,0), voxelSize);
-
                         const aScale: Vector3 = voxelSize;
+                        const aRotation: Vector3 = new Vector3();
                         const aPosition: Vector3 = new Vector3(xi * voxelSize.x, yi * voxelSize.y, zi * voxelSize.z);
 
-                        //aPosition.x -= xi * aScale.x;
-                        //aPosition.y -= yi * aScale.y;
-                        //aPosition.z -= zi * aScale.z;
-
-                        const aRotation: Vector3 = new Vector3();
+                        aPosition.x -= aDataField[0][0].length * 0.5 * aScale.x * 0.5 ;
+                        aPosition.y -= aDataField[0].length * 0.5    * aScale.y * 0.5 ;
+                        aPosition.z -= aDataField.length * 0.5       * aScale.z * 0.5 ;
 
                         const voxbuff: Array<HTMLDivElement> = Cube(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1));
 
@@ -119,8 +102,9 @@ module Shapes
                         "";
 
                         for (const vox of voxbuff)
+                        {
                             wrapper.appendChild(vox);
-                            //output.push(vox);
+                        }
                         
                         output.push(wrapper);
                     }
