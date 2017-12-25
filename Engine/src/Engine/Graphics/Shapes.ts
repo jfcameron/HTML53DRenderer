@@ -20,7 +20,7 @@ module Shapes
 
         const face: HTMLDivElement = document.createElement("div");
 
-        face.style.position       = "absolute";//position:relative absolute
+        face.style.position       = "absolute";
         face.style.transformStyle = "preserve-3d"; 
 
         face.style.width           = aScale.x + "px";
@@ -34,9 +34,10 @@ module Shapes
         face.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
         face.style.backgroundImage = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAbSURBVBhXY/j////Mm68wSQasokByMOr4/x8A0warIZLZpA8AAAAASUVORK5CYII=')";
         face.style.backgroundSize  = "contain";
-        face.style.backfaceVisibility = "hidden";
-        face.style.backgroundImage = "url('img/Awesome.png')";
+        //face.style.backgroundImage = "url('img/Awesome.png')";
 
+        //Performance
+        face.style.backfaceVisibility = "hidden";
         (<any>face.style).willChange = "transform"; //prevents composite draw stage issues
         
         return face;
@@ -70,16 +71,13 @@ module Shapes
         const voxelSize = new Vector3(1,1,1);
 
         const output: Array<HTMLDivElement> = new Array<HTMLDivElement>();
-        let count = 0;
+
         for(let zi = 0; zi < aDataField.length; ++zi)
         {
             for (let yi = 0; yi < aDataField[0].length; ++yi)
             {
                 for (let xi = 0; xi < aDataField[0][0].length; ++xi)
                 {
-                    count ++;
-                    console.log("voxel ", count, ": ", xi,", ",yi,", ",zi," val: ",aDataField[zi][yi][xi]);
-
                     if (aDataField[zi][yi][xi] !== 0)
                     {
                         const aScale: Vector3 = voxelSize;
@@ -90,7 +88,19 @@ module Shapes
                         aPosition.y -= aDataField[0].length * 0.5    * aScale.y * 0.5 ;
                         aPosition.z -= aDataField.length * 0.5       * aScale.z * 0.5 ;
 
-                        const voxbuff: Array<HTMLDivElement> = Cube(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1));
+                        //check neighbours...
+                        let north = false, south = false, east = false, west = false, up = false, down = false;
+
+                        if (zi+1 < aDataField.length) {if (aDataField[zi + 1][yi][xi] === 0) north = true;} else {north = true;}
+                        if (zi-1 >= 0)                {if (aDataField[zi - 1][yi][xi] === 0) south = true;} else {south = true;}
+
+                        if (yi+1 < aDataField[0].length) {if (aDataField[zi][yi + 1][xi] === 0) down = true;} else {down = true;}
+                        if (yi-1 >= 0)                   {if (aDataField[zi][yi - 1][xi] === 0) up   = true;} else {up = true;}
+
+                        if (xi+1 < aDataField[0][0].length) {if (aDataField[zi][yi][xi +1] === 0) west = true;} else {west = true;}
+                        if (xi-1 > 0)                       {if (aDataField[zi][yi][xi -1] === 0) east = true;} else {east = true;}
+
+                        const voxbuff: Array<HTMLDivElement> = Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1),north,south,east,west,up,down);
 
                         const wrapper: HTMLDivElement = document.createElement("div");
                         wrapper.style.position       = "absolute";
@@ -102,9 +112,7 @@ module Shapes
                         "";
 
                         for (const vox of voxbuff)
-                        {
                             wrapper.appendChild(vox);
-                        }
                         
                         output.push(wrapper);
                     }
