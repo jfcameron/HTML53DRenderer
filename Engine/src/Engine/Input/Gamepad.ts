@@ -36,10 +36,7 @@ namespace Input
                 this.m_GamepadHandle.axes[aAxisIndex] : 
                 0;
         }
-
-        public toString(): string { throw new Exceptions.Unimplemented(); }
-        public equalTo(aOther: Gamepad): boolean { throw new Exceptions.Unimplemented(); }
-
+        
         constructor(aIndex: number)
         {
             if (!(this instanceof Gamepad)) throw new Exceptions.Sealed();

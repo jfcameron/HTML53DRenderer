@@ -25,17 +25,7 @@ class GraphicsObject
             "scale3d(" +     aScale.x +    "," +            aScale.y +    "," +            aScale.z + ")"
         ;
     }
-
-    public toString(): string
-    {
-        throw new Exceptions.Unimplemented();
-    }
-
-    public equalTo(aOther: GraphicsObject): boolean
-    {
-        throw new Exceptions.Unimplemented();
-    }
-
+    
     constructor(aDiv: HTMLDivElement)
     constructor(aDiv: HTMLDivElement[])
     constructor(aDiv: HTMLDivElement  , aPosition: Vector3, aRotation: Vector3)

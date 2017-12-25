@@ -19,17 +19,20 @@ class Color
     public b: number = 0;
     public a: number = 1;
 
-    public toString(): string
+    public set(aR: number, aG: number, aB: number, aA: number)
     {
-        return "{" +
-            this.r + ", " +
-            this.g + ", " +
-            this.b + ", " +
-            this.a +
-        "}";
+        this.r = aR;
+        this.g = aG;
+        this.b = aB;
+        this.a = aA;
     }
 
-    public equalTo(aOther: Color): boolean
+    public toString(): string
+    {
+        return `{${this.r}, ${this.g}, ${this.b}, ${this.a}}`
+    }
+
+    public equalTo(aOther: Color): any
     {
         return (
             this.r === aOther.r &&
@@ -48,16 +51,11 @@ class Color
 
         if (arguments.length === 4)
         {
-            this.r = a1;
-            this.g = a2;
-            this.b = a3;
-            this.a = a4;
+            this.set(a1, a2, a3, a4);
         }
         else if (arguments.length === 3)
         {
-            this.r = a1;
-            this.g = a2;
-            this.b = a3;
+            this.set(a1, a2, a3, 1);
         }
         else if (arguments.length === 1)
         {

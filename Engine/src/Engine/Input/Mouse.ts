@@ -26,16 +26,6 @@ class Mouse
     {
         return this.m_Buttons[aButton] != undefined ? this.m_Buttons[aButton] : false;
     }
-
-    public lock(aCanvas: HTMLCanvasElement): void 
-    {
-        aCanvas.requestPointerLock();
-    }
-
-    public unlock(): void 
-    {
-        document.exitPointerLock();
-    }
     
     public getViewportPosition(): Vector2 
     {

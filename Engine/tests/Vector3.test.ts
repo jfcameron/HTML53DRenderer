@@ -1,7 +1,11 @@
+// © 2017 Joseph Cameron - All Rights Reserved
+// Project: HTM53DRenderer
+// Created on 2017-12-24.
+
 import { expect } from 'chai'
 import Vector3 from "Engine/Math/Vector3"
 
-describe("Vector3 tests", () => 
+describe("Vector3", () => 
 {
     //=================
     // Public interface

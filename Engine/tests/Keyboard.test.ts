@@ -5,42 +5,18 @@
 import { expect } from 'chai'
 import Keyboard from "Engine/Input/Keyboard"
 
-describe("Keyboard tests", () => 
+describe("Keyboard", () => 
 {
     //=================
     // Public interface
     //=================
-    it("set", () => 
+    it("getKey", () => 
     {
-        const document = {onkeydown: function () { return null; }};
-
-        const a = new Keyboard();
+        const a = Keyboard;
 
         expect
         (
-            false
-        )
-        .to.equal(true);
-    });
-
-    it("toString", () => 
-    {
-        //const a = new Keyboard();
-
-        expect
-        (
-            false
-        )
-        .to.equal(true);
-    });
-
-    it("equalTo", () => 
-    {
-        //const a = new Keyboard();
-
-        expect
-        (
-            false
+            a.getKey("KeyW") === false
         )
         .to.equal(true);
     });
@@ -50,22 +26,9 @@ describe("Keyboard tests", () =>
     //=============
     it("Default constructor", () => 
     {
-        //const a = new Keyboard();
-
         expect
         (
-            false
-        )
-        .to.equal(true);
-    });
-
-    it("Default constructor", () => 
-    {
-        //const a = new Keyboard();
-
-        expect
-        (
-            false
+            Keyboard !== undefined
         )
         .to.equal(true);
     });
