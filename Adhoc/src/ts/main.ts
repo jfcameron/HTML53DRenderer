@@ -90,3 +90,6 @@ const draw = (timestamp: number) =>
 }
 
 window.requestAnimationFrame(draw);
+
+Debug.Log(TAG, "hahahah");
+Debug.Error(TAG, "hahahah");

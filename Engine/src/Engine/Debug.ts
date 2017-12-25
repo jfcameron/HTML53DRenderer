@@ -3,44 +3,10 @@
 // Created on 2017-12-20.
 
 import Exceptions from "Engine/Debug/Exceptions"
+import Logger from "Engine/Debug/Logger"
+import {loggable} from "Engine/Debug/Logger"
 
 const TAG: string = "Debug";
-
-interface toStringAble { toString(): string; }
-
-/**
-* @Brief Prefixed logger with tag & logger based silencing
-*/
-class Logger
-{
-    private m_TagBlock: {[tagName: string]: boolean} = {};
-    private m_Disabled = false;
-
-    public silenceTag(aTag: string)
-    {
-        this.m_TagBlock[aTag] = true;
-    }
-
-    public silence()
-    {
-        this.m_Disabled = true;
-    }
-
-    public Log(aTag: string, ...rest: toStringAble[])
-    {
-        if (!this.m_Disabled && !this.m_TagBlock[aTag])
-        {
-            let stringBuffer: string = this.m_ChannelPrefix + "/" + aTag + ": ";
-
-            for (const arg of rest)
-                stringBuffer += arg;
-    
-            console.log(stringBuffer);
-        }
-    }
-
-    constructor(public readonly m_ChannelPrefix: string){}
-}
 
 /**
 * @Brief Prefixed logging utilities
@@ -61,12 +27,12 @@ abstract class Debug
                 this.m_Loggers[aLoggerName].silenceTag(aTagName);
     }
 
-    public static Log(aTag: string, ...rest: toStringAble[])
+    public static Log(aTag: string, ...rest: loggable[])
     {
         this.m_Loggers["D"].Log(aTag, ...rest);
     }
 
-    public static Error(aTag: string, ...rest: toStringAble[])
+    public static Error(aTag: string, ...rest: loggable[])
     {
         this.m_Loggers["E"].Log(aTag, ...rest);
     }
