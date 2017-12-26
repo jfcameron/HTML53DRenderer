@@ -11,7 +11,9 @@ import "index.html"
 import "style.css"
 
 // Engine inc
-import Timer from "Engine/Time/Timer"
+import IntervalTimer from "Engine/Time/IntervalTimer"
+import AnimationTimer from "Engine/Time/AnimationTimer"
+import IdleTimer from "Engine/Time/IdleTimer"
 import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
 import Vector2 from "Engine/Math/Vector2"
@@ -31,8 +33,8 @@ import API from "./apiTests"
 const TAG: string = "Main";
 
 const pos = new Vector3();
-const rot = new Vector3(45,0,0);
-const sca = new Vector3(100,100,100);
+const rot = new Vector3(-30,0,0);
+const sca = new Vector3(500,500,500);
 
 const voxdat = 
 [
@@ -42,10 +44,12 @@ const voxdat =
         [0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
         [1,1,1,1,1,1,1],
     ],
 
     [
+        [0,0,0,0,0,0,0],
         [0,1,1,1,1,1,0],
         [0,1,0,0,0,1,0],
         [0,1,0,0,0,1,0],
@@ -55,6 +59,7 @@ const voxdat =
     ],
 
     [
+        [0,0,1,1,1,0,0],
         [0,1,0,0,0,1,0],
         [0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0],
@@ -64,6 +69,7 @@ const voxdat =
     ],
 
     [
+        [0,0,1,0,1,0,0],
         [0,1,0,0,0,1,0],
         [0,0,0,0,0,0,0],
         [0,0,0,1,0,0,0],
@@ -73,6 +79,7 @@ const voxdat =
     ],
 
     [
+        [0,0,1,1,1,0,0],
         [0,1,0,0,0,1,0],
         [0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0],
@@ -82,6 +89,7 @@ const voxdat =
     ],
 
     [
+        [0,0,0,0,0,0,0],
         [0,1,1,1,1,1,0],
         [0,1,0,0,0,1,0],
         [0,1,0,0,0,1,0],
@@ -91,6 +99,7 @@ const voxdat =
     ],
 
     [
+        [0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0],
@@ -103,7 +112,7 @@ const voxdat =
 //Cube(aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
 const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);
 //const gfxobj = new GraphicsObject(Shapes.Cube(new Vector3(0,0,0), new Vector3(), new Vector3(1,1,1)),pos,rot,sca);
-//const gfxobj = new GraphicsObject(Shapes.Quad(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1)),pos,rot,sca);
+//const gfxobj2 = new GraphicsObject(Shapes.Quad(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1)),pos,rot,sca);
 
 //=========
 // Mainline
@@ -113,7 +122,9 @@ const gamepad = new Gamepad(0);
 const tspeed = 5;
 const rspeed = 0.25;
 
-const myTimer = new Timer(16,(aDeltaTime: number) =>
+pos.z = -6000;
+
+const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
     if (Keyboard.getKey("KeyA")) rot.y += rspeed * aDeltaTime;
     if (Keyboard.getKey("KeyD")) rot.y -= rspeed * aDeltaTime;
@@ -130,16 +141,16 @@ const myTimer = new Timer(16,(aDeltaTime: number) =>
     rot.y += gamepad.getAxis(2) * aDeltaTime;
     rot.x += gamepad.getAxis(3) * aDeltaTime;
 
+    //pos.z += 1;
     rot.y += 1;
 });
 
-//(<any>window).requestIdleCallback(update);
-
-const draw = (timestamp: number) =>
+const renderLoop = new AnimationTimer((aDeltaTime: number) =>
 {
     gfxobj.draw(pos,rot,sca);
+});
 
-    window.requestAnimationFrame(draw);
-}
-
-window.requestAnimationFrame(draw);
+const idleLoop = new IdleTimer((aDeltaTime: number) =>
+{
+    
+});

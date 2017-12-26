@@ -68,8 +68,28 @@ module Shapes
         return output;
     }
 
-    export function VoxelField(aDataField: number[][][]): Array<HTMLDivElement>
+    export interface VoxelProcessingStageSignature
     {
+        (aThisVoxel: {x: number, y: number, z: number, value: number}, aNeighbours: {north: number, south: number, east: number, west: number, up: number, down: number}): Array<HTMLDivElement>
+    }
+
+    export function VoxelField(aDataField: number[][][], aPerVoxelProcessingStageCallback?: VoxelProcessingStageSignature): Array<HTMLDivElement>
+    {
+        if (!aPerVoxelProcessingStageCallback)
+        {
+            aPerVoxelProcessingStageCallback = (aThisVoxel: {x: number, y: number, z: number, value: number}, aNeighbourData: {north: number, south: number, east: number, west: number, up: number, down: number}): Array<HTMLDivElement> =>
+            {
+                const north = aNeighbourData.north != 0;
+                const south = aNeighbourData.south != 0;
+                const east  = aNeighbourData.east  != 0;
+                const west  = aNeighbourData.west  != 0;
+                const up    = aNeighbourData.up    != 0;
+                const down  = aNeighbourData.down  != 0;
+
+                return Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1), north, south, east, west, up, down);
+            };
+        }
+
         const voxelSize = new Vector3(1,1,1);
 
         const output: Array<HTMLDivElement> = new Array<HTMLDivElement>();
@@ -106,6 +126,12 @@ module Shapes
 
                         if (xi+1 < aDataField[0][0].length) {if (aDataField[zi][yi][xi +1] === 0) west = true;} else {west = true;}
                         if (xi-1 >= 0)                      {if (aDataField[zi][yi][xi -1] === 0) east = true;} else {east = true;}
+
+                        aPerVoxelProcessingStageCallback
+                        (
+                            {x: xi, y: yi, z: zi, value: aDataField[zi][yi][xi]},
+                            {north: 0, south: 0, east: 0, west: 0, up: 0, down: 0}
+                        );
 
                         const voxbuff: Array<HTMLDivElement> = Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1),north,south,east,west,up,down);
 
