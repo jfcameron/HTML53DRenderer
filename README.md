@@ -3,7 +3,7 @@
 
 ## Description
 ![asdf](https://img.shields.io/badge/development%20status-active-green.svg)
-![asdf](https://img.shields.io/badge/platforms-web-lightgrey.svg)
+![asdf](https://img.shields.io/badge/platforms-Chrome-lightgrey.svg)
 
 Exploring 3D transform and perspective projection capabilities of HTML5's transform style
 

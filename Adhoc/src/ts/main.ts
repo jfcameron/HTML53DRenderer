@@ -5,6 +5,7 @@
 // Resources inc
 import "Awesome.png"
 import "Blocky.png"
+import "brick.png"
 import "favicon.ico"
 import "index.html"
 import "style.css"
@@ -36,43 +37,66 @@ const sca = new Vector3(100,100,100);
 const voxdat = 
 [
     [
-        [1,1,1,1,1],
-        [1,0,0,0,1],
-        [1,0,0,0,1],
-        [1,0,0,0,1],
-        [1,1,1,1,1],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [1,1,1,1,1,1,1],
     ],
 
     [
-        [1,0,0,0,1],
-        [0,0,0,0,0],
-        [0,0,0,0,0],
-        [0,0,0,0,0],
-        [1,1,1,1,1],
+        [0,1,1,1,1,1,0],
+        [0,1,0,0,0,1,0],
+        [0,1,0,0,0,1,0],
+        [0,1,0,0,0,1,0],
+        [0,1,1,1,1,1,0],
+        [1,1,1,1,1,1,1],
     ],
 
     [
-        [1,0,0,0,1],
-        [0,0,0,0,0],
-        [0,0,1,0,0],
-        [0,0,1,0,0],
-        [1,1,1,1,1],
+        [0,1,0,0,0,1,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,1,1,1,1,1,0],
+        [1,1,1,1,1,1,1],
     ],
 
     [
-        [1,0,0,0,1],
-        [0,0,0,0,0],
-        [0,0,0,0,0],
-        [0,0,0,0,0],
-        [1,1,1,1,1],
+        [0,1,0,0,0,1,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,1,0,0,0],
+        [0,0,0,1,0,0,0],
+        [0,1,1,1,1,1,0],
+        [1,1,1,1,1,1,1],
     ],
 
     [
-        [1,1,1,1,1],
-        [1,0,0,0,1],
-        [1,0,0,0,1],
-        [1,0,0,0,1],
-        [1,1,1,1,1],
+        [0,1,0,0,0,1,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,1,1,1,1,1,0],
+        [1,1,1,1,1,1,1],
+    ],
+
+    [
+        [0,1,1,1,1,1,0],
+        [0,1,0,0,0,1,0],
+        [0,1,0,0,0,1,0],
+        [0,1,0,0,0,1,0],
+        [0,1,1,1,1,1,0],
+        [1,1,1,1,1,1,1],
+    ],
+
+    [
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [1,1,1,1,1,1,1],
     ],
 ];
 
@@ -86,24 +110,27 @@ const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);
 //=========
 const gamepad = new Gamepad(0);
 
-const tspeed = 10;
+const tspeed = 5;
+const rspeed = 0.25;
 
-const myTimer = new Timer(16,() =>
+const myTimer = new Timer(16,(aDeltaTime: number) =>
 {
-    if (Keyboard.getKey("KeyA")) rot.y += 1;
-    if (Keyboard.getKey("KeyD")) rot.y -= 1;
-    if (Keyboard.getKey("KeyW")) rot.x -= 1;
-    if (Keyboard.getKey("KeyS")) rot.x += 1;
+    if (Keyboard.getKey("KeyA")) rot.y += rspeed * aDeltaTime;
+    if (Keyboard.getKey("KeyD")) rot.y -= rspeed * aDeltaTime;
+    if (Keyboard.getKey("KeyW")) rot.x -= rspeed * aDeltaTime;
+    if (Keyboard.getKey("KeyS")) rot.x += rspeed * aDeltaTime;
 
-    if (Keyboard.getKey("ArrowUp"))    pos.z += tspeed;
-    if (Keyboard.getKey("ArrowDown"))  pos.z -= tspeed;
-    if (Keyboard.getKey("ArrowLeft"))  pos.x += tspeed;
-    if (Keyboard.getKey("ArrowRight")) pos.x -= tspeed;
+    if (Keyboard.getKey("ArrowUp"))    pos.z += tspeed * aDeltaTime;
+    if (Keyboard.getKey("ArrowDown"))  pos.z -= tspeed * aDeltaTime;
+    if (Keyboard.getKey("ArrowLeft"))  pos.x += tspeed * aDeltaTime;
+    if (Keyboard.getKey("ArrowRight")) pos.x -= tspeed * aDeltaTime;
 
-    pos.x += gamepad.getAxis(0) *3;
-    pos.y += gamepad.getAxis(1) *3;
-    rot.y += gamepad.getAxis(2);
-    rot.x += gamepad.getAxis(3);
+    pos.x += gamepad.getAxis(0) * 3 * aDeltaTime;
+    pos.y += gamepad.getAxis(1) * 3 * aDeltaTime;
+    rot.y += gamepad.getAxis(2) * aDeltaTime;
+    rot.x += gamepad.getAxis(3) * aDeltaTime;
+
+    rot.y += 1;
 });
 
 //(<any>window).requestIdleCallback(update);

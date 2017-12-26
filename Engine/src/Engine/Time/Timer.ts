@@ -6,7 +6,7 @@ import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG: string = "Timer";
 
-interface updateSignature { (): void }
+interface updateSignature { (aDeltaTime: number): void }
 
 /**
 * @Brief a brief description of Timer
@@ -16,7 +16,9 @@ interface updateSignature { (): void }
 class Timer
 {
     private readonly m_IntervalHandle: number; 
+    
     private m_TimeSinceStart: number = 0;
+    private m_LastTime: number = performance.now();
 
     public getElapsedTime(): number
     {
@@ -34,8 +36,10 @@ class Timer
         (
             () =>
             {
-                aUpdateCallback();
+                aUpdateCallback(performance.now() - this.m_LastTime);
                 this.m_TimeSinceStart++;
+
+                this.m_LastTime = performance.now();
             }, 
             aTimeInMiliseconds
         );

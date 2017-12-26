@@ -36,7 +36,7 @@ module Shapes
         //face.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
         face.style.backgroundImage = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAbSURBVBhXY/j////Mm68wSQasokByMOr4/x8A0warIZLZpA8AAAAASUVORK5CYII=')";
         face.style.backgroundSize  = "contain";
-        //face.style.backgroundImage = "url('img/Awesome.png')";
+        face.style.backgroundImage = "url('img/brick.png')";//"url('img/Awesome.png')";
 
         //Performance
         face.style.backfaceVisibility = "hidden";
@@ -87,17 +87,13 @@ module Shapes
                         const aPosition: Vector3 = new Vector3(xi * voxelSize.x, yi * voxelSize.y, zi * voxelSize.z);
 
                         //offset!
-                        //aPosition.x -= (aDataField[0][0].length * 0.5 * aScale.x * 0.5 ) - (aScale.x * 0.0);
-                        //aPosition.y -= (aDataField[0].length * 0.5    * aScale.y * 0.5 ) + (aScale.y * 0.0);
-                        //aPosition.z -= (aDataField.length * 0.5       * aScale.z * 0.5 ) + (aScale.z * 1.0);
-
                         aPosition.x += aScale.x * 1;
                         aPosition.y += aScale.y * 1;
                         aPosition.z += aScale.z * 0.5;
 
-                        aPosition.x -= aScale.x * 0.5 * 5;
-                        aPosition.y -= aScale.y * 0.5 * 5;
-                        aPosition.z -= aScale.z * 0.5 * 5;
+                        aPosition.x -= aScale.x * 0.5 * aDataField[0][0].length;
+                        aPosition.y -= aScale.y * 0.5 * aDataField[0].length;
+                        aPosition.z -= aScale.z * 0.5 * aDataField.length;
  
                         //check neighbours...
                         let north = false, south = false, east = false, west = false, up = false, down = false;
@@ -121,17 +117,6 @@ module Shapes
                         wrapper.style.left   = "100%";
                         wrapper.style.width  = "100%";
                         wrapper.style.height = "100%";
-
-                        /*
-position: absolute;
-transform-style: preserve-3d;
-overflow: hidden;
-transform-origin: 0 0;
-backface-visibility: hidden;
-left: 100%;
-width: 100%;
-height: 100%
-                        */
 
                         wrapper.style.transform = 
                             "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
