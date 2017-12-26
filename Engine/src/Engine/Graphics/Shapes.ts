@@ -23,6 +23,7 @@ module Shapes
 
         face.style.position       = "absolute";
         face.style.transformStyle = "preserve-3d"; 
+        face.style.transformOrigin = "50% 50% 50%";
 
         face.style.width           = aScale.x + "px";
         face.style.height          = aScale.y + "px";
@@ -90,6 +91,14 @@ module Shapes
                         //aPosition.y -= (aDataField[0].length * 0.5    * aScale.y * 0.5 ) + (aScale.y * 0.0);
                         //aPosition.z -= (aDataField.length * 0.5       * aScale.z * 0.5 ) + (aScale.z * 1.0);
 
+                        aPosition.x += aScale.x * 1;
+                        aPosition.y += aScale.y * 1;
+                        aPosition.z += aScale.z * 0.5;
+
+                        aPosition.x -= aScale.x * 0.5 * 5;
+                        aPosition.y -= aScale.y * 0.5 * 5;
+                        aPosition.z -= aScale.z * 0.5 * 5;
+ 
                         //check neighbours...
                         let north = false, south = false, east = false, west = false, up = false, down = false;
 
@@ -100,13 +109,30 @@ module Shapes
                         if (yi-1 >= 0)                   {if (aDataField[zi][yi - 1][xi] === 0) up   = true;} else {up = true;}
 
                         if (xi+1 < aDataField[0][0].length) {if (aDataField[zi][yi][xi +1] === 0) west = true;} else {west = true;}
-                        if (xi-1 >= 0)                       {if (aDataField[zi][yi][xi -1] === 0) east = true;} else {east = true;}
+                        if (xi-1 >= 0)                      {if (aDataField[zi][yi][xi -1] === 0) east = true;} else {east = true;}
 
                         const voxbuff: Array<HTMLDivElement> = Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1),north,south,east,west,up,down);
 
                         const wrapper: HTMLDivElement = document.createElement("div");
                         wrapper.style.position       = "absolute";
                         wrapper.style.transformStyle = "preserve-3d";
+                        //wrapper.style.overflow = "hidden";
+                        //wrapper.style.transformOrigin = "50% 50% 50%";
+                        wrapper.style.left   = "100%";
+                        wrapper.style.width  = "100%";
+                        wrapper.style.height = "100%";
+
+                        /*
+position: absolute;
+transform-style: preserve-3d;
+overflow: hidden;
+transform-origin: 0 0;
+backface-visibility: hidden;
+left: 100%;
+width: 100%;
+height: 100%
+                        */
+
                         wrapper.style.transform = 
                             "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
                             "translate3d(" + (aPosition.x - (aScale.x/2)) + "px," + (aPosition.y - (aScale.y/2)) + "px," +          aPosition.z + "px)" + 

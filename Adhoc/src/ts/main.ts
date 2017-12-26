@@ -106,26 +106,6 @@ const myTimer = new Timer(16,() =>
     rot.x += gamepad.getAxis(3);
 });
 
-const update = () =>
-{
-    if (Keyboard.getKey("KeyA")) rot.y += 1;
-    if (Keyboard.getKey("KeyD")) rot.y -= 1;
-    if (Keyboard.getKey("KeyW")) rot.x -= 1;
-    if (Keyboard.getKey("KeyS")) rot.x += 1;
-
-    if (Keyboard.getKey("ArrowUp"))    pos.z += tspeed;
-    if (Keyboard.getKey("ArrowDown"))  pos.z -= tspeed;
-    if (Keyboard.getKey("ArrowLeft"))  pos.x += tspeed;
-    if (Keyboard.getKey("ArrowRight")) pos.x -= tspeed;
-
-    pos.x += gamepad.getAxis(0) *3;
-    pos.y += gamepad.getAxis(1) *3;
-    rot.y += gamepad.getAxis(2);
-    rot.x += gamepad.getAxis(3);
-
-    //(<any>window).requestIdleCallback(update);
-};
-
 //(<any>window).requestIdleCallback(update);
 
 const draw = (timestamp: number) =>
