@@ -31,7 +31,7 @@ import API from "./apiTests"
 const TAG: string = "Main";
 
 const pos = new Vector3();
-const rot = new Vector3();
+const rot = new Vector3(45,0,0);
 const sca = new Vector3(100,100,100);
 
 const voxdat = 
