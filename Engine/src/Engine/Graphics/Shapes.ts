@@ -16,6 +16,7 @@ module Shapes
 {
     export function Quad(aPosition: Vector3, aRotation: Vector3, aScale: Vector3): HTMLDivElement
     {
+        //aPosition = new Vector3(), aRotation = new Vector3(), aScale = new Vector3(1,1,1);
         const aColor: Color = Colors.Green;
 
         const face: HTMLDivElement = document.createElement("div");
@@ -31,7 +32,7 @@ module Shapes
         "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
         "";
 
-        face.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
+        //face.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
         face.style.backgroundImage = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAbSURBVBhXY/j////Mm68wSQasokByMOr4/x8A0warIZLZpA8AAAAASUVORK5CYII=')";
         face.style.backgroundSize  = "contain";
         //face.style.backgroundImage = "url('img/Awesome.png')";
@@ -84,9 +85,10 @@ module Shapes
                         const aRotation: Vector3 = new Vector3();
                         const aPosition: Vector3 = new Vector3(xi * voxelSize.x, yi * voxelSize.y, zi * voxelSize.z);
 
-                        aPosition.x -= aDataField[0][0].length * 0.5 * aScale.x * 0.5 ;
-                        aPosition.y -= aDataField[0].length * 0.5    * aScale.y * 0.5 ;
-                        aPosition.z -= aDataField.length * 0.5       * aScale.z * 0.5 ;
+                        //offset!
+                        //aPosition.x -= (aDataField[0][0].length * 0.5 * aScale.x * 0.5 ) - (aScale.x * 0.0);
+                        //aPosition.y -= (aDataField[0].length * 0.5    * aScale.y * 0.5 ) + (aScale.y * 0.0);
+                        //aPosition.z -= (aDataField.length * 0.5       * aScale.z * 0.5 ) + (aScale.z * 1.0);
 
                         //check neighbours...
                         let north = false, south = false, east = false, west = false, up = false, down = false;
@@ -98,7 +100,7 @@ module Shapes
                         if (yi-1 >= 0)                   {if (aDataField[zi][yi - 1][xi] === 0) up   = true;} else {up = true;}
 
                         if (xi+1 < aDataField[0][0].length) {if (aDataField[zi][yi][xi +1] === 0) west = true;} else {west = true;}
-                        if (xi-1 > 0)                       {if (aDataField[zi][yi][xi -1] === 0) east = true;} else {east = true;}
+                        if (xi-1 >= 0)                       {if (aDataField[zi][yi][xi -1] === 0) east = true;} else {east = true;}
 
                         const voxbuff: Array<HTMLDivElement> = Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1),north,south,east,west,up,down);
 

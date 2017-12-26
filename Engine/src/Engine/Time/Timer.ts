@@ -23,7 +23,7 @@ class Timer
         return this.m_TimeSinceStart;
     }
 
-    public clear(): void
+    public destructor(): void
     {
         clearInterval(this.m_IntervalHandle);
     }
