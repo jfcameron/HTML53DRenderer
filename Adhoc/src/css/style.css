@@ -27,8 +27,3 @@ body
 	top: 50%;
 	left: 50%;
 }
-
-.SceneGraph div
-{
-	position:absolute;
-}

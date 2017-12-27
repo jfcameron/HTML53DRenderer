@@ -5,6 +5,7 @@
 import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
 import Vector3 from "Engine/Math/Vector3"
+import Style from "Engine/Graphics/Style"
 
 const TAG: string = "GraphicsObject";
 
@@ -36,8 +37,7 @@ class GraphicsObject
     {
         if (!(this instanceof GraphicsObject)) throw new Exceptions.Sealed();
 
-        this.m_RootDivHandle.style.position       = "absolute";
-        this.m_RootDivHandle.style.transformStyle = "preserve-3d";
+        this.m_RootDivHandle.className = Style.Class.Object3D;
 
         document.getElementById("MyHardcodedSceneGraph").appendChild(this.m_RootDivHandle);
 

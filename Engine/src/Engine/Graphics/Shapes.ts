@@ -39,8 +39,8 @@ module Shapes
         face.style.height = aScale.y + "px";
 
         face.style.transform = 
-        "translate3d(" + ((-aScale.x/2) + (aPosition.x)) + "px," + (((-aScale.y/2)) + ((aPosition.y))) + "px," + ((0) + (aPosition.z)) + "px)" +
-        "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
+            "translate3d(" + ((-aScale.x/2) + (aPosition.x)) + "px," + (((-aScale.y/2)) + ((aPosition.y))) + "px," + ((0) + (aPosition.z)) + "px)" +
+            "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
         "";
 
         //Performance
@@ -212,13 +212,12 @@ module Shapes
                         );
 
                         const wrapper: HTMLDivElement = document.createElement("div");
-                        wrapper.style.position       = "absolute";
-                        wrapper.style.transformStyle = "preserve-3d";
+                        
+                        wrapper.className += Style.Class.Object3D;
 
                         wrapper.style.transform = 
+                            "translate3d(" + ((-aScale.x/2) + (aPosition.x)) + "px," + (((-aScale.y/2)) + ((aPosition.y))) + "px," + ((0) + (aPosition.z)) + "px)" +
                             "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
-                            "translate3d(" + (aPosition.x - (aScale.x/2)) + "px," + (aPosition.y - (aScale.y/2)) + "px," +          aPosition.z + "px)" + 
-                            "scale3d(" +     aScale.x +    "," +            aScale.y +    "," +            aScale.z + ")" +
                         "";
 
                         for (const vox of voxbuff)

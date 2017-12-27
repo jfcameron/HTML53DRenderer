@@ -45,9 +45,10 @@ export module Style
                 background-size: contain;
                 overflow: auto;
             }
+
             `;
-        
-            document.body.appendChild(style);
+
+            document.head.appendChild(style);
         })();
     }
 }
