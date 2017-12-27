@@ -10,7 +10,8 @@ import { updateSignature } from "Engine/Time/Timer"
 const TAG: string = "IdleTimer";
 
 /**
-* @Brief oo wrapper of requestIdleCallback api
+* @description oo wrapper of requestIdleCallback api
+* @note callback invoked whenever the browser is idling
 */
 class IdleTimer extends Timer
 {

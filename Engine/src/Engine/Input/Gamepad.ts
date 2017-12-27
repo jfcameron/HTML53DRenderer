@@ -14,7 +14,7 @@ const GAMEPAD_POLL_INTERVAL_MS: number = 16;
 namespace Input
 {
     /**
-    * @Brief Tracks the input state of the gamepad connected at the provided index.
+    * @description Tracks the input state of the gamepad connected at the provided index.
     * Can survive reconnection events.
     * 
     * @Warning Only works on Chrome browser.
@@ -37,6 +37,7 @@ namespace Input
                 0;
         }
         
+        /** @param aIndex zeroed index of the connected controller this instance will track */
         constructor(aIndex: number)
         {
             if (!(this instanceof Gamepad)) throw new Exceptions.Sealed();

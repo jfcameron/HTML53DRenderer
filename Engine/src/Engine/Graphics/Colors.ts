@@ -5,7 +5,7 @@
 import Color from "Engine/Graphics/Color"
 
 /**
-* @Brief contains definitions for useful colors
+* @description contains definitions for useful colors
 */
 module Colors
 {
@@ -17,12 +17,12 @@ module Colors
     export const Blue: Color           = Object.freeze(new Color(  0,   0, 255, 1));
 
     /** 
-    * @Brief Traditional error color; hard to miss if the intended asset failed to load.
+    * @description Traditional error color; hard to miss if the intended asset failed to load.
     */
     export const DeathlyPink: Color    = Object.freeze(new Color(255,  51, 204, 1));
     
     /** 
-    * @Brief Traditional clear color of XNA.
+    * @description Traditional clear color of XNA.
     */
     export const CornflowerBlue: Color = Object.freeze(new Color(100, 149, 237, 1));
 }

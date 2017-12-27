@@ -7,10 +7,14 @@ import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG: string = "Timer";
 
+/**
+ * @description signature of all timer callbacks.
+ * @param deltaTime time since last invocation in miliseconds
+ */
 export interface updateSignature { (aDeltaTime: number): void }
 
 /**
-* @Brief commonalities of instantiable Timer types
+* @description commonalities of instantiable Timer types
 */
 abstract class Timer
 {

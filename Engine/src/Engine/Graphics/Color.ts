@@ -8,7 +8,7 @@ import Exceptions from "Engine/Debug/Exceptions"
 const TAG: string = "Color";
 
 /**
-* @Brief represents 4 channel color
+* @description represents 4 channel color
 * @Note A value is a normalized value (0-1) range
 * @Note RGB values are 0-255.
 */

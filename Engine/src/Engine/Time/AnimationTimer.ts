@@ -10,7 +10,8 @@ import { updateSignature } from "Engine/Time/Timer"
 const TAG: string = "AnimationTimer";
 
 /**
-* @Brief oo wrapper of requestAnimationFrame api
+* @description oo wrapper of requestAnimationFrame api
+* @note callback is invoked whenever the browser deems it safe to render the screen.
 */
 class AnimationTimer extends Timer
 {

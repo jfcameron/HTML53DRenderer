@@ -10,19 +10,19 @@ import Colors from "Engine/Graphics/Colors"
 const TAG: string = "Shapes";
 
 /**
-* @Brief contains definitions for basic HTMLDivElement based geometry.
+* @description contains definitions for basic HTMLDivElement based geometry.
 */
 module Shapes
 {
     /**
-    * @Brief Creates and prepares a div element for 3D rendering in the document
+    * @description Creates and prepares a div element for 3D rendering in the document
     */
     export function Quad(aPosition: Vector3, aRotation: Vector3, aScale: Vector3, aHideBackface?: boolean): HTMLDivElement
     {
-        if (aHideBackface === undefined) aHideBackface = false;
+        if (aHideBackface === undefined) aHideBackface = true;
 
         //aPosition = new Vector3(), aRotation = new Vector3(), aScale = new Vector3(1,1,1);
-        const aColor: Color = Colors.Green;
+        const aColor: Color = Colors.Black;
 
         const face: HTMLDivElement = document.createElement("div");
 
@@ -38,13 +38,13 @@ module Shapes
         "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
         "";
 
-        //face.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
+        face.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
         face.style.backgroundImage = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAbSURBVBhXY/j////Mm68wSQasokByMOr4/x8A0warIZLZpA8AAAAASUVORK5CYII=')";
         face.style.backgroundSize  = "contain";
         face.style.backgroundImage = "url('img/brick.png')";//"url('img/Awesome.png')";
 
         //Performance
-        if (!aHideBackface)
+        if (aHideBackface)
             face.style.backfaceVisibility = "hidden";
 
         (<any>face.style).willChange = "transform"; //prevents composite draw stage issues
@@ -53,7 +53,7 @@ module Shapes
     }
 
     /**
-    * @Brief Creates and prepares a collection of div elements in a cube shape for 3D rendering in the document
+    * @description Creates and prepares a collection of div elements in a cube shape for 3D rendering in the document
     */
     export function Cube(aPosition: Vector3, aRotation: Vector3, aScale: Vector3): Array<HTMLDivElement>
     {
@@ -61,7 +61,27 @@ module Shapes
     }
 
     /**
-    * @Brief Creates and prepares a cube or sections of a cube made out of divs
+     * @description an object created from a series of intersecting planes
+     */
+    export function Intersection(aHorizontalPlaneCount: number, aVerticalPlaneCount: number): Array<HTMLDivElement>
+    {
+        const aPosition = new Vector3(), aRotation = new Vector3(), aScale = new Vector3(1,1,1);
+        const hsize = new Vector3(aScale.x/2, aScale.y/2, aScale.z/2);
+
+        const output: Array<HTMLDivElement> = new Array<HTMLDivElement>();
+
+        for (let i = 0; i < aHorizontalPlaneCount; ++i)
+            output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 90, aRotation.y + i*(180/aHorizontalPlaneCount), aRotation.z + 0), aScale, false));
+        
+        for (let i = 0; i < aVerticalPlaneCount; ++i)
+            output.push(Quad(new Vector3(aPosition.x + 0, aPosition.y + 0, aPosition.z + 0), new Vector3(aRotation.x + 0, aRotation.y +   i*(180/aVerticalPlaneCount), aRotation.z + 0), aScale, false));
+            
+
+        return output;
+    }
+
+    /**
+    * @description Creates and prepares a cube or sections of a cube made out of divs
     */
     export function Voxel(aPosition: Vector3, aRotation: Vector3, aScale: Vector3, aNorth: boolean, aSouth: boolean, aEast: boolean, aWest: boolean, aUp: boolean, aDown: boolean): Array<HTMLDivElement>
     {
@@ -82,9 +102,9 @@ module Shapes
     }
 
     /**
-    * @Brief Signature of the per voxel operations block available at voxel processing stage of VoxelField renderer
-    * @Param aThisVoxel contains the index and value of the voxel currently being processed
-    * @Param aNeighbours contains the value of the 6 orthogonal neighbours
+    * @description Signature of the per voxel operations block available at voxel processing stage of VoxelField renderer
+    * @param aThisVoxel contains the index and value of the voxel currently being processed
+    * @param aNeighbours contains the value of the 6 orthogonal neighbours
     * @Note If implementing a custom VoxelProcessingStageCallback, keep in mind a neighbour value will be undefined if the neighbour index is out of bounds
     */
     export interface VoxelProcessingStageSignature
@@ -93,7 +113,7 @@ module Shapes
     }
 
     /**
-    * @Brief associates 3d data array passed to VoxelField with the spacial dimensions
+    * @description associates 3d data array passed to VoxelField with the spacial dimensions
     */
     export enum VoxelFieldOrientation
     {
@@ -104,9 +124,9 @@ module Shapes
     }
 
     /**
-    * @Brief Processes scalar field, producing a cubic mesh from it. 
-    * @Param aDataField represents 3D scalar field. Exactly how these values impact the output mesh is up to implementation of aPerVoxelProcessingStageCallback.
-    * @Param aPerVoxelProcessingStageCallback optional callback that specifies how to process the datafield from the perspective of the voxel at {x,y,z}
+    * @description Processes scalar field, producing a cubic mesh from it. 
+    * @param aDataField represents 3D scalar field. Exactly how these values impact the output mesh is up to implementation of aPerVoxelProcessingStageCallback.
+    * @param aPerVoxelProcessingStageCallback optional callback that specifies how to process the datafield from the perspective of the voxel at {x,y,z}
     * @Note If no aPerVoxelProcessingStageCallback is specified, the default behaviour is to render a surface only if the neighbour value is 0.
     * @Note If implementing a custom VoxelProcessingStageCallback, keep in mind a neighbour value will be undefined if the neighbour index is out of bounds
     */

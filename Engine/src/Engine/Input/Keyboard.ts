@@ -8,7 +8,7 @@ import Exceptions from "Engine/Debug/Exceptions"
 const TAG: string = "Keyboard";
 
 /**
-* @Brief synchronous wrapper for keyboard related apis
+* @description synchronous wrapper for keyboard related apis
 */
 class Keyboard
 {
@@ -26,7 +26,6 @@ class Keyboard
         document.onkeydown = (event: KeyboardEvent): void =>
         {
             this.m_Keys[event.code] = true;
-            //console.log(event);
         };
 
         document.onkeyup = (event: KeyboardEvent): void =>

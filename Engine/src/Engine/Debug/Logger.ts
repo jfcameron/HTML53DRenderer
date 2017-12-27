@@ -7,12 +7,12 @@ import Exceptions from "Engine/Debug/Exceptions"
 const TAG: string = "Logger";
 
 /**
-* @Brief type requirement for .Log() params
+* @description type requirement for Logger.Log(...) params
 */
 export interface loggable { toString(): string; }
 
 /**
-* @Brief Prefixed logger with tag & logger based silencing
+* @description Prefixed logger with tag & logger based silencing
 */
 class Logger
 {
@@ -29,6 +29,10 @@ class Logger
         this.m_Disabled = true;
     }
 
+    /**
+     * @param aTag special string to identify caller by location in code, can be used to suppress certain logs
+     * @param rest anything that can be represented as a string
+     */
     public Log(aTag: string, ...rest: loggable[])
     {
         if (!this.m_Disabled && !this.m_TagBlock[aTag])

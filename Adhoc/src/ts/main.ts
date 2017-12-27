@@ -39,7 +39,7 @@ const sca = new Vector3(500,500,500);
 const voxdat = 
 [
     [
-        [0,0,1,0,1,0,0],
+        [1,0,1,0,1,0,1],
         [0,1,0,0,0,1,0],
         [0,0,0,0,0,0,0],
         [0,0,0,1,0,0,0],
@@ -50,9 +50,10 @@ const voxdat =
 ];
 
 //Cube(aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
-const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Horizontal),pos,rot,sca);
+//const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Horizontal),pos,rot,sca);
 //const gfxobj = new GraphicsObject(Shapes.Cube(new Vector3(0,0,0), new Vector3(), new Vector3(1,1,1)),pos,rot,sca);
-//const gfxobj2 = new GraphicsObject(Shapes.Quad(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1)),pos,rot,sca);
+//const gfxobj = new GraphicsObject(Shapes.Quad(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1), false),pos,rot,sca);
+const gfxobj = new GraphicsObject(Shapes.Intersection(2,0));
 
 //=========
 // Mainline
@@ -81,8 +82,8 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
     rot.y += gamepad.getAxis(2) * aDeltaTime;
     rot.x += gamepad.getAxis(3) * aDeltaTime;
 
-    //pos.z += 1;
-    rot.y += 1;
+    
+    //rot.y += 1;
 });
 
 const renderLoop = new AnimationTimer((aDeltaTime: number) =>

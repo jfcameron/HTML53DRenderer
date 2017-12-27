@@ -9,7 +9,7 @@ import {loggable} from "Engine/Debug/Logger"
 const TAG: string = "Debug";
 
 /**
-* @Brief Prefixed logging utilities
+* @description Prefixed logging utilities
 */
 abstract class Debug
 {

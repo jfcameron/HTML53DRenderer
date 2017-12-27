@@ -3,12 +3,12 @@
 // Created on 2017-12-20.
 
 /**
-* @Brief defines projectwide exceptions
+* @description defines projectwide exceptions
 */
 module Exceptions
 {
     /**
-    * @Brief Thrown from stub functions, stub classes
+    * @description Thrown from stub functions, stub classes
     */
     export class Unimplemented extends Error 
     {
@@ -21,8 +21,8 @@ module Exceptions
     }
 
     /**
-    * @Brief Thrown at instantiation of a class whose ancestor was not designed to be subclassed
-    * @Note This is a workaround for lack of compile time assertion that a class type is unsubclassable in TS 2.6.2. Refer to C++11/Java's Final, C#'s sealed
+    * @description Thrown at instantiation of a class whose ancestor was not designed to be subclassed
+    * @note This is a workaround for lack of compile time assertion that a class type is unsubclassable in TS 2.6.2. Refer to C++11/Java's Final, C#'s sealed
     */
     export class Sealed extends Error 
     {

@@ -10,7 +10,8 @@ import { updateSignature } from "Engine/Time/Timer"
 const TAG: string = "IntervalTimer";
 
 /**
-* @Brief oo wrapper of setInterval
+* @description oo wrapper of setInterval
+* @note callback is called every number of miliseconds specified by user in aTickSizeInMiliseconds ctor param
 */
 class IntervalTimer extends Timer
 {

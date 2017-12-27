@@ -8,25 +8,14 @@ import Exceptions from "Engine/Debug/Exceptions"
 const TAG: string = "Sprite";
 
 /**
-* @Brief draws subsections of an image using canvas 2d context.
+* @description draws subsections of an image using canvas 2d context.
 * Useful for rendering packed textures or spritesheets.
-* @Note can be thought of as a kind of canvas view controller
 */
 class Sprite
 {
     private readonly m_Canvas  = document.createElement("canvas");
     private readonly m_Context = this.m_Canvas.getContext('2d');
     private readonly m_Image: HTMLImageElement;
-
-    public toString(): string
-    {
-        throw new Exceptions.Unimplemented();
-    }
-
-    public equalTo(aOther: Sprite): boolean
-    {
-        throw new Exceptions.Unimplemented();
-    }
 
     public draw(aU: number, aV: number, cellWidth: number, cellHeight: number): void
     {
@@ -35,7 +24,12 @@ class Sprite
         this.m_Context.drawImage(this.m_Image, aU * cellWidth, aV * cellHeight, cellWidth, cellHeight, 0, 0, this.m_Canvas.width, this.m_Canvas.height);
     }
 
+    /**
+     * @param aDiv div to be used as a surface for the sprite's canvas
+     * @param aImage an image to use for drawing. Fetch does not have to be completed.
+     */
     constructor(aDiv: HTMLDivElement, aImage: HTMLImageElement)
+    /** @param aImageURL url to image either local to server or cross domain */
     constructor(aDiv: HTMLDivElement, aImageURL: string)
     constructor(aDiv: HTMLDivElement, aData?: any)
     {
