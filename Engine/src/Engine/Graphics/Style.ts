@@ -35,16 +35,16 @@ export module Style
 
             .${SceneGraph}
             {
-	            top: 50%;
-	            left: 50%;
+                top: 50%;
+                left: 50%;
             }
 
             .${Camera}
             {
-	            perspective:800px;
-	            overflow: hidden;
-	            width: 100%;
-                height: 100%;	
+                perspective:800px;
+                overflow: hidden;
+                width: 100%;
+                height: 100%;    
                 transform-origin: 50% 50% 50%;
             }
 
