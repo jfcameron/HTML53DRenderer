@@ -47,10 +47,7 @@ const voxdat =
     ]
 ];
 
-//Cube(aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
-//const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Horizontal),pos,rot,sca);
-//const gfxobj = new GraphicsObject(Shapes.Cube(new Vector3(0,0,0), new Vector3(), new Vector3(1,1,1)),pos,rot,sca);
-//const gfxobj = new GraphicsObject(Shapes.Quad(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1), false),pos,rot,sca);
+const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical), new Vector3(0,-1000,-8000), Vector3.Zero, new Vector3(500,500,500));
 
 class Player
 {
@@ -73,8 +70,8 @@ class Player
 
         if (Keyboard.getKey("KeyA")) this.rot.y += this.rspeed * aDeltaTime;
         if (Keyboard.getKey("KeyD")) this.rot.y -= this.rspeed * aDeltaTime;
-        if (Keyboard.getKey("KeyW")) this.rot.x -= this.rspeed * aDeltaTime;
-        if (Keyboard.getKey("KeyS")) this.rot.x += this.rspeed * aDeltaTime;
+        //if (Keyboard.getKey("KeyW")) this.rot.x -= this.rspeed * aDeltaTime;
+        //if (Keyboard.getKey("KeyS")) this.rot.x += this.rspeed * aDeltaTime;
 
         if (Keyboard.getKey("ArrowUp"))    translationBuffer.z -= this.tspeed * aDeltaTime;
         if (Keyboard.getKey("ArrowDown"))  translationBuffer.z += this.tspeed * aDeltaTime;
@@ -112,9 +109,9 @@ class Player
 // Mainline
 //=========
 const camera = document.getElementById("MyHardcodedSceneGraph");
-const aPosition = new Vector3();
+const aPosition = new Vector3(0,+750,0);
 const aRotation = new Vector3();
-const aScale    = new Vector3(1,1,1);
+const aScale    = Vector3.One;
 
 const player = new Player();
 
@@ -123,8 +120,8 @@ floor.draw(new Vector3(0,500,-5000),new Vector3(0,+500,0),new Vector3(5000,500,5
 
 const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
-    Debug.Log(TAG, Keyboard.getKeyDown("KeyA") ? "getKeyDown" : Keyboard.getKey("KeyA") ? "getKey" : "keyUp");
-
+    //Debug.Log(TAG, Keyboard.getKeyDown("KeyA") ? "getKeyDown" : Keyboard.getKey("KeyA") ? "getKey" : "keyUp");
+    Mouse.getButton(0);
     player.update(aDeltaTime);    
 
     camera.style.transform = 

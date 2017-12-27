@@ -9,12 +9,12 @@ import Color from "Engine/Graphics/Color"
 */
 module Colors
 {
-    export const Black: Color          = Object.freeze(new Color(  0,   0,   0, 1));
-    export const White: Color          = Object.freeze(new Color(255, 255, 255, 1));
-    export const Red: Color            = Object.freeze(new Color(255,   0,   0, 1));
-    export const Green: Color          = Object.freeze(new Color(  0, 255,   0, 1));
-    export const DarkGreen: Color      = Object.freeze(new Color(  0, 153,   0, 1));
-    export const Blue: Color           = Object.freeze(new Color(  0,   0, 255, 1));
+    export const Black: Color     = Object.freeze(new Color(  0,   0,   0, 1));
+    export const White: Color     = Object.freeze(new Color(255, 255, 255, 1));
+    export const Red: Color       = Object.freeze(new Color(255,   0,   0, 1));
+    export const Green: Color     = Object.freeze(new Color(  0, 255,   0, 1));
+    export const DarkGreen: Color = Object.freeze(new Color(  0, 153,   0, 1));
+    export const Blue: Color      = Object.freeze(new Color(  0,   0, 255, 1));
 
     /** 
     * @description Traditional error color; hard to miss if the intended asset failed to load.

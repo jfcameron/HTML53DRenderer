@@ -5,6 +5,7 @@
 import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
 import Vector2 from "Engine/Math/Vector2"
+import WebAPIs from "Engine/WebAPIs"
 
 const TAG: string = "Mouse";
 
@@ -34,7 +35,7 @@ class Mouse
 
     public getDelta(): Vector2 
     {
-        if (performance.now() - this.m_DeltaTimestamp > DELTA_VALUE_LIFETIME_MS)
+        if (WebAPIs.performance.now() - this.m_DeltaTimestamp > DELTA_VALUE_LIFETIME_MS)
             this.m_Delta.set(0,0);
 
         return this.m_Delta;
@@ -44,17 +45,17 @@ class Mouse
     {
         if (!(this instanceof Mouse)) throw new Exceptions.Sealed();
 
-        document.body.onmousedown = (event: MouseEvent) =>
+        WebAPIs.document.body.onmousedown = (event: MouseEvent) =>
         {
             this.m_Buttons[event.button] = true;
         };
 
-        document.body.onmouseup = (event: MouseEvent) =>
+        WebAPIs.document.body.onmouseup = (event: MouseEvent) =>
         {
             this.m_Buttons[event.button] = false;
         };
 
-        document.addEventListener("mousemove", (event: MouseEvent) =>
+        WebAPIs.document.addEventListener("mousemove", (event: MouseEvent) =>
         {
             this.m_ClientPosition.set(event.clientX, event.clientY);
 

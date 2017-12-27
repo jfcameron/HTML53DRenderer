@@ -12,6 +12,9 @@ const TAG: string = "Vector2";
 */
 class Vector2
 {
+    static readonly Zero: Vector2 = new Vector2();
+    static readonly One: Vector2 = new Vector2(1,1);
+
     public x: number = 0;
     public y: number = 0;
 

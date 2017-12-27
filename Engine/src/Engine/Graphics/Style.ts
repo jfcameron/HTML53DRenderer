@@ -5,6 +5,7 @@
 import Debug from "Engine/Debug"
 import Images from "Engine/Graphics/Images"
 import Colors from "Engine/Graphics/Colors"
+import WebAPIs from "Engine/WebAPIs"
 
 const PREFIX: string = "HTML53DRenderer_";
 

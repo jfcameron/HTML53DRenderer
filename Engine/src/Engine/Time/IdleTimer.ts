@@ -17,11 +17,11 @@ const TAG: string = "IdleTimer";
 class IdleTimer extends Timer
 {
     protected readonly m_IntervalHandle: number;
-    protected          m_LastTime: number = performance.now();
+    protected m_LastTime: number = WebAPIs.performance.now();
 
     public destruct(): void
     {
-        (<any>window).cancelIdleCallback(this.m_IntervalHandle);
+        WebAPIs.window.cancelIdleCallback(this.m_IntervalHandle);
     }
 
     constructor(aUpdateCallback: updateSignature)
@@ -30,14 +30,14 @@ class IdleTimer extends Timer
 
         const callbackwrapper = () => 
         {
-            aUpdateCallback(performance.now() - this.m_LastTime);
+            aUpdateCallback(WebAPIs.performance.now() - this.m_LastTime);
 
             this.m_LastTime = performance.now();
     
-            (<any>window).requestIdleCallback(callbackwrapper);
+            WebAPIs.window.requestIdleCallback(callbackwrapper);
         }
 
-        (<any>window).requestIdleCallback(callbackwrapper);
+        WebAPIs.window.requestIdleCallback(callbackwrapper);
 
         if (!(this instanceof IdleTimer)) throw new Exceptions.Sealed();
     }

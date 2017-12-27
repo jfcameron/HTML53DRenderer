@@ -4,6 +4,7 @@
 
 import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
+import WebAPIs from "Engine/WebAPIs"
 
 const TAG: string = "Keyboard";
 
@@ -31,7 +32,7 @@ class Keyboard
      */
     public getKeyDown(aCode: string): boolean
     {
-        return this.m_Keys[aCode] != undefined ? performance.now() - this.m_Keys[aCode] < KEY_JUST_PRESSED_WINDOW: false;
+        return this.m_Keys[aCode] != undefined ? WebAPIs.performance.now() - this.m_Keys[aCode] < KEY_JUST_PRESSED_WINDOW: false;
     }
 
     constructor()
@@ -40,7 +41,7 @@ class Keyboard
 
         document.onkeydown = (event: KeyboardEvent): void =>
         {
-            console.log(event);
+            //console.log(event);
             if (this.m_Keys[event.code] === undefined)
                 this.m_Keys[event.code] = event.timeStamp;
         };
