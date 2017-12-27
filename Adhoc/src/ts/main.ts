@@ -53,7 +53,9 @@ const voxdat =
 //const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Horizontal),pos,rot,sca);
 //const gfxobj = new GraphicsObject(Shapes.Cube(new Vector3(0,0,0), new Vector3(), new Vector3(1,1,1)),pos,rot,sca);
 //const gfxobj = new GraphicsObject(Shapes.Quad(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1), false),pos,rot,sca);
-const gfxobj = new GraphicsObject(Shapes.Intersection(2,0));
+const myshape = Shapes.Quad();
+const mysprite = new Sprite(myshape,"img/Blocky.png");
+const gfxobj = new GraphicsObject(myshape);
 
 //=========
 // Mainline
@@ -64,6 +66,9 @@ const tspeed = 5;
 const rspeed = 0.25;
 
 pos.z = -6000;
+
+let u: number = 0;
+let i = 0;
 
 const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
@@ -82,13 +87,17 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
     rot.y += gamepad.getAxis(2) * aDeltaTime;
     rot.x += gamepad.getAxis(3) * aDeltaTime;
 
-    
-    //rot.y += 1;
+    u = ++i % 16 === 0 ? u < 3 ? 1 + u : 0 : u;
+
+//    rot.x += 1;
 });
+
+
 
 const renderLoop = new AnimationTimer((aDeltaTime: number) =>
 {
     gfxobj.draw(pos,rot,sca);
+    mysprite.draw(u,0,16,17);
 });
 
 const idleLoop = new IdleTimer((aDeltaTime: number) =>

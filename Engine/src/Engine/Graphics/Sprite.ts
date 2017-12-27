@@ -4,6 +4,7 @@
 
 import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
+import Style from "Engine/Graphics/Style"
 
 const TAG: string = "Sprite";
 
@@ -35,9 +36,8 @@ class Sprite
     {
         if (!(this instanceof Sprite)) throw new Exceptions.Sealed();
 
-        this.m_Canvas.style.width  ='100%';
-        this.m_Canvas.style.height ='100%';
-
+        this.m_Canvas.className += Style.Class.Canvas;
+        
         this.m_Context.webkitImageSmoothingEnabled = false;
         this.m_Context.imageSmoothingEnabled       = false;
 
