@@ -14,6 +14,9 @@ const TAG: string = "Shapes";
 */
 module Shapes
 {
+    /**
+    * @Brief Creates and prepares a div element for 3D rendering in the document
+    */
     export function Quad(aPosition: Vector3, aRotation: Vector3, aScale: Vector3): HTMLDivElement
     {
         //aPosition = new Vector3(), aRotation = new Vector3(), aScale = new Vector3(1,1,1);
@@ -45,11 +48,17 @@ module Shapes
         return face;
     }
 
+    /**
+    * @Brief Creates and prepares a collection of div elements in a cube shape for 3D rendering in the document
+    */
     export function Cube(aPosition: Vector3, aRotation: Vector3, aScale: Vector3): Array<HTMLDivElement>
     {
         return Voxel(aPosition, aRotation, aScale, true, true, true, true, true, true);
     }
 
+    /**
+    * @Brief Creates and prepares a cube or sections of a cube made out of divs
+    */
     export function Voxel(aPosition: Vector3, aRotation: Vector3, aScale: Vector3, aNorth: boolean, aSouth: boolean, aEast: boolean, aWest: boolean, aUp: boolean, aDown: boolean): Array<HTMLDivElement>
     {
         const output: Array<HTMLDivElement> = new Array<HTMLDivElement>();
@@ -68,23 +77,33 @@ module Shapes
         return output;
     }
 
+    /**
+    * @Brief Signature of the per voxel operations block available at voxel processing stage of VoxelField renderer
+    * @Param aThisVoxel contains the index and value of the voxel currently being processed
+    * @Param aNeighbours contains the value of the 6 cardinal neighbours
+    */
     export interface VoxelProcessingStageSignature
     {
         (aThisVoxel: {x: number, y: number, z: number, value: number}, aNeighbours: {north: number, south: number, east: number, west: number, up: number, down: number}): Array<HTMLDivElement>
     }
 
+    /**
+    * @Brief Processes scalar field, producing a cubic mesh from it. 
+    * @Note If no aPerVoxelProcessingStageCallback is specified, the default behaviour is to render a surface only if the neighbour value is 0.
+    * @Note If implementing a custom VoxelProcessingStageCallback, keep in mind a neighbour value will be undefined if the neighbour index is out of bounds
+    */
     export function VoxelField(aDataField: number[][][], aPerVoxelProcessingStageCallback?: VoxelProcessingStageSignature): Array<HTMLDivElement>
     {
         if (!aPerVoxelProcessingStageCallback)
         {
             aPerVoxelProcessingStageCallback = (aThisVoxel: {x: number, y: number, z: number, value: number}, aNeighbourData: {north: number, south: number, east: number, west: number, up: number, down: number}): Array<HTMLDivElement> =>
             {
-                const north = aNeighbourData.north != 0;
-                const south = aNeighbourData.south != 0;
-                const east  = aNeighbourData.east  != 0;
-                const west  = aNeighbourData.west  != 0;
-                const up    = aNeighbourData.up    != 0;
-                const down  = aNeighbourData.down  != 0;
+                const north = aNeighbourData.north === undefined ? false : aNeighbourData.north != 0;
+                const south = aNeighbourData.south === undefined ? false : aNeighbourData.south != 0;
+                const east  = aNeighbourData.east  === undefined ? false : aNeighbourData.east  != 0;
+                const west  = aNeighbourData.west  === undefined ? false : aNeighbourData.west  != 0;
+                const up    = aNeighbourData.up    === undefined ? false : aNeighbourData.up    != 0;
+                const down  = aNeighbourData.down  === undefined ? false : aNeighbourData.down  != 0;
 
                 return Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1), north, south, east, west, up, down);
             };
@@ -116,24 +135,22 @@ module Shapes
                         aPosition.z -= aScale.z * 0.5 * aDataField.length;
  
                         //check neighbours...
-                        let north = false, south = false, east = false, west = false, up = false, down = false;
+                        let north = 0, south = 0, east = 0, west = 0, up = 0, down = 0;
 
-                        if (zi+1 < aDataField.length) {if (aDataField[zi + 1][yi][xi] === 0) north = true;} else {north = true;}
-                        if (zi-1 >= 0)                {if (aDataField[zi - 1][yi][xi] === 0) south = true;} else {south = true;}
+                        if (zi+1 < aDataField.length) {if (aDataField[zi + 1][yi][xi] === 0) north = 1;} else {north = undefined;}
+                        if (zi-1 >= 0)                {if (aDataField[zi - 1][yi][xi] === 0) south = 1;} else {south = undefined;}
 
-                        if (yi+1 < aDataField[0].length) {if (aDataField[zi][yi + 1][xi] === 0) down = true;} else {down = true;}
-                        if (yi-1 >= 0)                   {if (aDataField[zi][yi - 1][xi] === 0) up   = true;} else {up = true;}
+                        if (yi+1 < aDataField[0].length) {if (aDataField[zi][yi + 1][xi] === 0) down = 1;} else {down = undefined;}
+                        if (yi-1 >= 0)                   {if (aDataField[zi][yi - 1][xi] === 0) up   = 1;} else {up = undefined;}
 
-                        if (xi+1 < aDataField[0][0].length) {if (aDataField[zi][yi][xi +1] === 0) west = true;} else {west = true;}
-                        if (xi-1 >= 0)                      {if (aDataField[zi][yi][xi -1] === 0) east = true;} else {east = true;}
+                        if (xi+1 < aDataField[0][0].length) {if (aDataField[zi][yi][xi +1] === 0) west = 1;} else {west = undefined;}
+                        if (xi-1 >= 0)                      {if (aDataField[zi][yi][xi -1] === 0) east = 1;} else {east = undefined;}
 
-                        aPerVoxelProcessingStageCallback
+                        const voxbuff: Array<HTMLDivElement> = aPerVoxelProcessingStageCallback
                         (
                             {x: xi, y: yi, z: zi, value: aDataField[zi][yi][xi]},
-                            {north: 0, south: 0, east: 0, west: 0, up: 0, down: 0}
+                            {north: north, south: south, east: east, west: west, up: up, down: down}
                         );
-
-                        const voxbuff: Array<HTMLDivElement> = Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1),north,south,east,west,up,down);
 
                         const wrapper: HTMLDivElement = document.createElement("div");
                         wrapper.style.position       = "absolute";
