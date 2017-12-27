@@ -127,8 +127,8 @@ module Shapes
     * @description Processes scalar field, producing a cubic mesh from it. 
     * @param aDataField represents 3D scalar field. Exactly how these values impact the output mesh is up to implementation of aPerVoxelProcessingStageCallback.
     * @param aPerVoxelProcessingStageCallback optional callback that specifies how to process the datafield from the perspective of the voxel at {x,y,z}
-    * @Note If no aPerVoxelProcessingStageCallback is specified, the default behaviour is to render a surface only if the neighbour value is 0.
-    * @Note If implementing a custom VoxelProcessingStageCallback, keep in mind a neighbour value will be undefined if the neighbour index is out of bounds
+    * @note If no aPerVoxelProcessingStageCallback is specified, the default behaviour is to render a surface only if the neighbour value is 0.
+    * @note If implementing a custom VoxelProcessingStageCallback, keep in mind a neighbour value will be undefined if the neighbour index is out of bounds
     */
     export function VoxelField(aDataField: number[][][], aOrientation?: VoxelFieldOrientation, aPerVoxelProcessingStageCallback?: VoxelProcessingStageSignature): Array<HTMLDivElement>
     {
@@ -158,12 +158,12 @@ module Shapes
         {
             aPerVoxelProcessingStageCallback = (aThisVoxel: {x: number, y: number, z: number, value: number}, aNeighbourData: {north: number, south: number, east: number, west: number, up: number, down: number}): Array<HTMLDivElement> =>
             {
-                const north = aNeighbourData.north === undefined ? true : aNeighbourData.north != 0;
-                const south = aNeighbourData.south === undefined ? true : aNeighbourData.south != 0;
-                const east  = aNeighbourData.east  === undefined ? true : aNeighbourData.east  != 0;
-                const west  = aNeighbourData.west  === undefined ? true : aNeighbourData.west  != 0;
-                const up    = aNeighbourData.up    === undefined ? true : aNeighbourData.up    != 0;
-                const down  = aNeighbourData.down  === undefined ? true : aNeighbourData.down  != 0;
+                const north = aNeighbourData.north === undefined ? true : aNeighbourData.north === 0;
+                const south = aNeighbourData.south === undefined ? true : aNeighbourData.south === 0;
+                const east  = aNeighbourData.east  === undefined ? true : aNeighbourData.east  === 0;
+                const west  = aNeighbourData.west  === undefined ? true : aNeighbourData.west  === 0;
+                const up    = aNeighbourData.up    === undefined ? true : aNeighbourData.up    === 0;
+                const down  = aNeighbourData.down  === undefined ? true : aNeighbourData.down  === 0;
 
                 return Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1), north, south, east, west, up, down);
             };
@@ -197,14 +197,14 @@ module Shapes
                         //check neighbours...
                         let north = 0, south = 0, east = 0, west = 0, up = 0, down = 0;
 
-                        if (zi+1 < aDataField.length) {if (aDataField[zi + 1][yi][xi] === 0) north = 1;} else {north = undefined;}
-                        if (zi-1 >= 0)                {if (aDataField[zi - 1][yi][xi] === 0) south = 1;} else {south = undefined;}
+                        north = zi+1 < aDataField.length ? aDataField[zi + 1][yi][xi] : undefined;
+                        south = zi-1 >= 0                ? aDataField[zi - 1][yi][xi] : undefined;
 
-                        if (yi+1 < aDataField[0].length) {if (aDataField[zi][yi + 1][xi] === 0) down = 1;} else {down = undefined;}
-                        if (yi-1 >= 0)                   {if (aDataField[zi][yi - 1][xi] === 0) up   = 1;} else {up   = undefined;}
+                        down = yi+1 < aDataField[0].length ? aDataField[zi][yi + 1][xi] : down = undefined;
+                        up   = yi-1 >= 0                   ? aDataField[zi][yi - 1][xi] : up   = undefined;
 
-                        if (xi+1 < aDataField[0][0].length) {if (aDataField[zi][yi][xi +1] === 0) west = 1;} else {west = undefined;}
-                        if (xi-1 >= 0)                      {if (aDataField[zi][yi][xi -1] === 0) east = 1;} else {east = undefined;}
+                        west = xi+1 < aDataField[0][0].length ? aDataField[zi][yi][xi +1] : west = undefined;
+                        east = xi-1 >= 0                      ? aDataField[zi][yi][xi -1] : east = undefined;
 
                         const voxbuff: Array<HTMLDivElement> = aPerVoxelProcessingStageCallback
                         (
