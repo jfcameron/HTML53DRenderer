@@ -17,8 +17,10 @@ module Shapes
     /**
     * @Brief Creates and prepares a div element for 3D rendering in the document
     */
-    export function Quad(aPosition: Vector3, aRotation: Vector3, aScale: Vector3): HTMLDivElement
+    export function Quad(aPosition: Vector3, aRotation: Vector3, aScale: Vector3, aHideBackface?: boolean): HTMLDivElement
     {
+        if (aHideBackface === undefined) aHideBackface = false;
+
         //aPosition = new Vector3(), aRotation = new Vector3(), aScale = new Vector3(1,1,1);
         const aColor: Color = Colors.Green;
 
@@ -28,8 +30,8 @@ module Shapes
         face.style.transformStyle = "preserve-3d"; 
         face.style.transformOrigin = "50% 50% 50%";
 
-        face.style.width           = aScale.x + "px";
-        face.style.height          = aScale.y + "px";
+        face.style.width  = aScale.x + "px";
+        face.style.height = aScale.y + "px";
 
         face.style.transform = 
         "translate3d(" + ((-aScale.x/2) + (aPosition.x)) + "px," + (((-aScale.y/2)) + ((aPosition.y))) + "px," + ((0) + (aPosition.z)) + "px)" +
@@ -42,7 +44,9 @@ module Shapes
         face.style.backgroundImage = "url('img/brick.png')";//"url('img/Awesome.png')";
 
         //Performance
-        face.style.backfaceVisibility = "hidden";
+        if (!aHideBackface)
+            face.style.backfaceVisibility = "hidden";
+
         (<any>face.style).willChange = "transform"; //prevents composite draw stage issues
         
         return face;
@@ -101,12 +105,12 @@ module Shapes
         {
             aPerVoxelProcessingStageCallback = (aThisVoxel: {x: number, y: number, z: number, value: number}, aNeighbourData: {north: number, south: number, east: number, west: number, up: number, down: number}): Array<HTMLDivElement> =>
             {
-                const north = aNeighbourData.north === undefined ? false : aNeighbourData.north != 0;
-                const south = aNeighbourData.south === undefined ? false : aNeighbourData.south != 0;
-                const east  = aNeighbourData.east  === undefined ? false : aNeighbourData.east  != 0;
-                const west  = aNeighbourData.west  === undefined ? false : aNeighbourData.west  != 0;
-                const up    = aNeighbourData.up    === undefined ? false : aNeighbourData.up    != 0;
-                const down  = aNeighbourData.down  === undefined ? false : aNeighbourData.down  != 0;
+                const north = aNeighbourData.north === undefined ? true : aNeighbourData.north != 0;
+                const south = aNeighbourData.south === undefined ? true : aNeighbourData.south != 0;
+                const east  = aNeighbourData.east  === undefined ? true : aNeighbourData.east  != 0;
+                const west  = aNeighbourData.west  === undefined ? true : aNeighbourData.west  != 0;
+                const up    = aNeighbourData.up    === undefined ? true : aNeighbourData.up    != 0;
+                const down  = aNeighbourData.down  === undefined ? true : aNeighbourData.down  != 0;
 
                 return Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1), north, south, east, west, up, down);
             };
@@ -144,7 +148,7 @@ module Shapes
                         if (zi-1 >= 0)                {if (aDataField[zi - 1][yi][xi] === 0) south = 1;} else {south = undefined;}
 
                         if (yi+1 < aDataField[0].length) {if (aDataField[zi][yi + 1][xi] === 0) down = 1;} else {down = undefined;}
-                        if (yi-1 >= 0)                   {if (aDataField[zi][yi - 1][xi] === 0) up   = 1;} else {up = undefined;}
+                        if (yi-1 >= 0)                   {if (aDataField[zi][yi - 1][xi] === 0) up   = 1;} else {up   = undefined;}
 
                         if (xi+1 < aDataField[0][0].length) {if (aDataField[zi][yi][xi +1] === 0) west = 1;} else {west = undefined;}
                         if (xi-1 >= 0)                      {if (aDataField[zi][yi][xi -1] === 0) east = 1;} else {east = undefined;}
@@ -158,16 +162,11 @@ module Shapes
                         const wrapper: HTMLDivElement = document.createElement("div");
                         wrapper.style.position       = "absolute";
                         wrapper.style.transformStyle = "preserve-3d";
-                        //wrapper.style.overflow = "hidden";
-                        //wrapper.style.transformOrigin = "50% 50% 50%";
-                        wrapper.style.left   = "100%";
-                        wrapper.style.width  = "100%";
-                        wrapper.style.height = "100%";
 
                         wrapper.style.transform = 
                             "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
                             "translate3d(" + (aPosition.x - (aScale.x/2)) + "px," + (aPosition.y - (aScale.y/2)) + "px," +          aPosition.z + "px)" + 
-                            "scale3d(" +     aScale.x +    "," +            aScale.y +    "," +            aScale.z + ")"
+                            "scale3d(" +     aScale.x +    "," +            aScale.y +    "," +            aScale.z + ")" +
                         "";
 
                         for (const vox of voxbuff)

@@ -3,9 +3,9 @@ const path    = require('path');
 
 module.exports = (env) =>
 {
-    //--------------
-    // Build configs
-    //--------------
+    //-------------------------
+    // Build config definitions
+    //-------------------------
     const stdconfig = 
     {
         resolve: 
@@ -137,6 +137,12 @@ module.exports = (env) =>
     {
         config = Object.assign(stdconfig, debugcfg);
     }
+
+    //--------------------
+    // Entrypoint override
+    //--------------------
+    if (typeof env.main === "string")
+        config.entry = "./ts/" + env.main + ".ts";
 
     return config;
 }
