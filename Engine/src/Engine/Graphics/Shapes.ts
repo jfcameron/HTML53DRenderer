@@ -93,34 +93,46 @@ module Shapes
     }
 
     /**
+    * @Brief associates 3d data array passed to VoxelField with the spacial dimensions
+    */
+    export enum VoxelFieldOrientation
+    {
+        /** process data as an array of width, height planes */
+        Vertical,
+        /** process data as an array of width, depth planes */
+        Horizontal
+    }
+
+    /**
     * @Brief Processes scalar field, producing a cubic mesh from it. 
     * @Param aDataField represents 3D scalar field. Exactly how these values impact the output mesh is up to implementation of aPerVoxelProcessingStageCallback.
     * @Param aPerVoxelProcessingStageCallback optional callback that specifies how to process the datafield from the perspective of the voxel at {x,y,z}
     * @Note If no aPerVoxelProcessingStageCallback is specified, the default behaviour is to render a surface only if the neighbour value is 0.
     * @Note If implementing a custom VoxelProcessingStageCallback, keep in mind a neighbour value will be undefined if the neighbour index is out of bounds
     */
-    export function VoxelField(aDataField: number[][][], aPerVoxelProcessingStageCallback?: VoxelProcessingStageSignature): Array<HTMLDivElement>
+    export function VoxelField(aDataField: number[][][], aOrientation?: VoxelFieldOrientation, aPerVoxelProcessingStageCallback?: VoxelProcessingStageSignature): Array<HTMLDivElement>
     {
-        let buff: number[][][];
-
-        buff = new Array();
-
-        for(let zi = 0; zi < aDataField.length; ++zi)
+        if (aOrientation === VoxelFieldOrientation.Horizontal)
         {
-            buff.push(new Array());
+            const buff: number[][][] = new Array();
 
             for (let yi = 0; yi < aDataField[0].length; ++yi)
             {
-                buff[zi].push(new Array());
+                buff.push(new Array());
 
-                for (let xi = 0; xi < aDataField[0][0].length; ++xi)
+                for(let zi = 0; zi < aDataField.length; ++zi)
                 {
-                    buff[zi][yi].push(aDataField[zi][yi][xi]);
+                    buff[yi].push(new Array());
+
+                    for (let xi = 0; xi < aDataField[0][0].length; ++xi)
+                    {
+                        buff[yi][zi].push(aDataField[zi][yi][xi]);
+                    }
                 }
             }
-        }
 
-        aDataField = buff;
+            aDataField = buff;
+        }
 
         if (!aPerVoxelProcessingStageCallback)
         {

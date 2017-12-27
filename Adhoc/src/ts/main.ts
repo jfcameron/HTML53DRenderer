@@ -50,7 +50,7 @@ const voxdat =
 ];
 
 //Cube(aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
-const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);
+const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Horizontal),pos,rot,sca);
 //const gfxobj = new GraphicsObject(Shapes.Cube(new Vector3(0,0,0), new Vector3(), new Vector3(1,1,1)),pos,rot,sca);
 //const gfxobj2 = new GraphicsObject(Shapes.Quad(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1)),pos,rot,sca);
 
