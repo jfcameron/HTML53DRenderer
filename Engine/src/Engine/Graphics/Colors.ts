@@ -15,7 +15,15 @@ module Colors
     export const Green: Color          = Object.freeze(new Color(  0, 255,   0, 1));
     export const DarkGreen: Color      = Object.freeze(new Color(  0, 153,   0, 1));
     export const Blue: Color           = Object.freeze(new Color(  0,   0, 255, 1));
+
+    /** 
+    * @Brief Traditional error color; hard to miss if the intended asset failed to load.
+    */
     export const DeathlyPink: Color    = Object.freeze(new Color(255,  51, 204, 1));
+    
+    /** 
+    * @Brief Traditional clear color of XNA.
+    */
     export const CornflowerBlue: Color = Object.freeze(new Color(100, 149, 237, 1));
 }
 

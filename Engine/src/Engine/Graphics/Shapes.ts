@@ -80,7 +80,8 @@ module Shapes
     /**
     * @Brief Signature of the per voxel operations block available at voxel processing stage of VoxelField renderer
     * @Param aThisVoxel contains the index and value of the voxel currently being processed
-    * @Param aNeighbours contains the value of the 6 cardinal neighbours
+    * @Param aNeighbours contains the value of the 6 orthogonal neighbours
+    * @Note If implementing a custom VoxelProcessingStageCallback, keep in mind a neighbour value will be undefined if the neighbour index is out of bounds
     */
     export interface VoxelProcessingStageSignature
     {
@@ -89,6 +90,8 @@ module Shapes
 
     /**
     * @Brief Processes scalar field, producing a cubic mesh from it. 
+    * @Param aDataField represents 3D scalar field. Exactly how these values impact the output mesh is up to implementation of aPerVoxelProcessingStageCallback.
+    * @Param aPerVoxelProcessingStageCallback optional callback that specifies how to process the datafield from the perspective of the voxel at {x,y,z}
     * @Note If no aPerVoxelProcessingStageCallback is specified, the default behaviour is to render a surface only if the neighbour value is 0.
     * @Note If implementing a custom VoxelProcessingStageCallback, keep in mind a neighbour value will be undefined if the neighbour index is out of bounds
     */
@@ -125,7 +128,7 @@ module Shapes
                         const aRotation: Vector3 = new Vector3();
                         const aPosition: Vector3 = new Vector3(xi * voxelSize.x, yi * voxelSize.y, zi * voxelSize.z);
 
-                        //offset!
+                        //offset
                         aPosition.x += aScale.x * 1;
                         aPosition.y += aScale.y * 1;
                         aPosition.z += aScale.z * 0.5;
