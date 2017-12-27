@@ -17,6 +17,7 @@ module Shapes
     /**
     * @description Creates and prepares a div element for 3D rendering in the document
     */
+    export function Quad(): HTMLDivElement
     export function Quad(aPosition: Vector3, aRotation: Vector3, aScale: Vector3, aHideBackface?: boolean): HTMLDivElement
     {
         if (aHideBackface === undefined) aHideBackface = true;
@@ -41,7 +42,7 @@ module Shapes
         face.style.backgroundColor = "rgba(" + aColor.r + "," + aColor.g + "," + aColor.b +"," + aColor.a + ")";
         face.style.backgroundImage = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAbSURBVBhXY/j////Mm68wSQasokByMOr4/x8A0warIZLZpA8AAAAASUVORK5CYII=')";
         face.style.backgroundSize  = "contain";
-        face.style.backgroundImage = "url('img/brick.png')";//"url('img/Awesome.png')";
+        face.style.backgroundImage = "url('img/brick.png')";
 
         //Performance
         if (aHideBackface)
@@ -128,7 +129,7 @@ module Shapes
     * @param aDataField represents 3D scalar field. Exactly how these values impact the output mesh is up to implementation of aPerVoxelProcessingStageCallback.
     * @param aPerVoxelProcessingStageCallback optional callback that specifies how to process the datafield from the perspective of the voxel at {x,y,z}
     * @note If no aPerVoxelProcessingStageCallback is specified, the default behaviour is to render a surface only if the neighbour value is 0.
-    * @note If implementing a custom VoxelProcessingStageCallback, keep in mind a neighbour value will be undefined if the neighbour index is out of bounds
+    * @note If implementing a custom Voxel Processing Stage, keep in mind a neighbour value will be undefined if the neighbour index is out of bounds
     */
     export function VoxelField(aDataField: number[][][], aOrientation?: VoxelFieldOrientation, aPerVoxelProcessingStageCallback?: VoxelProcessingStageSignature): Array<HTMLDivElement>
     {
