@@ -88,11 +88,7 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
     rot.x += gamepad.getAxis(3) * aDeltaTime;
 
     u = ++i % 16 === 0 ? u < 3 ? 1 + u : 0 : u;
-
-//    rot.x += 1;
 });
-
-
 
 const renderLoop = new AnimationTimer((aDeltaTime: number) =>
 {

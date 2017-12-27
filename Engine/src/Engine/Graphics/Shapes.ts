@@ -23,13 +23,11 @@ module Shapes
     export function Quad(aPosition:  Vector3, aRotation:  Vector3, aScale:  Vector3, aHideBackface?: boolean): HTMLDivElement
     export function Quad(aPosition?: Vector3, aRotation?: Vector3, aScale?: Vector3, aHideBackface?: boolean): HTMLDivElement
     {
-        if (aPosition     === undefined) aPosition = new Vector3();
-        if (aRotation     === undefined) aRotation = new Vector3();
-        if (aScale        === undefined) aScale    = new Vector3(1,1,1);
+        if (aPosition === undefined) aPosition = new Vector3();
+        if (aRotation === undefined) aRotation = new Vector3();
+        if (aScale    === undefined) aScale    = new Vector3(1,1,1);
 
         aHideBackface = arguments.length === 0 ? false : (aHideBackface === undefined);
-
-        const aColor: Color = Colors.Black;
 
         const face: HTMLDivElement = document.createElement("div");
 
@@ -55,8 +53,14 @@ module Shapes
     /**
     * @description Creates and prepares a collection of div elements in a cube shape for 3D rendering in the document
     */
-    export function Cube(aPosition: Vector3, aRotation: Vector3, aScale: Vector3): Array<HTMLDivElement>
+    export function Cube(): Array<HTMLDivElement>
+    export function Cube(aPosition:  Vector3, aRotation:  Vector3, aScale:  Vector3): Array<HTMLDivElement>
+    export function Cube(aPosition?: Vector3, aRotation?: Vector3, aScale?: Vector3): Array<HTMLDivElement>
     {
+        if (aPosition === undefined) aPosition = new Vector3();
+        if (aRotation === undefined) aRotation = new Vector3();
+        if (aScale    === undefined) aScale    = new Vector3(1,1,1);
+
         return Voxel(aPosition, aRotation, aScale, true, true, true, true, true, true);
     }
 

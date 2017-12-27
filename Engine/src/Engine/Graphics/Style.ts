@@ -15,9 +15,11 @@ export module Style
 {
     export module Class
     {
-        export const Canvas: string   = PREFIX + "Canvas";
-        export const Object3D: string = PREFIX + "Object3D";
-        export const Quad: string     = PREFIX + "Quad";
+        export const Canvas: string     = PREFIX + "Canvas";
+        export const Object3D: string   = PREFIX + "Object3D";
+        export const Quad: string       = PREFIX + "Quad";
+        export const Camera: string     = PREFIX + "Camera";
+        export const SceneGraph: string = PREFIX + "SceneGraph";
 
         (() => 
         {
@@ -25,10 +27,24 @@ export module Style
 
             style.innerHTML = 
             `
-            .${Object3D}, .${Canvas}, .${Quad}
+            .${Object3D}, .${SceneGraph}, .${Camera}, .${Canvas}, .${Quad}
             {
                 position: absolute;
                 transform-style: preserve-3d;
+            }
+
+            .${SceneGraph}
+            {
+	            top: 50%;
+	            left: 50%;
+            }
+
+            .${Camera}
+            {
+	            perspective:800px;
+	            overflow: hidden;
+	            width: 100%;
+	            height: 100%;	
             }
 
             .${Canvas}
@@ -45,7 +61,6 @@ export module Style
                 background-size: contain;
                 overflow: auto;
             }
-
             `;
 
             document.head.appendChild(style);
