@@ -101,6 +101,27 @@ module Shapes
     */
     export function VoxelField(aDataField: number[][][], aPerVoxelProcessingStageCallback?: VoxelProcessingStageSignature): Array<HTMLDivElement>
     {
+        let buff: number[][][];
+
+        buff = new Array();
+
+        for(let zi = 0; zi < aDataField.length; ++zi)
+        {
+            buff.push(new Array());
+
+            for (let yi = 0; yi < aDataField[0].length; ++yi)
+            {
+                buff[zi].push(new Array());
+
+                for (let xi = 0; xi < aDataField[0][0].length; ++xi)
+                {
+                    buff[zi][yi].push(aDataField[zi][yi][xi]);
+                }
+            }
+        }
+
+        aDataField = buff;
+
         if (!aPerVoxelProcessingStageCallback)
         {
             aPerVoxelProcessingStageCallback = (aThisVoxel: {x: number, y: number, z: number, value: number}, aNeighbourData: {north: number, south: number, east: number, west: number, up: number, down: number}): Array<HTMLDivElement> =>
