@@ -4,6 +4,7 @@
 
 import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
+import WebAPIs from "Engine/WebAPIs"
 
 const TAG: string = "Timer";
 
@@ -18,11 +19,14 @@ export interface updateSignature { (aDeltaTime: number): void }
 */
 abstract class Timer
 {
-    protected readonly m_StartTime: number = performance.now();
+    protected readonly m_StartTime: number = WebAPIs.performance.now();
 
+    /**
+     * @description get miliseconds since timer was instantiated
+     */
     public getElapsedTime(): number
     {
-        return performance.now() - this.m_StartTime;
+        return WebAPIs.performance.now() - this.m_StartTime;
     }
 
     constructor(){}

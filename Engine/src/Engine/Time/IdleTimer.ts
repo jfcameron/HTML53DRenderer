@@ -6,6 +6,7 @@ import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
 import Timer from "Engine/Time/Timer"
 import { updateSignature } from "Engine/Time/Timer"
+import WebAPIs from "Engine/WebAPIs"
 
 const TAG: string = "IdleTimer";
 

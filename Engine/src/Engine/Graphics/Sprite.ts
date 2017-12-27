@@ -30,7 +30,7 @@ class Sprite
      * @param aImage an image to use for drawing. Fetch does not have to be completed.
      */
     constructor(aDiv: HTMLDivElement, aImage: HTMLImageElement)
-    /** @param aImageURL url to image either local to server or cross domain */
+    /** @param aImageURL url to image local or cross domain (usual security does not apply) */
     constructor(aDiv: HTMLDivElement, aImageURL: string)
     constructor(aDiv: HTMLDivElement, aData?: any)
     {

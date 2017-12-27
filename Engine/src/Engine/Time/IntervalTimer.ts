@@ -6,6 +6,7 @@ import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
 import Timer from "Engine/Time/Timer"
 import { updateSignature } from "Engine/Time/Timer"
+import WebAPIs from "Engine/WebAPIs"
 
 const TAG: string = "IntervalTimer";
 
@@ -16,22 +17,22 @@ const TAG: string = "IntervalTimer";
 class IntervalTimer extends Timer
 {
     protected readonly m_IntervalHandle: number;
-    protected          m_LastTime: number = performance.now();
+    protected m_LastTime: number = WebAPIs.performance.now();
 
     public destruct(): void
     {
-        clearInterval(this.m_IntervalHandle);
+        WebAPIs.clearInterval(this.m_IntervalHandle);
     }
 
     constructor(aTickSizeInMiliseconds: number, aUpdateCallback: updateSignature) 
     {
         super();
         
-        setInterval(() =>
+        this.m_IntervalHandle = WebAPIs.setInterval(() =>
         {
-            aUpdateCallback(performance.now() - this.m_LastTime);
+            aUpdateCallback(WebAPIs.performance.now() - this.m_LastTime);
 
-            this.m_LastTime = performance.now();
+            this.m_LastTime = WebAPIs.performance.now();
         }, 
         aTickSizeInMiliseconds);
 

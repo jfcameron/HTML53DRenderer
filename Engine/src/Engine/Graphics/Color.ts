@@ -9,8 +9,8 @@ const TAG: string = "Color";
 
 /**
 * @description represents 4 channel color
-* @Note A value is a normalized value (0-1) range
-* @Note RGB values are 0-255.
+* @note A value is a normalized value (0-1) range
+* @note RGB values are 0-255.
 */
 class Color
 {
@@ -29,7 +29,7 @@ class Color
 
     public toString(): string
     {
-        return `{${this.r}, ${this.g}, ${this.b}, ${this.a}}`
+        return `{${this.r}, ${this.g}, ${this.b}, ${this.a}}`;
     }
 
     public equalTo(aOther: Color): any
@@ -49,21 +49,9 @@ class Color
     {
         if (!(this instanceof Color)) throw new Exceptions.Sealed();
 
-        if (arguments.length === 4)
-        {
-            this.set(a1, a2, a3, a4);
-        }
-        else if (arguments.length === 3)
-        {
-            this.set(a1, a2, a3, 1);
-        }
-        else if (arguments.length === 1)
-        {
-            this.r = a1.r;
-            this.g = a1.g;
-            this.b = a1.b;
-            this.a = a1.a;
-        }
+        if      (arguments.length === 4) this.set(a1  , a2  , a3  , a4  );
+        else if (arguments.length === 3) this.set(a1  , a2  , a3  ,  1  );
+        else if (arguments.length === 1) this.set(a1.r, a1.g, a1.b, a1.a);
     }
 };
 
