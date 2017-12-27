@@ -7,16 +7,31 @@ import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG: string = "Keyboard";
 
+const KEY_JUST_PRESSED_WINDOW: number = 16;
+
 /**
 * @description synchronous wrapper for keyboard related apis
 */
 class Keyboard
 {
-    private m_Keys: {[code: string]: boolean} = {};
+    private m_Keys: {[code: string]: number} = {};
     
-    public getKey(aCode: string): boolean
+    /**
+     * @description returns true if the key was just pressed or has been pressed for a while
+     * @param aCode keycode for the key.
+     */
+    public getKey(aKeyCode: string): boolean
     {
-        return this.m_Keys[aCode] != undefined ? this.m_Keys[aCode] : false;
+        return this.m_Keys[aKeyCode] != undefined;
+    }
+
+    /**
+     * @description returns true only if the key was just pressed
+     * @param aCode keycode for the key.
+     */
+    public getKeyDown(aCode: string): boolean
+    {
+        return this.m_Keys[aCode] != undefined ? performance.now() - this.m_Keys[aCode] < KEY_JUST_PRESSED_WINDOW: false;
     }
 
     constructor()
@@ -25,12 +40,14 @@ class Keyboard
 
         document.onkeydown = (event: KeyboardEvent): void =>
         {
-            this.m_Keys[event.code] = true;
+            console.log(event);
+            if (this.m_Keys[event.code] === undefined)
+                this.m_Keys[event.code] = event.timeStamp;
         };
 
         document.onkeyup = (event: KeyboardEvent): void =>
         {
-            this.m_Keys[event.code] = false;
+            this.m_Keys[event.code] = undefined;
         };
     }
 };

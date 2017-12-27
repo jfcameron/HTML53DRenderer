@@ -20,9 +20,35 @@ class Vector2
         return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
     }
 
-    public toString(): string
+    public normalize(): Vector2
     {
-        return `{${this.x}, ${this.y}}`
+        const magnitude: number = this.length();
+                
+        if (magnitude !== 0)
+        {
+            this.x /= magnitude;
+            this.y /= magnitude;
+        }
+        
+        return this;
+    }
+
+    public multiply(aScalar: number): void
+    {
+        this.x *= aScalar;
+        this.y *= aScalar;
+    }
+
+    public add(aOther: Vector2): void
+    {
+        this.x += aOther.x;
+        this.y += aOther.y;
+    }
+
+    public set(aX: number, aY: number)
+    {
+        this.x = aX;
+        this.y = aY;
     }
 
     public equalTo(aOther: Vector2): boolean
@@ -33,10 +59,9 @@ class Vector2
         );
     }
 
-    public set(aX: number, aY: number)
+    public toString(): string
     {
-        this.x = aX;
-        this.y = aY;
+        return `{${this.x}, ${this.y}}`
     }
 
     constructor()

@@ -44,7 +44,8 @@ export module Style
 	            perspective:800px;
 	            overflow: hidden;
 	            width: 100%;
-	            height: 100%;	
+                height: 100%;	
+                transform-origin: 50% 50% 50%;
             }
 
             .${Canvas}

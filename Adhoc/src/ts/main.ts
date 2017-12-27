@@ -32,9 +32,7 @@ import API from "./apiTests"
 
 const TAG: string = "Main";
 
-const pos = new Vector3();
-const rot = new Vector3(-30,0,0);
-const sca = new Vector3(500,500,500);
+const gamepad = new Gamepad(0);
 
 const voxdat = 
 [
@@ -53,47 +51,104 @@ const voxdat =
 //const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Horizontal),pos,rot,sca);
 //const gfxobj = new GraphicsObject(Shapes.Cube(new Vector3(0,0,0), new Vector3(), new Vector3(1,1,1)),pos,rot,sca);
 //const gfxobj = new GraphicsObject(Shapes.Quad(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1), false),pos,rot,sca);
-const myshape = Shapes.Quad();
-const mysprite = new Sprite(myshape,"img/Blocky.png");
-const gfxobj = new GraphicsObject(myshape);
+
+class Player
+{
+    private readonly tspeed = 2;
+    private readonly rspeed = 0.25;
+
+    private readonly m_GraphicsObject: GraphicsObject;
+    private readonly m_Sprite: Sprite;
+
+    private u: number = 0;
+    private i: number = 0;
+
+    private pos = new Vector3(0,0,-6000);
+    private rot = new Vector3(0,0,0);
+    private sca = new Vector3(500,500,500);
+
+    public update(aDeltaTime: number)
+    {
+        const translationBuffer = new Vector3();
+
+        if (Keyboard.getKey("KeyA")) this.rot.y += this.rspeed * aDeltaTime;
+        if (Keyboard.getKey("KeyD")) this.rot.y -= this.rspeed * aDeltaTime;
+        if (Keyboard.getKey("KeyW")) this.rot.x -= this.rspeed * aDeltaTime;
+        if (Keyboard.getKey("KeyS")) this.rot.x += this.rspeed * aDeltaTime;
+
+        if (Keyboard.getKey("ArrowUp"))    translationBuffer.z -= this.tspeed * aDeltaTime;
+        if (Keyboard.getKey("ArrowDown"))  translationBuffer.z += this.tspeed * aDeltaTime;
+        if (Keyboard.getKey("ArrowLeft"))  translationBuffer.x -= this.tspeed * aDeltaTime;
+        if (Keyboard.getKey("ArrowRight")) translationBuffer.x += this.tspeed * aDeltaTime;
+
+        this.pos.add(translationBuffer);
+
+        if (translationBuffer.length() != 0)
+            this.u = ++this.i % 16 === 0 ? this.u < 3 ? 1 + this.u : 0 : this.u;
+        else
+        {
+            this.u = 1;
+            this.i = 0;
+        }
+    }
+
+    public draw(aDeltaTime: number)
+    {
+        this.m_GraphicsObject.draw(this.pos, this.rot, this.sca);
+        this.m_Sprite.draw(this.u, 0, 16, 17);
+    }
+
+    constructor()
+    {
+        const myshape = Shapes.Quad();
+        myshape.style.backgroundImage = "none";
+
+        this.m_Sprite = new Sprite(myshape,"img/Blocky.png");
+        this.m_GraphicsObject = new GraphicsObject(myshape);
+    }
+}
 
 //=========
 // Mainline
 //=========
-const gamepad = new Gamepad(0);
+const camera = document.getElementById("MyHardcodedSceneGraph");
+const aPosition = new Vector3();
+const aRotation = new Vector3();
+const aScale    = new Vector3(1,1,1);
 
-const tspeed = 5;
-const rspeed = 0.25;
+const player = new Player();
 
-pos.z = -6000;
-
-let u: number = 0;
-let i = 0;
+const floor = new GraphicsObject(Shapes.Cube());
+floor.draw(new Vector3(0,500,-5000),new Vector3(0,+500,0),new Vector3(5000,500,5000));
 
 const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
-    if (Keyboard.getKey("KeyA")) rot.y += rspeed * aDeltaTime;
-    if (Keyboard.getKey("KeyD")) rot.y -= rspeed * aDeltaTime;
-    if (Keyboard.getKey("KeyW")) rot.x -= rspeed * aDeltaTime;
-    if (Keyboard.getKey("KeyS")) rot.x += rspeed * aDeltaTime;
+    Debug.Log(TAG, Keyboard.getKeyDown("KeyA") ? "getKeyDown" : Keyboard.getKey("KeyA") ? "getKey" : "keyUp");
 
-    if (Keyboard.getKey("ArrowUp"))    pos.z += tspeed * aDeltaTime;
-    if (Keyboard.getKey("ArrowDown"))  pos.z -= tspeed * aDeltaTime;
-    if (Keyboard.getKey("ArrowLeft"))  pos.x += tspeed * aDeltaTime;
-    if (Keyboard.getKey("ArrowRight")) pos.x -= tspeed * aDeltaTime;
+    player.update(aDeltaTime);    
 
-    pos.x += gamepad.getAxis(0) * 3 * aDeltaTime;
-    pos.y += gamepad.getAxis(1) * 3 * aDeltaTime;
-    rot.y += gamepad.getAxis(2) * aDeltaTime;
-    rot.x += gamepad.getAxis(3) * aDeltaTime;
+    camera.style.transform = 
+        "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
+        "translate3d(" + aPosition.x + "px," +          aPosition.y + "px," +          aPosition.z + "px)" + 
+        
+        //"scale3d(" +     aScale.x +    "," +            aScale.y +    "," +            aScale.z + ")"
+    "";
 
-    u = ++i % 16 === 0 ? u < 3 ? 1 + u : 0 : u;
+    if (Keyboard.getKey("KeyQ")) aRotation.y -= 1;
+    if (Keyboard.getKey("KeyE")) aRotation.y += 1;
+
+    if (Keyboard.getKey("Digit1")) aRotation.x -= 1;
+    if (Keyboard.getKey("Digit2")) aRotation.x += 1;
+
+    if (Keyboard.getKey("Space")) aPosition.y += 10;
+    if (Keyboard.getKey("ControlLeft")) aPosition.y -= 10;
+    if (Keyboard.getKey("KeyW")) aPosition.z += 10;
+    if (Keyboard.getKey("KeyS")) aPosition.z -= 10;
 });
 
 const renderLoop = new AnimationTimer((aDeltaTime: number) =>
 {
-    gfxobj.draw(pos,rot,sca);
-    mysprite.draw(u,0,16,17);
+    player.draw(aDeltaTime);
 });
 
 const idleLoop = new IdleTimer((aDeltaTime: number) =>

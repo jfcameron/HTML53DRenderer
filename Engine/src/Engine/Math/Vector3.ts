@@ -35,6 +35,20 @@ class Vector3
         return this;
     }
 
+    public multiply(aScalar: number): void
+    {
+        this.x *= aScalar;
+        this.y *= aScalar;
+        this.z *= aScalar;
+    }
+
+    public add(aOther: Vector3): void
+    {
+        this.x += aOther.x;
+        this.y += aOther.y;
+        this.z += aOther.z;
+    }
+
     public set(aX: number, aY: number, aZ: number)
     {
         this.x = aX;
@@ -42,11 +56,6 @@ class Vector3
         this.z = aZ;
     }
     
-    public toString(): string
-    {
-        return `{${this.x}, ${this.y}, ${this.z}}`
-    }
-
     public equalTo(aOther: Vector3): boolean
     {
         return (
@@ -54,6 +63,11 @@ class Vector3
             this.y === aOther.y && 
             this.z === aOther.z
         );
+    }
+
+    public toString(): string
+    {
+        return `{${this.x}, ${this.y}, ${this.z}}`
     }
 
     constructor()
