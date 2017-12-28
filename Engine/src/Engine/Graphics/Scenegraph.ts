@@ -8,8 +8,8 @@ import Exceptions from "Engine/Debug/Exceptions"
 const TAG: string = "Scenegraph";
 
 /**
-* @description a brief description of Scenegraph
-* @warning Scenegraph has not been documented!
+* @description wrapper for root of document subtree representing 3D scene
+* @root document note must be a node descendant of a Camera to render to screen!
 */
 class Scenegraph
 {
@@ -37,7 +37,7 @@ class Scenegraph
     {
         if (!(this instanceof Scenegraph)) throw new Exceptions.Sealed();
 
-        throw new Exceptions.Unimplemented();
+        
     }
 }
 

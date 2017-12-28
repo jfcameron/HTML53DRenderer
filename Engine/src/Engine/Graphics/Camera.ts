@@ -33,7 +33,7 @@ class Camera
         throw new Exceptions.Unimplemented();
     }
 
-    constructor()
+    constructor(aDocumentNode: any)
     {
         if (!(this instanceof Camera)) throw new Exceptions.Sealed();
 
