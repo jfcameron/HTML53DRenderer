@@ -39,17 +39,19 @@ class Keyboard
     {
         if (!(this instanceof Keyboard)) throw new Exceptions.Sealed();
 
-        document.onkeydown = (event: KeyboardEvent): void =>
+        window.onkeydown = (event: KeyboardEvent): void =>
         {
             //console.log(event);
             if (this.m_Keys[event.code] === undefined)
                 this.m_Keys[event.code] = event.timeStamp;
         };
 
-        document.onkeyup = (event: KeyboardEvent): void =>
+        window.onkeyup = (event: KeyboardEvent): void =>
         {
             this.m_Keys[event.code] = undefined;
         };
+
+
     }
 };
 

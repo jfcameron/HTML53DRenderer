@@ -98,7 +98,7 @@ class Player
     constructor()
     {
         const myshape = Shapes.Quad();
-        myshape.style.backgroundImage = "none";
+        //myshape.style.backgroundImage = "none";
 
         this.m_Sprite = new Sprite(myshape,"img/Blocky.png");
         this.m_GraphicsObject = new GraphicsObject(myshape);
@@ -112,6 +112,7 @@ const camera = document.getElementById("MyHardcodedSceneGraph");
 const aPosition = new Vector3(0,+750,0);
 const aRotation = new Vector3();
 const aScale    = Vector3.One;
+const scalar = 30;
 
 const player = new Player();
 
@@ -120,16 +121,11 @@ floor.draw(new Vector3(0,500,-5000),new Vector3(0,+500,0),new Vector3(5000,500,5
 
 const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
-    //Debug.Log(TAG, Keyboard.getKeyDown("KeyA") ? "getKeyDown" : Keyboard.getKey("KeyA") ? "getKey" : "keyUp");
-    Mouse.getButton(0);
     player.update(aDeltaTime);    
 
     camera.style.transform = 
-        "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
-        "translate3d(" + aPosition.x + "px," +          aPosition.y + "px," +          aPosition.z + "px)" + 
-        
-        //"scale3d(" +     aScale.x +    "," +            aScale.y +    "," +            aScale.z + ")"
-    "";
+        "rotateX(" + aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
+        "translate3d(" + aPosition.x + "px," + aPosition.y + "px," + aPosition.z + "px)";
 
     if (Keyboard.getKey("KeyQ")) aRotation.y -= 1;
     if (Keyboard.getKey("KeyE")) aRotation.y += 1;
@@ -139,8 +135,31 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 
     if (Keyboard.getKey("Space")) aPosition.y += 10;
     if (Keyboard.getKey("ControlLeft")) aPosition.y -= 10;
-    if (Keyboard.getKey("KeyW")) aPosition.z += 10;
-    if (Keyboard.getKey("KeyS")) aPosition.z -= 10;
+
+    if (Keyboard.getKey("KeyW"))
+    {
+        aPosition.x -= Math.sin((aRotation.y * Math.PI /180)) * scalar;
+        aPosition.z += Math.cos((aRotation.y * Math.PI /180)) * scalar;
+    }
+
+    if (Keyboard.getKey("KeyS"))
+    {
+        aPosition.x += Math.sin((aRotation.y * Math.PI /180)) * scalar;
+        aPosition.z -= Math.cos((aRotation.y * Math.PI /180)) * scalar;
+    
+    }
+
+    if (Keyboard.getKey("KeyA"))
+    {
+        aPosition.x -= Math.sin(((aRotation.y-90) * Math.PI /180)) * scalar;
+        aPosition.z += Math.cos(((aRotation.y-90) * Math.PI /180)) * scalar;
+    }
+
+    if (Keyboard.getKey("KeyD"))
+    {
+        aPosition.x -= Math.sin(((aRotation.y+90) * Math.PI /180)) * scalar;
+        aPosition.z += Math.cos(((aRotation.y+90) * Math.PI /180)) * scalar;
+    }
 });
 
 const renderLoop = new AnimationTimer((aDeltaTime: number) =>
@@ -148,7 +167,14 @@ const renderLoop = new AnimationTimer((aDeltaTime: number) =>
     player.draw(aDeltaTime);
 });
 
+
+//const cameraLeft  = document.getElementById("MyCamera");
+//const cameraRight = document.getElementById("MyOtherCamera");
+
 const idleLoop = new IdleTimer((aDeltaTime: number) =>
 {
+    /*while (cameraRight.firstChild) cameraRight.removeChild(cameraRight.firstChild);
     
+    for (let i = 0; i < cameraLeft.childNodes.length; ++i)
+        cameraRight.appendChild(cameraLeft.childNodes[i].cloneNode(true));*/
 });

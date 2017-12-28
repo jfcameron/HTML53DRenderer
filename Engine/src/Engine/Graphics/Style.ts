@@ -38,6 +38,8 @@ export module Style
             {
                 top: 50%;
                 left: 50%;
+
+                transform-origin: 0px +5px 800px; /* Clearly wrong. Figure out how to generalize this magic */
             }
 
             .${Camera}
@@ -45,8 +47,7 @@ export module Style
                 perspective:800px;
                 overflow: hidden;
                 width: 100%;
-                height: 100%;    
-                transform-origin: 50% 50% 50%;
+                height: 100%;
             }
 
             .${Canvas}
