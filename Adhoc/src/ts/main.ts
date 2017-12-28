@@ -3,12 +3,14 @@
 // Created on 2017-12-20.
 
 // Resources inc
-import "Awesome.png"
-import "Blocky.png"
-import "brick.png"
 import "favicon.ico"
 import "index.html"
 import "style.css"
+
+import "Awesome.png"
+import "Blocky.png"
+import "brick.png"
+import "grass.png"
 
 // Engine inc
 import IntervalTimer from "Engine/Time/IntervalTimer"
@@ -43,10 +45,10 @@ const voxdat =
 [
     [
         [1,0,1,0,1,0,1],
+        [0,1,1,1,1,1,0],
         [0,1,0,0,0,1,0],
-        [0,0,0,0,0,0,0],
-        [0,0,0,1,0,0,0],
-        [0,0,0,1,0,0,0],
+        [0,1,0,0,0,1,0],
+        [0,1,0,0,0,1,0],
         [0,1,1,1,1,1,0],
         [1,1,1,1,1,1,1],
     ]
@@ -118,17 +120,41 @@ const aScale    = Vector3.One;
 const scalar = 30;
 
 //<iframe src="https://www.w3schools.com"></iframe>
-const quad = Shapes.Quad(new Vector3(),new Vector3(), new Vector3(500,500,500),false);
+const quad = Shapes.Quad(new Vector3(0,-1000,-8000),new Vector3(), new Vector3(1500,1500,1500),true);
 const iframe = document.createElement("iframe");
-iframe.src = "https://www.w3schools.com";
+iframe.setAttribute("src", "https://www.youtube.com/embed/52Gg9CqhbP8");
+iframe.style.width = 1500+"px";
+iframe.style.height = 1500+"px";
 
 quad.appendChild(iframe);
-//const myiframe =
+const myiframeobject = new GraphicsObject(quad,gfxscenegraph);
 
 const player = new Player();
 
-const floor = new GraphicsObject(Shapes.Cube(),gfxscenegraph,new Vector3(0,500,-5000),new Vector3(0,+500,0),new Vector3(5000,500,5000));
-const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical),gfxscenegraph, new Vector3(0,-1000,-8000), Vector3.Zero, new Vector3(500,500,500));
+function voxprocessingstage(aThisVoxel: {x: number, y: number, z: number, value: number}, aNeighbourData: {north: number, south: number, east: number, west: number, up: number, down: number}): Array<HTMLDivElement>
+{
+    const north = aNeighbourData.north === undefined ? true : aNeighbourData.north === 0;
+    const south = aNeighbourData.south === undefined ? true : aNeighbourData.south === 0;
+    const east  = aNeighbourData.east  === undefined ? true : aNeighbourData.east  === 0;
+    const west  = aNeighbourData.west  === undefined ? true : aNeighbourData.west  === 0;
+    const up    = aNeighbourData.up    === undefined ? true : aNeighbourData.up    === 0;
+    const down  = aNeighbourData.down  === undefined ? true : aNeighbourData.down  === 0;
+
+    const vox = Shapes.Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1), north, south, east, west, up, down);
+
+    for (let face of vox)
+        face.style.backgroundImage = "url(img/brick.png)";
+
+    return vox;
+};
+
+const floorgfx = Shapes.Cube();
+
+for(let face of floorgfx)
+    face.style.backgroundImage = "url(img/grass.png)";
+
+const floor = new GraphicsObject(floorgfx,gfxscenegraph,new Vector3(0,500,-5000),new Vector3(),new Vector3(5000,500,5000));
+const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical,voxprocessingstage),gfxscenegraph, new Vector3(0,-1000,-8000), Vector3.Zero, new Vector3(500,500,500));
 
 const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
