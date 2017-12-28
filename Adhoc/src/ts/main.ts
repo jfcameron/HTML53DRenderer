@@ -111,13 +111,19 @@ class Player
 //=========
 // Mainline
 //=========
-
-
 const camera = gfxscenegraph.getRootDiv();
 const aPosition = new Vector3(0,+750,0);
 const aRotation = new Vector3();
 const aScale    = Vector3.One;
 const scalar = 30;
+
+//<iframe src="https://www.w3schools.com"></iframe>
+const quad = Shapes.Quad(new Vector3(),new Vector3(), new Vector3(500,500,500),false);
+const iframe = document.createElement("iframe");
+iframe.src = "https://www.w3schools.com";
+
+quad.appendChild(iframe);
+//const myiframe =
 
 const player = new Player();
 
@@ -172,14 +178,7 @@ const renderLoop = new AnimationTimer((aDeltaTime: number) =>
     player.draw(aDeltaTime);
 });
 
-
-//const cameraLeft  = document.getElementById("MyCamera");
-//const cameraRight = document.getElementById("MyOtherCamera");
-
 const idleLoop = new IdleTimer((aDeltaTime: number) =>
 {
-    /*while (cameraRight.firstChild) cameraRight.removeChild(cameraRight.firstChild);
-    
-    for (let i = 0; i < cameraLeft.childNodes.length; ++i)
-        cameraRight.appendChild(cameraLeft.childNodes[i].cloneNode(true));*/
+
 });
