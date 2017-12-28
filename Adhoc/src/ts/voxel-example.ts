@@ -116,7 +116,7 @@ const voxdat =
     ],
 ];
 
-const gfxobj = new GraphicsObject(gfxscenegraph,Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical),pos,rot,sca);
+const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical),gfxscenegraph,pos,rot,sca);
 
 const tspeed = 5;
 const rspeed = 0.25;

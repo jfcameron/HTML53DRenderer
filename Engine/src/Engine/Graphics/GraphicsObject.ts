@@ -33,13 +33,13 @@ class GraphicsObject
         return this.m_RootDivHandle;
     }
     
-    constructor(aScenegraph: Scenegraph, aDiv: HTMLDivElement)
-    constructor(aScenegraph: Scenegraph, aDiv: HTMLDivElement[])
-    constructor(aScenegraph: Scenegraph, aDiv: HTMLDivElement  , aPosition: Vector3, aRotation: Vector3)
-    constructor(aScenegraph: Scenegraph, aDiv: HTMLDivElement[], aPosition: Vector3, aRotation: Vector3)
-    constructor(aScenegraph: Scenegraph, aDiv: HTMLDivElement  , aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
-    constructor(aScenegraph: Scenegraph, aDiv: HTMLDivElement[], aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
-    constructor(a0?: any, a1?: any, a2?: any, a3?: any, a4?: any)
+    constructor(aDiv: HTMLDivElement  , aScenegraph: Scenegraph,)
+    constructor(aDiv: HTMLDivElement[], aScenegraph: Scenegraph,)
+    constructor(aDiv: HTMLDivElement  , aScenegraph: Scenegraph, aPosition: Vector3, aRotation: Vector3)
+    constructor(aDiv: HTMLDivElement[], aScenegraph: Scenegraph, aPosition: Vector3, aRotation: Vector3)
+    constructor(aDiv: HTMLDivElement  , aScenegraph: Scenegraph, aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
+    constructor(aDiv: HTMLDivElement[], aScenegraph: Scenegraph, aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
+    constructor(a1?: any, a0?: any, a2?: any, a3?: any, a4?: any)
     {
         if (!(this instanceof GraphicsObject)) throw new Exceptions.Sealed();
 

@@ -104,7 +104,7 @@ class Player
         myshape.style.backgroundImage = "none";
 
         this.m_Sprite = new Sprite(myshape,"img/Blocky.png");
-        this.m_GraphicsObject = new GraphicsObject(gfxscenegraph,myshape);
+        this.m_GraphicsObject = new GraphicsObject(myshape,gfxscenegraph);
     }
 }
 
@@ -121,8 +121,8 @@ const scalar = 30;
 
 const player = new Player();
 
-const floor = new GraphicsObject(gfxscenegraph,Shapes.Cube(),new Vector3(0,500,-5000),new Vector3(0,+500,0),new Vector3(5000,500,5000));
-const gfxobj = new GraphicsObject(gfxscenegraph,Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical), new Vector3(0,-1000,-8000), Vector3.Zero, new Vector3(500,500,500));
+const floor = new GraphicsObject(Shapes.Cube(),gfxscenegraph,new Vector3(0,500,-5000),new Vector3(0,+500,0),new Vector3(5000,500,5000));
+const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical),gfxscenegraph, new Vector3(0,-1000,-8000), Vector3.Zero, new Vector3(500,500,500));
 
 const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
