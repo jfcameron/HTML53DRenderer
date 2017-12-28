@@ -26,11 +26,16 @@ import Sprite from "Engine/Graphics/Sprite"
 import Keyboard from "Engine/Input/Keyboard"
 import Mouse from "Engine/Input/Mouse"
 import Gamepad from "Engine/Input/Gamepad"
+import Camera from "Engine/Graphics/Camera"
+import Scenegraph from "Engine/Graphics/Scenegraph"
 
 // Adhoc
 import API from "./apiTests"
 
 const TAG: string = "Main";
+
+const gfxscenegraph = new Scenegraph(document.body);
+const gfxCamera = new Camera(document.body, gfxscenegraph);
 
 const pos = new Vector3();
 const rot = new Vector3(-30,0,0);
@@ -111,7 +116,7 @@ const voxdat =
     ],
 ];
 
-const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical),pos,rot,sca);
+const gfxobj = new GraphicsObject(gfxscenegraph,Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical),pos,rot,sca);
 
 const tspeed = 5;
 const rspeed = 0.25;

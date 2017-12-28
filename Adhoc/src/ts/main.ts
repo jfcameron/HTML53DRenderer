@@ -26,11 +26,16 @@ import Sprite from "Engine/Graphics/Sprite"
 import Keyboard from "Engine/Input/Keyboard"
 import Mouse from "Engine/Input/Mouse"
 import Gamepad from "Engine/Input/Gamepad"
+import Camera from "Engine/Graphics/Camera"
+import Scenegraph from "Engine/Graphics/Scenegraph"
 
 // Adhoc
 import API from "./apiTests"
 
 const TAG: string = "Main";
+
+const gfxscenegraph = new Scenegraph(document.body);
+const gfxCamera = new Camera(document.body, gfxscenegraph);
 
 const gamepad = new Gamepad(0);
 
@@ -46,8 +51,6 @@ const voxdat =
         [1,1,1,1,1,1,1],
     ]
 ];
-
-const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical), new Vector3(0,-1000,-8000), Vector3.Zero, new Vector3(500,500,500));
 
 class Player
 {
@@ -98,17 +101,19 @@ class Player
     constructor()
     {
         const myshape = Shapes.Quad();
-        //myshape.style.backgroundImage = "none";
+        myshape.style.backgroundImage = "none";
 
         this.m_Sprite = new Sprite(myshape,"img/Blocky.png");
-        this.m_GraphicsObject = new GraphicsObject(myshape);
+        this.m_GraphicsObject = new GraphicsObject(gfxscenegraph,myshape);
     }
 }
 
 //=========
 // Mainline
 //=========
-const camera = document.getElementById("MyHardcodedSceneGraph");
+
+
+const camera = gfxscenegraph.getRootDiv();
 const aPosition = new Vector3(0,+750,0);
 const aRotation = new Vector3();
 const aScale    = Vector3.One;
@@ -116,8 +121,8 @@ const scalar = 30;
 
 const player = new Player();
 
-const floor = new GraphicsObject(Shapes.Cube());
-floor.draw(new Vector3(0,500,-5000),new Vector3(0,+500,0),new Vector3(5000,500,5000));
+const floor = new GraphicsObject(gfxscenegraph,Shapes.Cube(),new Vector3(0,500,-5000),new Vector3(0,+500,0),new Vector3(5000,500,5000));
+const gfxobj = new GraphicsObject(gfxscenegraph,Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical), new Vector3(0,-1000,-8000), Vector3.Zero, new Vector3(500,500,500));
 
 const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {

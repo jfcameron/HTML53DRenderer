@@ -4,6 +4,8 @@
 
 import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
+import Style from "Engine/Graphics/Style"
+import Scenegraph from "Engine/Graphics/Scenegraph"
 
 const TAG: string = "Camera";
 
@@ -13,6 +15,13 @@ const TAG: string = "Camera";
 */
 class Camera
 {
+    private readonly m_CameraDivHandle = document.createElement("div");
+
+    public getDiv(): HTMLElement
+    {
+        return this.m_CameraDivHandle;
+    }
+
     public set(): void
     {
         throw new Exceptions.Unimplemented();
@@ -33,11 +42,15 @@ class Camera
         throw new Exceptions.Unimplemented();
     }
 
-    constructor(aDocumentNode: any)
+    constructor(aParentDocumentNode: HTMLElement, aScenegraph: Scenegraph)
     {
         if (!(this instanceof Camera)) throw new Exceptions.Sealed();
 
-        throw new Exceptions.Unimplemented();
+        this.m_CameraDivHandle.className += Style.Class.Camera;
+        
+        this.m_CameraDivHandle.appendChild(aScenegraph.getRootDiv());
+
+        aParentDocumentNode.appendChild(this.m_CameraDivHandle);
     }
 }
 

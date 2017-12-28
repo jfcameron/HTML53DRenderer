@@ -6,6 +6,7 @@ import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
 import Vector3 from "Engine/Math/Vector3"
 import Style from "Engine/Graphics/Style"
+import Scenegraph from "Engine/Graphics/Scenegraph"
 
 const TAG: string = "GraphicsObject";
 
@@ -26,20 +27,26 @@ class GraphicsObject
             "scale3d(" +     aScale.x +    "," +            aScale.y +    "," +            aScale.z + ")"
         ;
     }
+
+    public getRootDiv()
+    {
+        return this.m_RootDivHandle;
+    }
     
-    constructor(aDiv: HTMLDivElement)
-    constructor(aDiv: HTMLDivElement[])
-    constructor(aDiv: HTMLDivElement  , aPosition: Vector3, aRotation: Vector3)
-    constructor(aDiv: HTMLDivElement[], aPosition: Vector3, aRotation: Vector3)
-    constructor(aDiv: HTMLDivElement  , aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
-    constructor(aDiv: HTMLDivElement[], aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
-    constructor(a1?: any, a2?: any, a3?: any, a4?: any)
+    constructor(aScenegraph: Scenegraph, aDiv: HTMLDivElement)
+    constructor(aScenegraph: Scenegraph, aDiv: HTMLDivElement[])
+    constructor(aScenegraph: Scenegraph, aDiv: HTMLDivElement  , aPosition: Vector3, aRotation: Vector3)
+    constructor(aScenegraph: Scenegraph, aDiv: HTMLDivElement[], aPosition: Vector3, aRotation: Vector3)
+    constructor(aScenegraph: Scenegraph, aDiv: HTMLDivElement  , aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
+    constructor(aScenegraph: Scenegraph, aDiv: HTMLDivElement[], aPosition: Vector3, aRotation: Vector3, aScale: Vector3)
+    constructor(a0?: any, a1?: any, a2?: any, a3?: any, a4?: any)
     {
         if (!(this instanceof GraphicsObject)) throw new Exceptions.Sealed();
 
         this.m_RootDivHandle.className = Style.Class.Object3D;
 
-        document.getElementById("MyHardcodedSceneGraph").appendChild(this.m_RootDivHandle);
+        //document.getElementById("MyHardcodedSceneGraph").appendChild(this.m_RootDivHandle);
+        (<any>a0).getRootDiv().appendChild(this.m_RootDivHandle);
 
         if (a1 instanceof HTMLDivElement)
         {
@@ -53,15 +60,15 @@ class GraphicsObject
             }
         }
 
-        if (arguments.length === 1)
+        if (arguments.length === 2)
         {
             this.draw(new Vector3(), new Vector3(), new Vector3(1, 1, 1));
         }
-        else if (arguments.length === 3)
+        else if (arguments.length === 4)
         {
             this.draw(a2, a3, new Vector3(1, 1, 1));
         }
-        else if (arguments.length === 4)
+        else if (arguments.length === 5)
         {
             this.draw(a2, a3, a4);
         }
