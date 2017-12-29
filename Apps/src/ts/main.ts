@@ -84,6 +84,8 @@ class Player
         translationBuffer.z += Gamepads.get(0).getAxis(1) * this.tspeed * aDeltaTime;
         translationBuffer.x += Gamepads.get(0).getAxis(0) * this.tspeed * aDeltaTime;
 
+        translationBuffer.normalize();
+
         this.pos.add(translationBuffer);
 
         if (translationBuffer.length() != 0)
