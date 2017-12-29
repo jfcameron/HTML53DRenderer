@@ -71,20 +71,16 @@ class Player
     {
         const translationBuffer = new Vector3();
 
-        //if (Keyboard.getKey("KeyA")) this.rot.y += this.rspeed * aDeltaTime;
-        //if (Keyboard.getKey("KeyD")) this.rot.y -= this.rspeed * aDeltaTime;
-        //if (Keyboard.getKey("KeyW")) this.rot.x -= this.rspeed * aDeltaTime;
-        //if (Keyboard.getKey("KeyS")) this.rot.x += this.rspeed * aDeltaTime;
+        if (Keyboard.getKey("ArrowUp"))    translationBuffer.z -= 1;
+        if (Keyboard.getKey("ArrowDown"))  translationBuffer.z += 1;
+        if (Keyboard.getKey("ArrowLeft"))  translationBuffer.x -= 1;
+        if (Keyboard.getKey("ArrowRight")) translationBuffer.x += 1;
 
-        if (Keyboard.getKey("ArrowUp"))    translationBuffer.z -= this.tspeed * aDeltaTime;
-        if (Keyboard.getKey("ArrowDown"))  translationBuffer.z += this.tspeed * aDeltaTime;
-        if (Keyboard.getKey("ArrowLeft"))  translationBuffer.x -= this.tspeed * aDeltaTime;
-        if (Keyboard.getKey("ArrowRight")) translationBuffer.x += this.tspeed * aDeltaTime;
-
-        translationBuffer.z += Gamepads.get(0).getAxis(1) * this.tspeed * aDeltaTime;
-        translationBuffer.x += Gamepads.get(0).getAxis(0) * this.tspeed * aDeltaTime;
+        translationBuffer.z += Gamepads.get(0).getAxis(1);
+        translationBuffer.x += Gamepads.get(0).getAxis(0);
 
         translationBuffer.normalize();
+        translationBuffer.multiply(this.tspeed * aDeltaTime);
 
         this.pos.add(translationBuffer);
 

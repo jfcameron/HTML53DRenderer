@@ -44,8 +44,7 @@ class GraphicsObject
         if (!(this instanceof GraphicsObject)) throw new Exceptions.Sealed();
 
         this.m_RootDivHandle.className = Style.Class.Object3D;
-
-        //document.getElementById("MyHardcodedSceneGraph").appendChild(this.m_RootDivHandle);
+        
         (<any>a0).getRootDiv().appendChild(this.m_RootDivHandle);
 
         if (a1 instanceof HTMLDivElement)
