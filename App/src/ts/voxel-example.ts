@@ -114,7 +114,23 @@ const voxdat =
     ],
 ];
 
-const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical),gfxscenegraph,pos,rot,sca);
+const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical,(aThisVoxel: {x: number, y: number, z: number, value: number}, aNeighbourData: {north: number, south: number, east: number, west: number, up: number, down: number}): Array<HTMLDivElement> =>
+{
+    const north = aNeighbourData.north === undefined ? true : aNeighbourData.north === 0;
+    const south = aNeighbourData.south === undefined ? true : aNeighbourData.south === 0;
+    const east  = aNeighbourData.east  === undefined ? true : aNeighbourData.east  === 0;
+    const west  = aNeighbourData.west  === undefined ? true : aNeighbourData.west  === 0;
+    const up    = aNeighbourData.up    === undefined ? true : aNeighbourData.up    === 0;
+    const down  = aNeighbourData.down  === undefined ? true : aNeighbourData.down  === 0;
+
+    const voxel = Shapes.Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1), north, south, east, west, up, down);
+
+    for (const face of voxel)
+        face.style.backgroundImage = aNeighbourData.down === undefined ? "url(img/grass.png)" : "url(img/brick.png)";
+
+    return voxel;
+}),
+gfxscenegraph,pos,rot,sca);
 
 const tspeed = 5;
 const rspeed = 0.25;

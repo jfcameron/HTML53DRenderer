@@ -61,7 +61,7 @@ export module Style
 
             .${Quad}
             {
-                background-color: rgba(0, 0, 0, 0);
+                background-color: rgba(0, 0, 0, 1);
                 background-image: url(${Images.CheckeredTextureOfDeath()});
                 background-size: contain;
                 overflow: auto;
