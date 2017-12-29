@@ -138,6 +138,9 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
     rot.y += Gamepads.get(0).getAxis(2) * aDeltaTime;
     rot.x += Gamepads.get(0).getAxis(3) * aDeltaTime;
 
+    if (Gamepads.get(0).getButton(6)) pos.z += tspeed * aDeltaTime;
+    if (Gamepads.get(0).getButton(7)) pos.z -= tspeed * aDeltaTime;
+
     rot.y += 1;
 });
 
