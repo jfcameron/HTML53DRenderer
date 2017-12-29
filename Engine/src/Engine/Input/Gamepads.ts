@@ -30,10 +30,10 @@ module Gamepads
 
         public getButton(aButtonIndex: number): boolean
         {
-            console.log(this.m_GamepadHandle.timestamp);
+            //console.log(this.m_GamepadHandle.timestamp);
 
             return this.m_GamepadHandle && this.m_GamepadHandle.buttons.length >= aButtonIndex -1 ?
-                true : 
+                this.m_GamepadHandle.buttons[aButtonIndex].pressed : 
                 false;
         }
         
