@@ -153,6 +153,8 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
     player.update(aDeltaTime);    
 
+    console.log(Gamepads.get(0).getButton(0));
+
     gfxCamera.setTransform(aPosition, aRotation);
 
     if (Keyboard.getKey("KeyQ")) aRotation.y -= 1;

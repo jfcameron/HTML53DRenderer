@@ -16,16 +16,29 @@ const DELTA_VALUE_LIFETIME_MS: number = 16;
 */
 class Mouse
 {
-    private m_Buttons: {[code: number]: boolean} = {};
+    private m_Buttons: {[code: number]: number} = {};
 
     private m_ClientPosition: Vector2 = new Vector2();
 
     private m_Delta: Vector2 = new Vector2();
     private m_DeltaTimestamp: number = 0;
 
+    /**
+     * @description returns true if the button was just pressed or has been pressed for a while
+     * @param aButton index of the button.
+     */
     public getButton(aButton: number): boolean
     {
-        return this.m_Buttons[aButton] != undefined ? this.m_Buttons[aButton] : false;
+        return this.m_Buttons[aButton] != undefined;
+    }
+
+    /**
+     * @description returns true only if the key was just button
+     * @param aButton index of the button.
+     */
+    public getButtonDown(aButton: number): boolean
+    {
+        return this.m_Buttons[aButton] != undefined ? WebAPIs.performance.now() - this.m_Buttons[aButton] < DELTA_VALUE_LIFETIME_MS: false;
     }
     
     public getViewportPosition(): Vector2 
@@ -45,23 +58,24 @@ class Mouse
     {
         if (!(this instanceof Mouse)) throw new Exceptions.Sealed();
 
-        WebAPIs.document.body.onmousedown = (event: MouseEvent) =>
+        document.onmousedown = (event: MouseEvent) =>
         {
-            this.m_Buttons[event.button] = true;
+            if (this.m_Buttons[event.button] === undefined)
+                this.m_Buttons[event.button] = event.timeStamp;
         };
 
-        WebAPIs.document.body.onmouseup = (event: MouseEvent) =>
+        document.onmouseup = (event: MouseEvent) =>
         {
-            this.m_Buttons[event.button] = false;
+            this.m_Buttons[event.button] = undefined;
         };
 
         document.addEventListener("visibilitychange",():void =>
         {
             for (let button in this.m_Buttons)
-                this.m_Buttons[button] = false;
+                this.m_Buttons[button] = undefined;
         });
 
-        WebAPIs.document.addEventListener("mousemove", (event: MouseEvent) =>
+        document.addEventListener("mousemove", (event: MouseEvent) =>
         {
             this.m_ClientPosition.set(event.clientX, event.clientY);
 

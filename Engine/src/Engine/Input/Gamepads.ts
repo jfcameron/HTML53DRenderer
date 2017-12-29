@@ -18,19 +18,6 @@ const GAMEPAD_POLL_INTERVAL_MS: number = 16;
     */
 module Gamepads
 {
-    const m_Gamepads: {[code: number]: Gamepad} = {};
-
-    /**
-     * @description returns gamepad at index. Guaranteed to be non null
-     */
-    export function get(aIndex: number): Gamepad
-    {
-        if (!m_Gamepads[aIndex])
-            m_Gamepads[aIndex] = new Gamepad(aIndex);
-
-        return m_Gamepads[aIndex];
-    }
-
     /**
     * @description Tracks the input state of the gamepad connected at the provided index.
     * Can survive reconnection events.
@@ -43,6 +30,8 @@ module Gamepads
 
         public getButton(aButtonIndex: number): boolean
         {
+            console.log(this.m_GamepadHandle.timestamp);
+
             return this.m_GamepadHandle && this.m_GamepadHandle.buttons.length >= aButtonIndex -1 ?
                 this.m_GamepadHandle.buttons[aButtonIndex].pressed : 
                 false;
@@ -70,7 +59,20 @@ module Gamepads
             }, 
             GAMEPAD_POLL_INTERVAL_MS);
         }
-    };
+    }
+
+    const m_Gamepads: {[code: number]: Gamepad} = {};
+
+    /**
+     * @description returns gamepad at index. Guaranteed to be non null
+     */
+    export function get(aIndex: number): Gamepad
+    {
+        if (!m_Gamepads[aIndex])
+            m_Gamepads[aIndex] = new Gamepad(aIndex);
+
+        return m_Gamepads[aIndex];
+    }
 }
 
 export default Gamepads;
