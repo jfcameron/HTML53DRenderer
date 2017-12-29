@@ -37,7 +37,7 @@ import API from "./apiTests"
 const TAG: string = "Main";
 
 const gfxscenegraph = new Scenegraph();
-const gfxCamera = new Camera(document.getElementById("ContentRoot"), gfxscenegraph);
+const gfxCamera = new Camera(document.body, gfxscenegraph);
 
 const voxdat = 
 [
