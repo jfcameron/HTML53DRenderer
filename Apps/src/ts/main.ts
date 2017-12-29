@@ -27,7 +27,7 @@ import Shapes from "Engine/Graphics/Shapes"
 import Sprite from "Engine/Graphics/Sprite"
 import Keyboard from "Engine/Input/Keyboard"
 import Mouse from "Engine/Input/Mouse"
-import Gamepad from "Engine/Input/Gamepad"
+import Gamepads from "Engine/Input/Gamepad"
 import Camera from "Engine/Graphics/Camera"
 import Scenegraph from "Engine/Graphics/Scenegraph"
 
@@ -38,8 +38,6 @@ const TAG: string = "Main";
 
 const gfxscenegraph = new Scenegraph(document.body);
 const gfxCamera = new Camera(document.body, gfxscenegraph);
-
-const gamepad = new Gamepad(0);
 
 const voxdat = 
 [
@@ -73,8 +71,8 @@ class Player
     {
         const translationBuffer = new Vector3();
 
-        if (Keyboard.getKey("KeyA")) this.rot.y += this.rspeed * aDeltaTime;
-        if (Keyboard.getKey("KeyD")) this.rot.y -= this.rspeed * aDeltaTime;
+        //if (Keyboard.getKey("KeyA")) this.rot.y += this.rspeed * aDeltaTime;
+        //if (Keyboard.getKey("KeyD")) this.rot.y -= this.rspeed * aDeltaTime;
         //if (Keyboard.getKey("KeyW")) this.rot.x -= this.rspeed * aDeltaTime;
         //if (Keyboard.getKey("KeyS")) this.rot.x += this.rspeed * aDeltaTime;
 
@@ -82,6 +80,9 @@ class Player
         if (Keyboard.getKey("ArrowDown"))  translationBuffer.z += this.tspeed * aDeltaTime;
         if (Keyboard.getKey("ArrowLeft"))  translationBuffer.x -= this.tspeed * aDeltaTime;
         if (Keyboard.getKey("ArrowRight")) translationBuffer.x += this.tspeed * aDeltaTime;
+
+        translationBuffer.z += Gamepads.get(0).getAxis(1) * this.tspeed * aDeltaTime;
+        translationBuffer.x += Gamepads.get(0).getAxis(0) * this.tspeed * aDeltaTime;
 
         this.pos.add(translationBuffer);
 
@@ -119,14 +120,13 @@ const aRotation = new Vector3();
 const aScale    = Vector3.One;
 const scalar = 30;
 
-//<iframe src="https://www.w3schools.com"></iframe>
 const quad = Shapes.Quad(new Vector3(0,-1000,-8000),new Vector3(), new Vector3(1500,1500,1500),true);
-const iframe = document.createElement("iframe");
+/*const iframe = document.createElement("iframe");
 iframe.setAttribute("src", "https://www.youtube.com/embed/52Gg9CqhbP8");
 iframe.style.width = 1500+"px";
 iframe.style.height = 1500+"px";
+quad.appendChild(iframe);*/
 
-quad.appendChild(iframe);
 const myiframeobject = new GraphicsObject(quad,gfxscenegraph);
 
 const player = new Player();

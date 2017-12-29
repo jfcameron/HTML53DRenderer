@@ -11,15 +11,33 @@ type _Gamepad = Gamepad;
 
 const GAMEPAD_POLL_INTERVAL_MS: number = 16;
 
-namespace Input
+/**
+    * @description Synchronous management for all gamepads attached to the device
+    * 
+    * @Warning Only works on Chrome browser.
+    */
+module Gamepads
 {
+    const m_Gamepads: {[code: number]: Gamepad} = {};
+
+    /**
+     * @description returns gamepad at index. Guaranteed to be non null
+     */
+    export function get(aIndex: number): Gamepad
+    {
+        if (!m_Gamepads[aIndex])
+            m_Gamepads[aIndex] = new Gamepad(aIndex);
+
+        return m_Gamepads[aIndex];
+    }
+
     /**
     * @description Tracks the input state of the gamepad connected at the provided index.
     * Can survive reconnection events.
     * 
     * @Warning Only works on Chrome browser.
     */
-    export class Gamepad
+    class Gamepad
     {
         private m_GamepadHandle: _Gamepad;
 
@@ -55,4 +73,4 @@ namespace Input
     };
 }
 
-export default Input.Gamepad;
+export default Gamepads;

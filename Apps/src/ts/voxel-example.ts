@@ -25,7 +25,7 @@ import Shapes from "Engine/Graphics/Shapes"
 import Sprite from "Engine/Graphics/Sprite"
 import Keyboard from "Engine/Input/Keyboard"
 import Mouse from "Engine/Input/Mouse"
-import Gamepad from "Engine/Input/Gamepad"
+import Gamepads from "Engine/Input/Gamepad"
 import Camera from "Engine/Graphics/Camera"
 import Scenegraph from "Engine/Graphics/Scenegraph"
 
@@ -40,8 +40,6 @@ const gfxCamera = new Camera(document.body, gfxscenegraph);
 const pos = new Vector3();
 const rot = new Vector3(-30,0,0);
 const sca = new Vector3(500,500,500);
-
-const gamepad = new Gamepad(0);
 
 const voxdat = 
 [
@@ -135,10 +133,10 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
     if (Keyboard.getKey("ArrowLeft"))  pos.x += tspeed * aDeltaTime;
     if (Keyboard.getKey("ArrowRight")) pos.x -= tspeed * aDeltaTime;
 
-    pos.x += gamepad.getAxis(0) * 3 * aDeltaTime;
-    pos.y += gamepad.getAxis(1) * 3 * aDeltaTime;
-    rot.y += gamepad.getAxis(2) * aDeltaTime;
-    rot.x += gamepad.getAxis(3) * aDeltaTime;
+    pos.x += Gamepads.get(0).getAxis(0) * 3 * aDeltaTime;
+    pos.y += Gamepads.get(0).getAxis(1) * 3 * aDeltaTime;
+    rot.y += Gamepads.get(0).getAxis(2) * aDeltaTime;
+    rot.x += Gamepads.get(0).getAxis(3) * aDeltaTime;
 
     rot.y += 1;
 });
