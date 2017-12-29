@@ -27,7 +27,7 @@ import Shapes from "Engine/Graphics/Shapes"
 import Sprite from "Engine/Graphics/Sprite"
 import Keyboard from "Engine/Input/Keyboard"
 import Mouse from "Engine/Input/Mouse"
-import Gamepads from "Engine/Input/Gamepad"
+import Gamepads from "Engine/Input/Gamepads"
 import Camera from "Engine/Graphics/Camera"
 import Scenegraph from "Engine/Graphics/Scenegraph"
 

@@ -41,7 +41,6 @@ class Keyboard
 
         window.onkeydown = (event: KeyboardEvent): void =>
         {
-            //console.log(event);
             if (this.m_Keys[event.code] === undefined)
                 this.m_Keys[event.code] = event.timeStamp;
         };
@@ -51,7 +50,11 @@ class Keyboard
             this.m_Keys[event.code] = undefined;
         };
 
-
+        document.addEventListener("visibilitychange",():void =>
+        {
+            for (let key in this.m_Keys)
+                this.m_Keys[key] = undefined;
+        });
     }
 };
 

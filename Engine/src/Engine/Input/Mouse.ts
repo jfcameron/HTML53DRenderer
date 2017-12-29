@@ -55,6 +55,12 @@ class Mouse
             this.m_Buttons[event.button] = false;
         };
 
+        document.addEventListener("visibilitychange",():void =>
+        {
+            for (let button in this.m_Buttons)
+                this.m_Buttons[button] = false;
+        });
+
         WebAPIs.document.addEventListener("mousemove", (event: MouseEvent) =>
         {
             this.m_ClientPosition.set(event.clientX, event.clientY);
