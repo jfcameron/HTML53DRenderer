@@ -34,7 +34,7 @@ import API from "./apiTests"
 
 const TAG: string = "Main";
 
-const gfxscenegraph = new Scenegraph(document.body);
+const gfxscenegraph = new Scenegraph();
 const gfxCamera = new Camera(document.body, gfxscenegraph);
 
 const pos = new Vector3();

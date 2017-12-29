@@ -4,45 +4,55 @@
 
 module API
 {
-    export function FetchGitHubRepos()
+    export module Github
     {
-        let user = "jfcameron";
-        let page = 1;
-        let perPage = 30;
-        fetch(`https://api.github.com/users/${user}/repos?page=${page}&per_page=${perPage}`)
-            .then((response) => response.text())
-                .then((data: any) =>
+        export function FetchUserRepos(aUserName: string, aPage: number, aPageSize: number, aFetchSucceeded: (aJSONdata: string)=>void, aFetchFailed: (error: any)=>void): void
+        {
+            fetch(`https://api.github.com/users/${aUserName}/repos?page=${aPage}&per_page=${aPageSize}`)
+                .then((response) => response.text())
+                    .then((data: any) =>
+                    {
+                        aFetchSucceeded(data);
+                    }
+                ).catch((error) => 
                 {
-                    console.log(data);
-                }
-            ).catch((error) => 
-            {
-                console.log(error);
-            });
-    };
+                    aFetchFailed(error);
+                });
+        };
+    }
 
-    export function FetchYouTubeThumbnail(aVideoID: string) //Doesnt work because of security, move to a Canvas 2D context implementation.
+    export module Youtube
     {
-        //let image: HTMLImageElement = new Image();
+        export function CreateVideoThumbnailImage(aVideoID: string): void
+        {
+            const image = new Image();
+            image.src = `https://img.youtube.com/vi/${aVideoID}/0.jpg`;
 
-        fetch(`https://img.youtube.com/vi/${aVideoID}/0.jpg`)
-            .then((response) => response.blob())
-                .then((data: any) =>
-                {
-                    var objectURL = URL.createObjectURL(data);
-                    //image.src = objectURL;
-                    //return objectURL;
-
-                    let imgnode = document.createElement("img");
-                    imgnode.setAttribute("src", objectURL);
-                    document.body.appendChild(imgnode);
-                }
-            ).catch((error) =>
+            image.onload = ()=>
             {
+                const m_Canvas: HTMLCanvasElement  = document.createElement("canvas");
+                const m_Context: CanvasRenderingContext2D = m_Canvas.getContext('2d');
+                
+                m_Context.drawImage(image, 0, 0, image.width, image.height, 0, 0, m_Canvas.width, m_Canvas.height);
 
-            });
+                document.body.appendChild(m_Canvas);  
+            };
 
-        //return image;
+            image.onerror = ()=>
+            {
+                throw "CreateVideoThumbnailImage failed!";
+            };
+        }
+
+        export function CreateVideoIframe(aVideoID: string): HTMLIFrameElement
+        {
+            const iframe = document.createElement("iframe");
+            iframe.setAttribute("src", "https://www.youtube.com/embed/52Gg9CqhbP8");
+            iframe.style.width = 1500+"px";
+            iframe.style.height = 1500+"px";
+        
+            return iframe;
+        }
     }
 }
 

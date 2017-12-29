@@ -6,6 +6,7 @@ import Debug from "Engine/Debug"
 import Images from "Engine/Graphics/Images"
 import Colors from "Engine/Graphics/Colors"
 import WebAPIs from "Engine/WebAPIs"
+import Color from "./Color";
 
 const PREFIX: string = "HTML53DRenderer_";
 
@@ -48,6 +49,7 @@ export module Style
                 overflow: hidden;
                 width: 100%;
                 height: 100%;
+                background-color: rgba(${Colors.CornflowerBlue.r + ", " + Colors.CornflowerBlue.g + ", " + Colors.CornflowerBlue.b + ", " + Colors.CornflowerBlue.a});
             }
 
             .${Canvas}

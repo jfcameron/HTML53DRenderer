@@ -6,6 +6,7 @@ import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
 import Style from "Engine/Graphics/Style"
 import Scenegraph from "Engine/Graphics/Scenegraph"
+import Vector3 from "Engine/Math/Vector3"
 
 const TAG: string = "Camera";
 
@@ -16,25 +17,19 @@ const TAG: string = "Camera";
 class Camera
 {
     private readonly m_CameraDivHandle = document.createElement("div");
+    private readonly m_SceneGraph: Scenegraph;
+
+    public setTransform(aPosition: Vector3, aRotation: Vector3)
+    {
+        this.m_SceneGraph.getRootDiv().style.transform = 
+            "rotateX(" +     aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
+            "translate3d(" + aPosition.x + "px," +          aPosition.y + "px," +          aPosition.z + "px)"
+        ;
+    }
 
     public getDiv(): HTMLElement
     {
         return this.m_CameraDivHandle;
-    }
-
-    public set(): void
-    {
-        throw new Exceptions.Unimplemented();
-    }
-
-    public toString(): string
-    {
-        throw new Exceptions.Unimplemented();
-    }
-
-    public equalTo(aOther: Camera): boolean
-    {
-        throw new Exceptions.Unimplemented();
     }
     
     public destruct(): void
@@ -51,6 +46,8 @@ class Camera
         this.m_CameraDivHandle.appendChild(aScenegraph.getRootDiv());
 
         aParentDocumentNode.appendChild(this.m_CameraDivHandle);
+
+        this.m_SceneGraph = aScenegraph;
     }
 }
 

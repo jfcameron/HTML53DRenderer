@@ -36,8 +36,8 @@ import API from "./apiTests"
 
 const TAG: string = "Main";
 
-const gfxscenegraph = new Scenegraph(document.body);
-const gfxCamera = new Camera(document.body, gfxscenegraph);
+const gfxscenegraph = new Scenegraph();
+const gfxCamera = new Camera(document.getElementById("ContentRoot"), gfxscenegraph);
 
 const voxdat = 
 [
@@ -71,10 +71,10 @@ class Player
     {
         const translationBuffer = new Vector3();
 
-        if (Keyboard.getKey("ArrowUp"))    translationBuffer.z -= 1;
-        if (Keyboard.getKey("ArrowDown"))  translationBuffer.z += 1;
-        if (Keyboard.getKey("ArrowLeft"))  translationBuffer.x -= 1;
-        if (Keyboard.getKey("ArrowRight")) translationBuffer.x += 1;
+        if (Keyboard.getKey("ArrowUp"))    translationBuffer.z --;
+        if (Keyboard.getKey("ArrowDown"))  translationBuffer.z ++;
+        if (Keyboard.getKey("ArrowLeft"))  translationBuffer.x --;
+        if (Keyboard.getKey("ArrowRight")) translationBuffer.x ++;
 
         translationBuffer.z += Gamepads.get(0).getAxis(1);
         translationBuffer.x += Gamepads.get(0).getAxis(0);
@@ -119,11 +119,6 @@ const aScale    = Vector3.One;
 const scalar = 30;
 
 const quad = Shapes.Quad(new Vector3(0,-1000,-8000),new Vector3(), new Vector3(1500,1500,1500),true);
-/*const iframe = document.createElement("iframe");
-iframe.setAttribute("src", "https://www.youtube.com/embed/52Gg9CqhbP8");
-iframe.style.width = 1500+"px";
-iframe.style.height = 1500+"px";
-quad.appendChild(iframe);*/
 
 const myiframeobject = new GraphicsObject(quad,gfxscenegraph);
 
@@ -158,9 +153,7 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
     player.update(aDeltaTime);    
 
-    camera.style.transform = 
-        "rotateX(" + aRotation.x + "deg)rotateY(" + aRotation.y + "deg)rotateZ(" + aRotation.z + "deg)" +
-        "translate3d(" + aPosition.x + "px," + aPosition.y + "px," + aPosition.z + "px)";
+    gfxCamera.setTransform(aPosition, aRotation);
 
     if (Keyboard.getKey("KeyQ")) aRotation.y -= 1;
     if (Keyboard.getKey("KeyE")) aRotation.y += 1;
@@ -181,7 +174,6 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
     {
         aPosition.x += Math.sin((aRotation.y * Math.PI /180)) * scalar;
         aPosition.z -= Math.cos((aRotation.y * Math.PI /180)) * scalar;
-    
     }
 
     if (Keyboard.getKey("KeyA"))
@@ -206,3 +198,5 @@ const idleLoop = new IdleTimer((aDeltaTime: number) =>
 {
 
 });
+
+API.Youtube.CreateVideoThumbnailImage("ef8NPEbLo30");

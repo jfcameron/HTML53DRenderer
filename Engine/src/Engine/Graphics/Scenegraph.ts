@@ -42,7 +42,7 @@ class Scenegraph
         throw new Exceptions.Unimplemented();
     }
 
-    constructor(aParentDocumentNode: HTMLElement)
+    constructor()
     {
         if (!(this instanceof Scenegraph)) throw new Exceptions.Sealed();
 

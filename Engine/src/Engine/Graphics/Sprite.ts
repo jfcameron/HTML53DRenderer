@@ -14,8 +14,8 @@ const TAG: string = "Sprite";
 */
 class Sprite
 {
-    private readonly m_Canvas  = document.createElement("canvas");
-    private readonly m_Context = this.m_Canvas.getContext('2d');
+    private readonly m_Canvas: HTMLCanvasElement  = document.createElement("canvas");
+    private readonly m_Context: CanvasRenderingContext2D = this.m_Canvas.getContext('2d');
     private readonly m_Image: HTMLImageElement;
 
     public draw(aU: number, aV: number, cellWidth: number, cellHeight: number): void
@@ -39,7 +39,7 @@ class Sprite
         this.m_Canvas.className += Style.Class.Canvas;
         
         this.m_Context.webkitImageSmoothingEnabled = false;
-        this.m_Context.imageSmoothingEnabled       = false;
+        this.m_Context.imageSmoothingEnabled = false;
 
         aDiv.appendChild(this.m_Canvas);
         
