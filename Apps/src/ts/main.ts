@@ -151,9 +151,7 @@ const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrie
 
 const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
-    player.update(aDeltaTime);    
-
-    console.log(Gamepads.get(0).getButton(0));
+    player.update(aDeltaTime);
 
     gfxCamera.setTransform(aPosition, aRotation);
 

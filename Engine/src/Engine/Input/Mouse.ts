@@ -33,7 +33,7 @@ class Mouse
     }
 
     /**
-     * @description returns true only if the key was just button
+     * @description returns true only if the button was just pressed
      * @param aButton index of the button.
      */
     public getButtonDown(aButton: number): boolean

@@ -4,6 +4,7 @@
 
 import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
+import WebAPIs from "Engine/WebAPIs"
 
 const TAG: string = "Gamepad";
 
@@ -26,21 +27,41 @@ module Gamepads
     */
     class Gamepad
     {
-        private m_GamepadHandle: _Gamepad;
+        private m_Buttons: {[code: number]: number} = {};
+        private m_Axes: {[code: number]: number} = {};
 
+        /**
+        * @description returns true if the button was just pressed or has been pressed for a while
+        * @param aButtonIndex index of the button.
+        */
         public getButton(aButtonIndex: number): boolean
         {
-            //console.log(this.m_GamepadHandle.timestamp);
+            return this.m_Buttons[aButtonIndex] ? 
+                this.m_Buttons[aButtonIndex] != undefined :
+                false;
+        }
 
-            return this.m_GamepadHandle && this.m_GamepadHandle.buttons.length >= aButtonIndex -1 ?
-                this.m_GamepadHandle.buttons[aButtonIndex].pressed : 
+        /**
+        * @description returns true only if the button was just pressed
+        * @param aButtonIndex index of the button.
+        */
+        public getButtonDown(aButtonIndex: number): boolean
+        {
+            return this.m_Buttons[aButtonIndex] ? 
+                this.m_Buttons[aButtonIndex] != undefined ?
+                    WebAPIs.performance.now() - this.m_Buttons[aButtonIndex] < GAMEPAD_POLL_INTERVAL_MS :
+                    false : 
                 false;
         }
         
+        /**
+         * @description returns normalized (0-1) value representing how far a joystick axis is pushed, paddle depressed, etc.
+         * @param aAxisIndex 
+         */
         public getAxis(aAxisIndex: number): number
         {
-            return this.m_GamepadHandle && this.m_GamepadHandle.axes.length >= aAxisIndex -1 ?
-                this.m_GamepadHandle.axes[aAxisIndex] : 
+            return this.m_Axes[aAxisIndex] != undefined ?
+                this.m_Axes[aAxisIndex] :
                 0;
         }
         
@@ -49,13 +70,26 @@ module Gamepads
         {
             if (!(this instanceof Gamepad)) throw new Exceptions.Sealed();
             
-            if (aIndex < 0) throw "index must be positive";
-            
             setInterval(() =>
             {
-                this.m_GamepadHandle = navigator.getGamepads().length >= aIndex -1 ?
-                    this.m_GamepadHandle = navigator.getGamepads()[aIndex] :
-                    this.m_GamepadHandle = undefined;
+                if (navigator.getGamepads().length >= aIndex -1)
+                {
+                    const gamepad = navigator.getGamepads()[aIndex];
+
+                    for (let i = 0; i < gamepad.buttons.length; ++i)
+                    {
+                        this.m_Buttons[i] = gamepad.buttons[i].pressed ?
+                            !(typeof this.m_Buttons[i] === "number") ?
+                                WebAPIs.performance.now() :
+                                this.m_Buttons[i] :
+                            undefined;
+                    }
+
+                    for (let i = 0; i < gamepad.axes.length; ++i)
+                    {
+                        this.m_Axes[i] = gamepad.axes[i];
+                    }
+                }
             }, 
             GAMEPAD_POLL_INTERVAL_MS);
         }
