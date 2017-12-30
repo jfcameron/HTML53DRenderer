@@ -40,12 +40,41 @@ class TileGridObject
     }
 }
 
-class SpriteAnimator
+class TileGraphicHandler
 {
+    private u: number = 0;
+    private i: number = 0;
 
+    private readonly m_GraphicsObject: GraphicsObject;
+    private readonly m_Sprite: Sprite;
+
+    public draw(aPosition: Vector2, aScale: Vector3, aRot: Vector3)
+    {
+        this.m_GraphicsObject.draw
+        (
+            new Vector3
+            (
+                (aPosition.x *  aScale.x) + (0.5 * aScale.x),
+                (aPosition.y * -aScale.y) - (0.5 * aScale.y),
+                0
+            ), 
+            aRot, 
+            aScale
+        );
+        this.m_Sprite.draw(this.u, 0, 16, 17);
+    }
+
+    constructor(aScenegraph: Scenegraph)
+    {
+        const myshape = Shapes.Quad();
+        myshape.style.backgroundImage = "none";
+
+        this.m_Sprite = new Sprite(myshape,"img/Blocky.png");
+        this.m_GraphicsObject = new GraphicsObject(myshape, aScenegraph);
+    }
 }
 
-class TileCollidable
+class TileCollisionHandler
 {
 
 }
@@ -56,20 +85,11 @@ class TileCollidable
 */
 class Player extends TileGridObject
 {
+    private readonly m_TileGraphicHandler: TileGraphicHandler;
+
     private readonly tspeed = 0.005;
-
-    private readonly m_GraphicsObject: GraphicsObject;
-    private readonly m_Sprite: Sprite;
-
-    private u: number = 0;
-    private i: number = 0;
-
     private rot = new Vector3(0,0,0);
     private sca: Vector3;
-
-    
-
-    
 
     public update(aDeltaTime: number): void
     {
@@ -86,11 +106,13 @@ class Player extends TileGridObject
         this.m_Position.add(translationBuffer);
 
         if (translationBuffer.length() != 0)
-            this.u = ++this.i % 16 === 0 ? this.u < 3 ? 1 + this.u : 0 : this.u;
+        {
+            //this.u = ++this.i % 16 === 0 ? this.u < 3 ? 1 + this.u : 0 : this.u;
+        }
         else
         {
-            this.u = 1;
-            this.i = 0;
+            //this.u = 1;
+            //this.i = 0;
         }
 
         if (this.m_CurrentTileGrid)
@@ -101,18 +123,7 @@ class Player extends TileGridObject
 
     public draw(aDeltaTime: number)
     {
-        this.m_GraphicsObject.draw
-        (
-            new Vector3
-            (
-                (this.m_Position.x * this.sca.x) + (0.5 * this.sca.x),
-                (this.m_Position.y * -this.sca.y) - (0.5 * this.sca.y),
-                0
-            ), 
-            this.rot, 
-            this.sca
-        );
-        this.m_Sprite.draw(this.u, 0, 16, 17);
+        this.m_TileGraphicHandler.draw(this.m_Position,this.sca,this.rot);
     }
 
     constructor(aTileSize: number, aPosition: Vector2, aScenegraph: Scenegraph, aTileGrid: TileGrid)
@@ -121,11 +132,7 @@ class Player extends TileGridObject
 
         this.sca = new Vector3(aTileSize,aTileSize,aTileSize);
 
-        const myshape = Shapes.Quad();
-        myshape.style.backgroundImage = "none";
-
-        this.m_Sprite = new Sprite(myshape,"img/Blocky.png");
-        this.m_GraphicsObject = new GraphicsObject(myshape, aScenegraph);
+        this.m_TileGraphicHandler = new TileGraphicHandler(aScenegraph);
     }
 }
 
