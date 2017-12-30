@@ -121,12 +121,6 @@ const scalar = 30;
 const quad = Shapes.Quad(new Vector3(0,-1000,-8000),new Vector3(), new Vector3(1500,1500,1500),true);
 quad.style.backgroundImage = "none";
 
-const iframe = document.createElement("iframe");
-iframe.setAttribute("src", "https://www.youtube.com/embed/52Gg9CqhbP8");
-iframe.style.width = 1500+"px";
-iframe.style.height = 1500+"px";
-quad.appendChild(iframe);
-
 const myiframeobject = new GraphicsObject(quad,gfxscenegraph);
 
 const player = new Player();
