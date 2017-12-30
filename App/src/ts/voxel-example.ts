@@ -1,6 +1,7 @@
 // © 2017 Joseph Cameron - All Rights Reserved
 // Project: HTML53DRenderer
 // Created on 2017-12-20.
+// Gamepad controls are setup for an XBOX360 controller
 
 // Resources inc
 import "Awesome.png"
@@ -149,13 +150,13 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
     if (Keyboard.getKey("ArrowLeft"))  pos.x += tspeed * aDeltaTime;
     if (Keyboard.getKey("ArrowRight")) pos.x -= tspeed * aDeltaTime;
 
-    pos.x += Gamepads.get(0).getAxis(0) * 3 * aDeltaTime;
-    pos.y += Gamepads.get(0).getAxis(1) * 3 * aDeltaTime;
-    rot.y += Gamepads.get(0).getAxis(2) * aDeltaTime;
-    rot.x += Gamepads.get(0).getAxis(3) * aDeltaTime;
+    pos.x += Gamepads.get(0).getAxis(0) * aDeltaTime * 0.5;
+    pos.y += Gamepads.get(0).getAxis(1) * aDeltaTime * 0.5;
+    rot.y += Gamepads.get(0).getAxis(2) * aDeltaTime * 0.25;
+    rot.x += Gamepads.get(0).getAxis(3) * aDeltaTime * 0.25;
 
-    if (Gamepads.get(0).getButton(6)) pos.z += tspeed * aDeltaTime;
-    if (Gamepads.get(0).getButton(7)) pos.z -= tspeed * aDeltaTime;
+    pos.z += Gamepads.get(0).getButton(6) * 8 * aDeltaTime;
+    pos.z -= Gamepads.get(0).getButton(7) * 8 * aDeltaTime;
 
     rot.y += 1;
 });

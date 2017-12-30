@@ -27,31 +27,42 @@ module Gamepads
     */
     class Gamepad
     {
-        private m_Buttons: {[code: number]: number} = {};
+        private m_Buttons: {[code: number]: {value: number, timestamp: number}} = {};
         private m_Axes: {[code: number]: number} = {};
 
         /**
-        * @description returns true if the button was just pressed or has been pressed for a while
+        * @description returns non zero normalized value if the button was just pressed or has been pressed for a while.
         * @param aButtonIndex index of the button.
+        * @example
+        * if (Gamepads.get(0).getButton(0))
+        * {
+        *   player.jump();
+        * }
+        * @example
+        * translationbuffer.z += Gamepads.get(0).getButton(4) \* deltaTime \* moveSpeed;
         */
-        public getButton(aButtonIndex: number): boolean
+        public getButton(aButtonIndex: number): number
         {
             return this.m_Buttons[aButtonIndex] ? 
-                this.m_Buttons[aButtonIndex] != undefined :
-                false;
+                this.m_Buttons[aButtonIndex].timestamp != undefined ?
+                    this.m_Buttons[aButtonIndex].value :
+                    0:
+                0;
         }
 
         /**
-        * @description returns true only if the button was just pressed
+        * @description returns non zero normalized value only if the button was just pressed
         * @param aButtonIndex index of the button.
         */
-        public getButtonDown(aButtonIndex: number): boolean
+        public getButtonDown(aButtonIndex: number): number
         {
             return this.m_Buttons[aButtonIndex] ? 
-                this.m_Buttons[aButtonIndex] != undefined ?
-                    WebAPIs.performance.now() - this.m_Buttons[aButtonIndex] < GAMEPAD_POLL_INTERVAL_MS :
-                    false : 
-                false;
+                this.m_Buttons[aButtonIndex].timestamp != undefined ?
+                    WebAPIs.performance.now() - this.m_Buttons[aButtonIndex].timestamp < GAMEPAD_POLL_INTERVAL_MS ?
+                        this.m_Buttons[aButtonIndex].value :
+                        0 :
+                    0 : 
+                0;
         }
         
         /**
@@ -72,22 +83,33 @@ module Gamepads
             
             setInterval(() =>
             {
-                if (navigator.getGamepads().length >= aIndex -1)
+                if (aIndex < navigator.getGamepads().length)
                 {
                     const gamepad = navigator.getGamepads()[aIndex];
 
-                    for (let i = 0; i < gamepad.buttons.length; ++i)
+                    if (gamepad !== null)
                     {
-                        this.m_Buttons[i] = gamepad.buttons[i].pressed ?
-                            !(typeof this.m_Buttons[i] === "number") ?
-                                WebAPIs.performance.now() :
-                                this.m_Buttons[i] :
-                            undefined;
-                    }
+                        for (let i = 0; i < gamepad.buttons.length; ++i)
+                        {
+                            if (this.m_Buttons[i] === undefined)
+                                this.m_Buttons[i] = {} as {value: number, timestamp: number};
 
-                    for (let i = 0; i < gamepad.axes.length; ++i)
+                            this.m_Buttons[i].timestamp = gamepad.buttons[i].pressed ?
+                                !(typeof this.m_Buttons[i] === "number") ?
+                                    WebAPIs.performance.now() :
+                                    this.m_Buttons[i].timestamp :
+                                undefined;
+
+                            this.m_Buttons[i].value = gamepad.buttons[i].value;
+                        }
+
+                        for (let i = 0; i < gamepad.axes.length; ++i)
+                            this.m_Axes[i] = gamepad.axes[i];
+                    }
+                    else
                     {
-                        this.m_Axes[i] = gamepad.axes[i];
+                        this.m_Buttons = {};
+                        this.m_Axes = {};
                     }
                 }
             }, 
