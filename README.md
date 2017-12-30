@@ -18,7 +18,7 @@ Repo is split into Engine and App. Engine represents the abstraction I am buildi
 * ./App/build-debug.sh - build current workspace project with sourcemaps etc. 
 * ./App/build-release.sh - build mangled, minified build of current project
 * ./App/build-voxel-example.sh - a voxel renderer example with custom voxel processing stage
-* ./App/build-iframe-example.sh - a 3D scene with a keyboard/gamepad controlled player object and a iframe embedded into background geometry
+* ./App/build-iframe-example.sh - a 3D scene with a keyboard/gamepad controlled sprite and an iframe embedded into background geometry
 
 ## Usage
 add Engine/src/ to your project's include path.
