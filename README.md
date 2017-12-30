@@ -5,7 +5,7 @@
 ![asdf](https://img.shields.io/badge/development%20status-active-green.svg)
 ![asdf](https://img.shields.io/badge/platforms-Chrome-lightgrey.svg)
 
-Library for developing 3D applications with mixed document node content, context 2d and WebGL content.
+Library for developing 3D applications with mixed style.transform content, context 2d and WebGL content. While WebGL should generally be preferred for performance reasons, style.transform based 3D Content allows the user to inject novel web content directly into their 3D Scenes (hyperlinks, iframes, video elements) and to style the scene via familiar js/css techniques.
 
 ## Layout
 Repo is split into Engine and Apps. Engine represents the abstraction I am building, Apps is a webpack based workspace for dependent app projects. Apps includes demo usage of the engine, such as div based voxel rendering.
