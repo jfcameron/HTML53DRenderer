@@ -36,16 +36,20 @@ class Vector2
         return this;
     }
 
-    public multiply(aScalar: number): void
+    public multiply(aScalar: number): Vector2
     {
         this.x *= aScalar;
         this.y *= aScalar;
+        
+        return this;
     }
 
-    public add(aOther: Vector2): void
+    public add(aOther: Vector2): Vector2
     {
         this.x += aOther.x;
         this.y += aOther.y;
+
+        return this;
     }
 
     public set(aX: number, aY: number)

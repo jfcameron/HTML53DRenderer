@@ -106,11 +106,11 @@ class TileCollisionHandler
             right: new Vector2(aPosition.x+1, aPosition.y),
         }
 
-        Debug.Log(TAG, 
-            points.this, ": ", aTileGrid.getTileValue(points.this), " || ",
-            points.up,   ": ", aTileGrid.getTileValue(points.up),   " || ",
-            points.down, ": ", aTileGrid.getTileValue(points.down)
-        );
+        /*Debug.Log(TAG, 
+            //points.this, ": ", aTileGrid.getTileValue(0,0), " || ",
+            //points.up,   ": ", aTileGrid.getTileValue(points.up),   " || ",
+            //points.down, ": ", aTileGrid.getTileValue(points.down),
+        );*/
     }
 
     constructor()
@@ -130,7 +130,7 @@ class Player extends TileGridObject
     private readonly tspeed = 0.005;
     private sca: Vector3;
 
-    public update(aDeltaTime: number): void
+    private handlePlayerInput(aDeltaTime: number): Vector2
     {
         const translationBuffer = new Vector2();
 
@@ -142,11 +142,34 @@ class Player extends TileGridObject
         translationBuffer.normalize();
         translationBuffer.multiply(this.tspeed * aDeltaTime);
 
-        this.m_Position.add(translationBuffer);
+        return translationBuffer;
+    }
 
-        //////
-        this.m_TileGridCharacterGraphicHandler.update(aDeltaTime, 0);
+    private readonly gravityBuffer = new Vector2(0,-0.01);
+
+    public update(aDeltaTime: number): void
+    {
+        
+        const translationBuffer = this.handlePlayerInput(aDeltaTime);
+
         this.m_TileCollisionHandler.update(this.m_CurrentTileGrid, this.m_Position);
+        
+        //handle tilegrid interactions
+        if (this.m_CurrentTileGrid.getTileValue(this.m_Position.x, this.m_Position.y-0.01))
+        {
+            while(this.m_CurrentTileGrid.getTileValue(this.m_Position.x, this.m_Position.y-0.01))this.m_Position.y += 0.001;
+            
+            this.gravityBuffer.y = 0;
+        }
+        else
+        {
+            this.gravityBuffer.y = -0.01 + (this.gravityBuffer.y * 1.025);
+        }
+
+        this.m_Position.add(translationBuffer.add(this.gravityBuffer));
+
+        //animate
+        this.m_TileGridCharacterGraphicHandler.update(aDeltaTime, 0);
     }
 
     public draw(aDeltaTime: number)

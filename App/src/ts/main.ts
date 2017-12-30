@@ -79,7 +79,7 @@ const tileGrid = new TileGrid
     }
 );
 
-const player = new Player(TileSize, new Vector2(0,2), scenegraph, tileGrid);
+const player = new Player(TileSize, new Vector2(21,7), scenegraph, tileGrid);
 
 const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
@@ -87,7 +87,7 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 
     const buff = player.getPosition();
 
-    camera.setTransform(new Vector3(-buff.x * TileSize, ( -buff.y * TileSize) +1500,-1750),new Vector3(-10,0,0));
+    camera.setTransform(new Vector3(-buff.x * TileSize,  +1500,-2500),new Vector3(-10,0,0));//-1750
 });
 
 const renderLoop = new AnimationTimer((aDeltaTime: number) =>
