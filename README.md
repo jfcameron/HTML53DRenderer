@@ -8,7 +8,7 @@
 Library for developing 3D applications with mixed style.transform content, context 2d and WebGL content. While WebGL should generally be preferred for performance reasons, style.transform based geometry allows the user to inject novel web content directly into their 3D Scenes (hyperlinks, iframes, video elements) and to style the scene via familiar js/css techniques.
 
 ## Layout
-Repo is split into Engine and App. Engine represents the abstraction I am building, App is a webpack based workspace for dependent app projects. App includes demo usage of the engine, such as div based voxel rendering.
+Repo is split into Engine and App. Engine represents the abstraction I am building, App is a webpack based workspace for dependent app projects. App includes demo usage of the engine, such as div based voxel renderer.
 
 ### Engine scripts:
 * ./Engine/unit-tests.sh - run test suite
