@@ -14,9 +14,10 @@ Repo is split into Engine and Apps. Engine represents the abstraction I am build
 * ./Engine/unit-tests.sh - run test suite
 * ./Engine/generate-documents.sh - generate html docs
 
-### Adhoc scripts:
-* ./Adhoc/build-debug.sh - build adhoc with sourcemaps etc. 
-* ./Adhoc/build-release.sh - build mangled, minified build
+### Apps scripts:
+* ./Apps/build-debug.sh - build current workspace project with sourcemaps etc. 
+* ./Apps/build-release.sh - build mangled, minified build of current project
+* ./Apps/build-voxel-example.sh - release build of a voxel renderer example with custom voxel processing stage
 
 ## Usage
 add Engine/src/ to your project's include path.
