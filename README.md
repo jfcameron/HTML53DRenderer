@@ -8,16 +8,16 @@
 Library for developing 3D applications with mixed style.transform content, context 2d and WebGL content. While WebGL should generally be preferred for performance reasons, style.transform based geometry allows the user to inject novel web content directly into their 3D Scenes (hyperlinks, iframes, video elements) and to style the scene via familiar js/css techniques.
 
 ## Layout
-Repo is split into Engine and Apps. Engine represents the abstraction I am building, Apps is a webpack based workspace for dependent app projects. Apps includes demo usage of the engine, such as div based voxel rendering.
+Repo is split into Engine and App. Engine represents the abstraction I am building, App is a webpack based workspace for dependent app projects. App includes demo usage of the engine, such as div based voxel rendering.
 
 ### Engine scripts:
 * ./Engine/unit-tests.sh - run test suite
 * ./Engine/generate-documents.sh - generate html docs
 
-### Apps scripts:
-* ./Apps/build-debug.sh - build current workspace project with sourcemaps etc. 
-* ./Apps/build-release.sh - build mangled, minified build of current project
-* ./Apps/build-voxel-example.sh - release build of a voxel renderer example with custom voxel processing stage
+### App scripts:
+* ./App/build-debug.sh - build current workspace project with sourcemaps etc. 
+* ./App/build-release.sh - build mangled, minified build of current project
+* ./App/build-voxel-example.sh - release build of a voxel renderer example with custom voxel processing stage
 
 ## Usage
 add Engine/src/ to your project's include path.
