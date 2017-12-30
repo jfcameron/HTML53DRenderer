@@ -150,8 +150,8 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
     if (Keyboard.getKey("ArrowLeft"))  pos.x += tspeed * aDeltaTime;
     if (Keyboard.getKey("ArrowRight")) pos.x -= tspeed * aDeltaTime;
 
-    pos.x += Gamepads.get(0).getAxis(0) * aDeltaTime * 0.5;
-    pos.y += Gamepads.get(0).getAxis(1) * aDeltaTime * 0.5;
+    pos.x += Gamepads.get(0).getAxis(0) * aDeltaTime * 2;
+    pos.y += Gamepads.get(0).getAxis(1) * aDeltaTime * 2;
     rot.y += Gamepads.get(0).getAxis(2) * aDeltaTime * 0.25;
     rot.x += Gamepads.get(0).getAxis(3) * aDeltaTime * 0.25;
 

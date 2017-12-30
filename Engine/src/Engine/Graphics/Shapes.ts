@@ -27,7 +27,7 @@ module Shapes
         if (aRotation === undefined) aRotation = new Vector3();
         if (aScale    === undefined) aScale    = new Vector3(1,1,1);
 
-        aHideBackface = arguments.length === 0 ? false : (aHideBackface === undefined);
+        if (aHideBackface === undefined) aHideBackface = false;
 
         const face: HTMLDivElement = document.createElement("div");
 
