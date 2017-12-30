@@ -24,7 +24,7 @@ class TileGrid
     public getTileValue(aX: number, aY: number): number
     public getTileValue(a0?: any, a1?: any): number
     {
-        return arguments.length === 2 ? this.m_TileData[a1][a0] : a0;
+        return arguments.length === 2 ? this.m_TileData[Math.floor(a1)][Math.floor(a0)] : this.m_TileData[Math.floor(a0.y)][Math.floor(a0.x)];
     }
 
     constructor(aSceneGraph: Scenegraph, aTileSize: number, aTileData: number[][], aVoxelProcessingStageCallback: Shapes.VoxelProcessingStageSignature)

@@ -22,6 +22,7 @@ class TileGridObject
 {
     protected m_CurrentTileGrid: TileGrid;
     protected m_Position: Vector2;
+    protected rot = new Vector3(0,0,0);
 
     public getPosition(): Vector2
     {
@@ -40,13 +41,26 @@ class TileGridObject
     }
 }
 
-class TileGraphicHandler
+class TileGridCharacterGraphicHandler
 {
     private u: number = 0;
     private i: number = 0;
 
     private readonly m_GraphicsObject: GraphicsObject;
     private readonly m_Sprite: Sprite;
+
+    public update(aDeltaTime: number, aSpeed: number)
+    {
+        if (this.i > 80)
+        {
+            this.i = 0;
+
+            if (this.u++ > 2)
+                this.u = 0;
+        }
+
+        this.i += aDeltaTime;
+    }
 
     public draw(aPosition: Vector2, aScale: Vector3, aRot: Vector3)
     {
@@ -76,7 +90,32 @@ class TileGraphicHandler
 
 class TileCollisionHandler
 {
+    public update(aTileGrid: TileGrid, aPosition: Vector2)
+    {
+        if (!aTileGrid)
+            return;
 
+        const points =
+        {
+            this: aPosition,
+
+            up:   new Vector2(aPosition.x, aPosition.y+1),
+            down: new Vector2(aPosition.x, aPosition.y-1),
+            
+            left:  new Vector2(aPosition.x-1, aPosition.y),
+            right: new Vector2(aPosition.x+1, aPosition.y),
+        }
+
+        Debug.Log(TAG, 
+            points.this, ": ", aTileGrid.getTileValue(points.this), " || ",
+            points.up,   ": ", aTileGrid.getTileValue(points.up),   " || ",
+            points.down, ": ", aTileGrid.getTileValue(points.down)
+        );
+    }
+
+    constructor()
+    {
+    }
 }
 
 /**
@@ -85,10 +124,10 @@ class TileCollisionHandler
 */
 class Player extends TileGridObject
 {
-    private readonly m_TileGraphicHandler: TileGraphicHandler;
+    private readonly m_TileGridCharacterGraphicHandler: TileGridCharacterGraphicHandler;
+    private readonly m_TileCollisionHandler: TileCollisionHandler;
 
     private readonly tspeed = 0.005;
-    private rot = new Vector3(0,0,0);
     private sca: Vector3;
 
     public update(aDeltaTime: number): void
@@ -105,25 +144,14 @@ class Player extends TileGridObject
 
         this.m_Position.add(translationBuffer);
 
-        if (translationBuffer.length() != 0)
-        {
-            //this.u = ++this.i % 16 === 0 ? this.u < 3 ? 1 + this.u : 0 : this.u;
-        }
-        else
-        {
-            //this.u = 1;
-            //this.i = 0;
-        }
-
-        if (this.m_CurrentTileGrid)
-        {
-            console.log(this.m_CurrentTileGrid.getTileValue(Math.floor(this.m_Position.x),Math.floor(this.m_Position.y)));
-        }
+        //////
+        this.m_TileGridCharacterGraphicHandler.update(aDeltaTime, 0);
+        this.m_TileCollisionHandler.update(this.m_CurrentTileGrid, this.m_Position);
     }
 
     public draw(aDeltaTime: number)
     {
-        this.m_TileGraphicHandler.draw(this.m_Position,this.sca,this.rot);
+        this.m_TileGridCharacterGraphicHandler.draw(this.m_Position,this.sca,this.rot);
     }
 
     constructor(aTileSize: number, aPosition: Vector2, aScenegraph: Scenegraph, aTileGrid: TileGrid)
@@ -132,7 +160,8 @@ class Player extends TileGridObject
 
         this.sca = new Vector3(aTileSize,aTileSize,aTileSize);
 
-        this.m_TileGraphicHandler = new TileGraphicHandler(aScenegraph);
+        this.m_TileGridCharacterGraphicHandler = new TileGridCharacterGraphicHandler(aScenegraph);
+        this.m_TileCollisionHandler = new TileCollisionHandler();
     }
 }
 
