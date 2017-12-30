@@ -31,6 +31,10 @@ import Gamepads from "Engine/Input/Gamepads"
 import Camera from "Engine/Graphics/Camera"
 import Scenegraph from "Engine/Graphics/Scenegraph"
 
+// GDK inc
+import TileGrid from "GDK/TileGrid"
+import DebugCameraController from "GDK/Debug/DebugCameraController"
+
 // Adhoc
 import API from "./apiTests"
 
@@ -49,7 +53,7 @@ class Player
     private u: number = 0;
     private i: number = 0;
 
-    private pos: Vector3;// = new Vector3(0,0,-0*SCALE_FACTOR);
+    private pos: Vector3;
     private rot = new Vector3(0,0,0);
     private sca = new Vector3(5*SCALE_FACTOR,5*SCALE_FACTOR,5*SCALE_FACTOR);
 
@@ -112,67 +116,6 @@ class Player
     }
 }
 
-class CameraController
-{
-    private readonly m_Camera: Camera;
-    
-    private readonly m_Position: Vector3 = new Vector3(Vector3.Zero);
-    private readonly m_Rotation: Vector3 = new Vector3(Vector3.Zero);
-
-    public update(aDelta: number): void
-    {
-        if (Keyboard.getKey("KeyQ")) this.m_Rotation.y -= 1;
-        if (Keyboard.getKey("KeyE")) this.m_Rotation.y += 1;
-    
-        if (Keyboard.getKey("Digit1")) this.m_Rotation.x -= 1;
-        if (Keyboard.getKey("Digit2")) this.m_Rotation.x += 1;
-    
-        if (Keyboard.getKey("Space")) this.m_Position.y += 10;
-        if (Keyboard.getKey("ControlLeft")) this.m_Position.y -= 10;
-    
-        if (Keyboard.getKey("KeyW"))
-        {
-            this.m_Position.x -= Math.sin((this.m_Rotation.y * Math.PI /180)) * scalar;
-            this.m_Position.z += Math.cos((this.m_Rotation.y * Math.PI /180)) * scalar;
-        }
-    
-        if (Keyboard.getKey("KeyS"))
-        {
-            this.m_Position.x += Math.sin((this.m_Rotation.y * Math.PI /180)) * scalar;
-            this.m_Position.z -= Math.cos((this.m_Rotation.y * Math.PI /180)) * scalar;
-        }
-    
-        if (Keyboard.getKey("KeyA"))
-        {
-            this.m_Position.x -= Math.sin(((this.m_Rotation.y-90) * Math.PI /180)) * scalar;
-            this.m_Position.z += Math.cos(((this.m_Rotation.y-90) * Math.PI /180)) * scalar;
-        }
-    
-        if (Keyboard.getKey("KeyD"))
-        {
-            this.m_Position.x -= Math.sin(((this.m_Rotation.y+90) * Math.PI /180)) * scalar;
-            this.m_Position.z += Math.cos(((this.m_Rotation.y+90) * Math.PI /180)) * scalar;
-        }
-    
-        if (Keyboard.getKey("Digit3"))
-        {
-            gfxscenegraph.hide();
-        }
-    
-        if (Keyboard.getKey("Digit4"))
-        {
-            gfxscenegraph.show();
-        }
-
-        this.m_Camera.setTransform(this.m_Position, this.m_Rotation);
-    }
-
-    constructor(aCamera: Camera)
-    {
-        this.m_Camera = aCamera;
-    }
-}
-
 //=========
 // Mainline
 //=========
@@ -185,7 +128,7 @@ const aRotation = new Vector3();
 const aScale    = Vector3.One;
 const scalar = 30;
 
-const cameraController = new CameraController(gfxCamera);
+const cameraController = new DebugCameraController(gfxCamera);
 
 const voxdat = 
 [
@@ -230,6 +173,12 @@ const player = new Player(new Vector3(0,-voxelSize.y,0));
 
 const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical,voxprocessingstage),gfxscenegraph, voxelFieldOffset, Vector3.Zero, voxelSize);
 
+
+///////////
+const tileGrid = new TileGrid(SCALE_FACTOR);
+
+
+///////////
 const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
     player.update(aDeltaTime);
@@ -240,7 +189,8 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
     buff.z -= 1750;
     buff.y += 700;
 
-    gfxCamera.setTransform(buff,new Vector3(-10,0,0));
+    //gfxCamera.setTransform(buff,new Vector3(-10,0,0));
+    cameraController.update(aDeltaTime);
 });
 
 const renderLoop = new AnimationTimer((aDeltaTime: number) =>
