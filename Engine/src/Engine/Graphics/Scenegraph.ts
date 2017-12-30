@@ -10,8 +10,7 @@ import Style from "Engine/Graphics/Style"
 const TAG: string = "Scenegraph";
 
 /**
-* @description a brief description of Scenegraph
-* @warning Scenegraph has not been documented!
+* @description root object of a 3D Scene.
 */
 class Scenegraph
 {
@@ -22,24 +21,14 @@ class Scenegraph
         return this.m_SceneGraphDivHandle;
     }
 
-    public set(): void
+    public hide(): void
     {
-        throw new Exceptions.Unimplemented();
+        this.m_SceneGraphDivHandle.style.visibility = "hidden";
     }
 
-    public toString(): string
+    public show(): void
     {
-        throw new Exceptions.Unimplemented();
-    }
-
-    public equalTo(aOther: Scenegraph): boolean
-    {
-        throw new Exceptions.Unimplemented();
-    }
-    
-    public destruct(): void
-    {
-        throw new Exceptions.Unimplemented();
+        this.m_SceneGraphDivHandle.style.visibility = "visible";
     }
 
     constructor()

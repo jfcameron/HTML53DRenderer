@@ -8,7 +8,7 @@
 Exploring 3D transform and perspective projection capabilities of HTML5's transform style
 
 ## Layout
-Repo is split into Engine and Adhoc. Engine represents the abstraction I am building, Adhoc is an example App that depends on it.
+Repo is split into Engine and Apps. Engine represents the abstraction I am building, Apps is a webpack based workspace for dependant app projects. Apps includes demo usage of the engine, such as div based voxel rendering.
 
 ### Engine scripts:
 * ./Engine/unit-tests.sh - run test suite

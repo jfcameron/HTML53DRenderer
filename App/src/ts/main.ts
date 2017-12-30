@@ -187,6 +187,16 @@ const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
         aPosition.x -= Math.sin(((aRotation.y+90) * Math.PI /180)) * scalar;
         aPosition.z += Math.cos(((aRotation.y+90) * Math.PI /180)) * scalar;
     }
+
+    if (Keyboard.getKey("Digit3"))
+    {
+        gfxscenegraph.hide();
+    }
+
+    if (Keyboard.getKey("Digit4"))
+    {
+        gfxscenegraph.show();
+    }
 });
 
 const renderLoop = new AnimationTimer((aDeltaTime: number) =>

@@ -41,6 +41,8 @@ class Sprite
         this.m_Context.webkitImageSmoothingEnabled = false;
         this.m_Context.imageSmoothingEnabled = false;
 
+        aDiv.style.backgroundColor = "rgba(0, 0, 0, 0)";
+
         aDiv.appendChild(this.m_Canvas);
         
         if (typeof aData === "string")

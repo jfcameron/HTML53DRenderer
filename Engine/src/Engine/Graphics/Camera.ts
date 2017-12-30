@@ -11,8 +11,11 @@ import Vector3 from "Engine/Math/Vector3"
 const TAG: string = "Camera";
 
 /**
-* @description a brief description of Camera
-* @warning Camera has not been documented!
+* @description defines the viewport bounds and perspective mul to be applied to a Scenegraph & its contents.
+* @note because perspective style is propagated recursively through document node tree, the camera's div must be
+* the parent of the scenegraph(s) it will render. This also means that if the user wants to render the same scene with
+* multiple cameras, the original scenegraph must be duplicated for each additional camera. This is currently not supported
+* by this project.
 */
 class Camera
 {
