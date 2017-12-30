@@ -34,23 +34,9 @@ import Scenegraph from "Engine/Graphics/Scenegraph"
 // Adhoc
 import API from "./apiTests"
 
+const SCALE_FACTOR = 50;
+
 const TAG: string = "Main";
-
-const gfxscenegraph = new Scenegraph();
-const gfxCamera = new Camera(document.body, gfxscenegraph);
-
-const voxdat = 
-[
-    [
-        [1,0,1,0,1,0,1],
-        [0,1,1,1,1,1,0],
-        [0,1,0,0,0,1,0],
-        [0,1,0,0,0,1,0],
-        [0,1,0,0,0,1,0],
-        [0,1,1,1,1,1,0],
-        [1,1,1,1,1,1,1],
-    ]
-];
 
 class Player
 {
@@ -63,20 +49,25 @@ class Player
     private u: number = 0;
     private i: number = 0;
 
-    private pos = new Vector3(0,0,-6000);
+    private pos: Vector3;// = new Vector3(0,0,-0*SCALE_FACTOR);
     private rot = new Vector3(0,0,0);
-    private sca = new Vector3(500,500,500);
+    private sca = new Vector3(5*SCALE_FACTOR,5*SCALE_FACTOR,5*SCALE_FACTOR);
+
+    public getPosition()
+    {
+        return new Vector3(this.pos);
+    }
 
     public update(aDeltaTime: number)
     {
         const translationBuffer = new Vector3();
 
-        if (Keyboard.getKey("ArrowUp"))    translationBuffer.z --;
-        if (Keyboard.getKey("ArrowDown"))  translationBuffer.z ++;
+        //if (Keyboard.getKey("ArrowUp"))    translationBuffer.z --;
+        //if (Keyboard.getKey("ArrowDown"))  translationBuffer.z ++;
         if (Keyboard.getKey("ArrowLeft"))  translationBuffer.x --;
         if (Keyboard.getKey("ArrowRight")) translationBuffer.x ++;
 
-        translationBuffer.z += Gamepads.get(0).getAxis(1);
+        //translationBuffer.z += Gamepads.get(0).getAxis(1);
         translationBuffer.x += Gamepads.get(0).getAxis(0);
 
         translationBuffer.normalize();
@@ -95,12 +86,24 @@ class Player
 
     public draw(aDeltaTime: number)
     {
-        this.m_GraphicsObject.draw(this.pos, this.rot, this.sca);
+        this.m_GraphicsObject.draw
+        (
+            new Vector3
+            (
+                this.pos.x + (0.5 * voxelSize.x),
+                this.pos.y - (0.5 * voxelSize.y),
+                this.pos.z
+            ), 
+            this.rot, 
+            this.sca
+        );
         this.m_Sprite.draw(this.u, 0, 16, 17);
     }
 
-    constructor()
+    constructor(aPosition: Vector3)
     {
+        this.pos = aPosition;
+
         const myshape = Shapes.Quad();
         myshape.style.backgroundImage = "none";
 
@@ -109,30 +112,101 @@ class Player
     }
 }
 
+class CameraController
+{
+    private readonly m_Camera: Camera;
+    
+    private readonly m_Position: Vector3 = new Vector3(Vector3.Zero);
+    private readonly m_Rotation: Vector3 = new Vector3(Vector3.Zero);
+
+    public update(aDelta: number): void
+    {
+        if (Keyboard.getKey("KeyQ")) this.m_Rotation.y -= 1;
+        if (Keyboard.getKey("KeyE")) this.m_Rotation.y += 1;
+    
+        if (Keyboard.getKey("Digit1")) this.m_Rotation.x -= 1;
+        if (Keyboard.getKey("Digit2")) this.m_Rotation.x += 1;
+    
+        if (Keyboard.getKey("Space")) this.m_Position.y += 10;
+        if (Keyboard.getKey("ControlLeft")) this.m_Position.y -= 10;
+    
+        if (Keyboard.getKey("KeyW"))
+        {
+            this.m_Position.x -= Math.sin((this.m_Rotation.y * Math.PI /180)) * scalar;
+            this.m_Position.z += Math.cos((this.m_Rotation.y * Math.PI /180)) * scalar;
+        }
+    
+        if (Keyboard.getKey("KeyS"))
+        {
+            this.m_Position.x += Math.sin((this.m_Rotation.y * Math.PI /180)) * scalar;
+            this.m_Position.z -= Math.cos((this.m_Rotation.y * Math.PI /180)) * scalar;
+        }
+    
+        if (Keyboard.getKey("KeyA"))
+        {
+            this.m_Position.x -= Math.sin(((this.m_Rotation.y-90) * Math.PI /180)) * scalar;
+            this.m_Position.z += Math.cos(((this.m_Rotation.y-90) * Math.PI /180)) * scalar;
+        }
+    
+        if (Keyboard.getKey("KeyD"))
+        {
+            this.m_Position.x -= Math.sin(((this.m_Rotation.y+90) * Math.PI /180)) * scalar;
+            this.m_Position.z += Math.cos(((this.m_Rotation.y+90) * Math.PI /180)) * scalar;
+        }
+    
+        if (Keyboard.getKey("Digit3"))
+        {
+            gfxscenegraph.hide();
+        }
+    
+        if (Keyboard.getKey("Digit4"))
+        {
+            gfxscenegraph.show();
+        }
+
+        this.m_Camera.setTransform(this.m_Position, this.m_Rotation);
+    }
+
+    constructor(aCamera: Camera)
+    {
+        this.m_Camera = aCamera;
+    }
+}
+
 //=========
 // Mainline
 //=========
+const gfxscenegraph = new Scenegraph();
+const gfxCamera = new Camera(document.body, gfxscenegraph);
+
 const camera = gfxscenegraph.getRootDiv();
-const aPosition = new Vector3(0,+750,0);
+const aPosition = new Vector3(0,+7.5*SCALE_FACTOR,0);
 const aRotation = new Vector3();
 const aScale    = Vector3.One;
 const scalar = 30;
 
-const quad = Shapes.Quad(new Vector3(0,-1000,-8000),new Vector3(), new Vector3(1500,1500,1500),true);
-quad.style.backgroundImage = "none";
+const cameraController = new CameraController(gfxCamera);
 
-const myiframeobject = new GraphicsObject(quad,gfxscenegraph);
-
-const player = new Player();
+const voxdat = 
+[
+    [
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0],
+        [0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,1,1,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,0],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],  
+    ],
+];
 
 function voxprocessingstage(aThisVoxel: {x: number, y: number, z: number, value: number}, aNeighbourData: {north: number, south: number, east: number, west: number, up: number, down: number}): Array<HTMLDivElement>
 {
-    const north = aNeighbourData.north === undefined ? true : aNeighbourData.north === 0;
-    const south = aNeighbourData.south === undefined ? true : aNeighbourData.south === 0;
-    const east  = aNeighbourData.east  === undefined ? true : aNeighbourData.east  === 0;
-    const west  = aNeighbourData.west  === undefined ? true : aNeighbourData.west  === 0;
-    const up    = aNeighbourData.up    === undefined ? true : aNeighbourData.up    === 0;
-    const down  = aNeighbourData.down  === undefined ? true : aNeighbourData.down  === 0;
+    const north = aNeighbourData.north === undefined ? true  : aNeighbourData.north === 0;
+    const south = aNeighbourData.south === undefined ? false : aNeighbourData.south === 0;
+    const east  = aNeighbourData.east  === undefined ? false : aNeighbourData.east  === 0;
+    const west  = aNeighbourData.west  === undefined ? false : aNeighbourData.west  === 0;
+    const up    = aNeighbourData.up    === undefined ? true  : aNeighbourData.up    === 0;
+    const down  = aNeighbourData.down  === undefined ? false : aNeighbourData.down  === 0;
 
     const vox = Shapes.Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1), north, south, east, west, up, down);
 
@@ -142,62 +216,31 @@ function voxprocessingstage(aThisVoxel: {x: number, y: number, z: number, value:
     return vox;
 };
 
-const floorgfx = Shapes.Cube();
+//Offset origin from center to bottom left
+const voxelSize = new Vector3(5*SCALE_FACTOR,5*SCALE_FACTOR,5*SCALE_FACTOR);
+const voxelFieldOffset = new Vector3
+(
+    voxdat[0][0].length * voxelSize.x * 0.5,
+    voxdat[0].length * voxelSize.y * -0.5,
+    0
+);
 
-for(let face of floorgfx)
-    face.style.backgroundImage = "url(img/grass.png)";
+//asdf
+const player = new Player(new Vector3(0,-voxelSize.y,0));
 
-const floor = new GraphicsObject(floorgfx,gfxscenegraph,new Vector3(0,500,-5000),new Vector3(),new Vector3(5000,500,5000));
-const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical,voxprocessingstage),gfxscenegraph, new Vector3(0,-1000,-8000), Vector3.Zero, new Vector3(500,500,500));
+const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat,Shapes.VoxelFieldOrientation.Vertical,voxprocessingstage),gfxscenegraph, voxelFieldOffset, Vector3.Zero, voxelSize);
 
 const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
     player.update(aDeltaTime);
 
-    gfxCamera.setTransform(aPosition, aRotation);
+    const buff = player.getPosition();
 
-    if (Keyboard.getKey("KeyQ")) aRotation.y -= 1;
-    if (Keyboard.getKey("KeyE")) aRotation.y += 1;
+    buff.multiply(-1);
+    buff.z -= 1750;
+    buff.y += 700;
 
-    if (Keyboard.getKey("Digit1")) aRotation.x -= 1;
-    if (Keyboard.getKey("Digit2")) aRotation.x += 1;
-
-    if (Keyboard.getKey("Space")) aPosition.y += 10;
-    if (Keyboard.getKey("ControlLeft")) aPosition.y -= 10;
-
-    if (Keyboard.getKey("KeyW"))
-    {
-        aPosition.x -= Math.sin((aRotation.y * Math.PI /180)) * scalar;
-        aPosition.z += Math.cos((aRotation.y * Math.PI /180)) * scalar;
-    }
-
-    if (Keyboard.getKey("KeyS"))
-    {
-        aPosition.x += Math.sin((aRotation.y * Math.PI /180)) * scalar;
-        aPosition.z -= Math.cos((aRotation.y * Math.PI /180)) * scalar;
-    }
-
-    if (Keyboard.getKey("KeyA"))
-    {
-        aPosition.x -= Math.sin(((aRotation.y-90) * Math.PI /180)) * scalar;
-        aPosition.z += Math.cos(((aRotation.y-90) * Math.PI /180)) * scalar;
-    }
-
-    if (Keyboard.getKey("KeyD"))
-    {
-        aPosition.x -= Math.sin(((aRotation.y+90) * Math.PI /180)) * scalar;
-        aPosition.z += Math.cos(((aRotation.y+90) * Math.PI /180)) * scalar;
-    }
-
-    if (Keyboard.getKey("Digit3"))
-    {
-        gfxscenegraph.hide();
-    }
-
-    if (Keyboard.getKey("Digit4"))
-    {
-        gfxscenegraph.show();
-    }
+    gfxCamera.setTransform(buff,new Vector3(-10,0,0));
 });
 
 const renderLoop = new AnimationTimer((aDeltaTime: number) =>
@@ -209,5 +252,3 @@ const idleLoop = new IdleTimer((aDeltaTime: number) =>
 {
 
 });
-
-API.Youtube.CreateVideoThumbnailImage("ef8NPEbLo30");
