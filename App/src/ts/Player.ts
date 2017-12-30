@@ -13,7 +13,7 @@ import Gamepads from "Engine/Input/Gamepads"
 import Shapes from "Engine/Graphics/Shapes"
 import Scenegraph from "../../../Engine/src/Engine/Graphics/Scenegraph";
 
-//
+// wip inc
 import TileGrid from "./TileGrid"
 
 const TAG: string = "Player";
@@ -68,7 +68,7 @@ class TileGridCharacterGraphicHandler
         (
             new Vector3
             (
-                (aPosition.x *  aScale.x) + (0.5 * aScale.x),
+                (aPosition.x *  aScale.x) + (0.0 * aScale.x),
                 (aPosition.y * -aScale.y) - (0.5 * aScale.y),
                 0
             ), 
@@ -105,16 +105,11 @@ class TileCollisionHandler
             left:  new Vector2(aPosition.x-1, aPosition.y),
             right: new Vector2(aPosition.x+1, aPosition.y),
         }
-
-        /*Debug.Log(TAG, 
-            //points.this, ": ", aTileGrid.getTileValue(0,0), " || ",
-            //points.up,   ": ", aTileGrid.getTileValue(points.up),   " || ",
-            //points.down, ": ", aTileGrid.getTileValue(points.down),
-        );*/
     }
 
     constructor()
     {
+
     }
 }
 
@@ -147,24 +142,53 @@ class Player extends TileGridObject
 
     private readonly gravityBuffer = new Vector2(0,-0.01);
 
-    public update(aDeltaTime: number): void
+    private jump()
     {
-        
+        this.gravityBuffer.y = 0.2;
+    }
+
+    public update(aDeltaTime: number): void
+    {        
         const translationBuffer = this.handlePlayerInput(aDeltaTime);
 
-        this.m_TileCollisionHandler.update(this.m_CurrentTileGrid, this.m_Position);
-        
-        //handle tilegrid interactions
-        if (this.m_CurrentTileGrid.getTileValue(this.m_Position.x, this.m_Position.y-0.01))
+        ////////////////////////////////////////////////////////////////////////////////
+        const collisionPoints =
         {
-            while(this.m_CurrentTileGrid.getTileValue(this.m_Position.x, this.m_Position.y-0.01))this.m_Position.y += 0.001;
-            
+            bottom:      (aOffsetX: number, aOffsetY: number)=> { return new Vector2(this.m_Position.x -aOffsetX,       this.m_Position.y - aOffsetY - 0.01)},
+            bottomLeft:  (aOffsetX: number, aOffsetY: number)=> { return new Vector2(this.m_Position.x -aOffsetX - 0.3, this.m_Position.y - aOffsetY - 0.01)},
+            bottomRight: (aOffsetX: number, aOffsetY: number)=> { return new Vector2(this.m_Position.x -aOffsetX + 0.3, this.m_Position.y - aOffsetY - 0.01)},
+
+
+        }
+
+        //handle tilegrid interactions
+        if (  this.m_CurrentTileGrid.getTileValue(collisionPoints.bottom(0,0))        
+           || this.m_CurrentTileGrid.getTileValue(collisionPoints.bottomLeft(0,0)) 
+           || this.m_CurrentTileGrid.getTileValue(collisionPoints.bottomRight(0,0)))
+        {
+            //MOVE
+            while(this.m_CurrentTileGrid.getTileValue(collisionPoints.bottom(0,0))        
+            ||    this.m_CurrentTileGrid.getTileValue(collisionPoints.bottomLeft(0,0)) 
+            ||    this.m_CurrentTileGrid.getTileValue(collisionPoints.bottomRight(0,0)))
+                this.m_Position.y += 0.001;
+
             this.gravityBuffer.y = 0;
+
+            if (Keyboard.getKey("Space"))
+                this.jump();
         }
         else
-        {
             this.gravityBuffer.y = -0.01 + (this.gravityBuffer.y * 1.025);
-        }
+
+        //if ()
+
+        
+
+
+
+
+
+        ////////////////////////////////////////////////////////////////////////////////
 
         this.m_Position.add(translationBuffer.add(this.gravityBuffer));
 
