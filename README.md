@@ -5,7 +5,7 @@
 ![asdf](https://img.shields.io/badge/development%20status-active-green.svg)
 ![asdf](https://img.shields.io/badge/platforms-Chrome-lightgrey.svg)
 
-Exploring 3D transform and perspective projection capabilities of HTML5's transform style
+Library for developing 3D applications with mixed document node content, context 2d and WebGL content.
 
 ## Layout
 Repo is split into Engine and Apps. Engine represents the abstraction I am building, Apps is a webpack based workspace for dependent app projects. Apps includes demo usage of the engine, such as div based voxel rendering.
