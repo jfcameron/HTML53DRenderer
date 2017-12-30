@@ -21,7 +21,7 @@ Repo is split into Engine and App. Engine represents the abstraction I am buildi
 
 ## Usage
 add Engine/src/ to your project's include path.
-See html docs for more info.
+Refer to html docs for more info. A snapshot is available [here](http://jfcameron.github.io/Github/CSSRender/docs) but ./Engine/generate-documents.sh should be run for up to date documentation.
 
 ### Example code
 ```typescript
