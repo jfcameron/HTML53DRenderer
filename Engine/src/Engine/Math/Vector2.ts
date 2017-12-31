@@ -52,10 +52,20 @@ class Vector2
         return this;
     }
 
-    public set(aX: number, aY: number)
+    public set(aOther: Vector2): void
+    public set(aX: number, aY: number): void
+    public set(a0?: any, a1?: any): void
     {
-        this.x = aX;
-        this.y = aY;
+        if (arguments.length == 1)
+        {
+            this.x = a0.x;
+            this.y = a0.y;
+        }
+        else
+        {
+            this.x = a0;
+            this.y = a1;
+        }
     }
 
     public equalTo(aOther: Vector2): boolean

@@ -54,8 +54,8 @@ const voxdat =
     ]
 ];
 
-const pos = new Vector3.Zero;
-const rot = new Vector3.Zero;
+const pos = new Vector3();
+const rot = new Vector3();
 const sca = new Vector3(10,10,10);
 
 const gfxobj = new GraphicsObject(Shapes.VoxelField(voxdat),pos,rot,sca);

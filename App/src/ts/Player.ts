@@ -132,6 +132,9 @@ class Player extends TileGridObject
         if (Keyboard.getKey("ArrowLeft"))  translationBuffer.x --;
         if (Keyboard.getKey("ArrowRight")) translationBuffer.x ++;
 
+        if (Keyboard.getKey("ArrowUp")) translationBuffer.y ++;
+        if (Keyboard.getKey("ArrowDown")) translationBuffer.y --;
+
         translationBuffer.x += Gamepads.get(0).getAxis(0);
 
         translationBuffer.normalize();
@@ -157,36 +160,183 @@ class Player extends TileGridObject
             bottom:      (aOffsetX: number, aOffsetY: number)=> { return new Vector2(this.m_Position.x -aOffsetX,       this.m_Position.y - aOffsetY - 0.01)},
             bottomLeft:  (aOffsetX: number, aOffsetY: number)=> { return new Vector2(this.m_Position.x -aOffsetX - 0.3, this.m_Position.y - aOffsetY - 0.01)},
             bottomRight: (aOffsetX: number, aOffsetY: number)=> { return new Vector2(this.m_Position.x -aOffsetX + 0.3, this.m_Position.y - aOffsetY - 0.01)},
+            
+            top:      (aOffsetX: number, aOffsetY: number)=> { return new Vector2(this.m_Position.x -aOffsetX,       this.m_Position.y - aOffsetY + 1.01)},
+            topLeft:  (aOffsetX: number, aOffsetY: number)=> { return new Vector2(this.m_Position.x -aOffsetX - 0.3, this.m_Position.y - aOffsetY + 1.01)},
+            topRight: (aOffsetX: number, aOffsetY: number)=> { return new Vector2(this.m_Position.x -aOffsetX + 0.3, this.m_Position.y - aOffsetY + 1.01)},
 
-
+            left:  (aOffsetX: number, aOffsetY: number)=> { return new Vector2(this.m_Position.x -aOffsetX - 0.3, this.m_Position.y - aOffsetY + 0.5)},
+            right: (aOffsetX: number, aOffsetY: number)=> { return new Vector2(this.m_Position.x -aOffsetX + 0.3, this.m_Position.y - aOffsetY + 0.5)},
         }
 
-        //handle tilegrid interactions
-        if (  this.m_CurrentTileGrid.getTileValue(collisionPoints.bottom(0,0))        
-           || this.m_CurrentTileGrid.getTileValue(collisionPoints.bottomLeft(0,0)) 
-           || this.m_CurrentTileGrid.getTileValue(collisionPoints.bottomRight(0,0)))
+        const tileIntersection =
         {
-            //MOVE
+            bottom:      false,
+            bottomLeft:  false,
+            bottomRight: false,
+
+            top:      false,
+            topLeft:  false,
+            topRight: false,
+
+            left:  false,
+            right: false,
+        }
+
+        //--------------------------
+        // collect intersection data
+        //--------------------------
+        if (this.m_CurrentTileGrid.getTileValue(collisionPoints.bottom(0,0)))      tileIntersection.bottom = true;
+        if (this.m_CurrentTileGrid.getTileValue(collisionPoints.bottomLeft(0,0)))  tileIntersection.bottomLeft = true;
+        if (this.m_CurrentTileGrid.getTileValue(collisionPoints.bottomRight(0,0))) tileIntersection.bottomRight = true;
+            
+        if (this.m_CurrentTileGrid.getTileValue(collisionPoints.top(0,0)))      tileIntersection.top = true;
+        if (this.m_CurrentTileGrid.getTileValue(collisionPoints.topLeft(0,0)))  tileIntersection.topLeft = true;
+        if (this.m_CurrentTileGrid.getTileValue(collisionPoints.topRight(0,0))) tileIntersection.topRight = true;
+
+        if (this.m_CurrentTileGrid.getTileValue(collisionPoints.left(0,0)))  tileIntersection.left = true;
+        if (this.m_CurrentTileGrid.getTileValue(collisionPoints.right(0,0))) tileIntersection.right = true;
+
+        //-----------------------
+        // react to intersections
+        //-----------------------
+        const positionBuffer = new Vector2(this.m_Position);
+        
+        const pushBuffer =
+        {
+            bottom: {val: undefined as Vector2, iterations: undefined as number, name: "" as string},
+            top:    {val: undefined as Vector2, iterations: undefined as number, name: "" as string},
+            left:   {val: undefined as Vector2, iterations: undefined as number, name: "" as string},
+            right:  {val: undefined as Vector2, iterations: undefined as number, name: "" as string},
+        }
+
+        if (tileIntersection.bottom || tileIntersection.bottomLeft || tileIntersection.bottomRight)
+        {
+            let i = 0;
             while(this.m_CurrentTileGrid.getTileValue(collisionPoints.bottom(0,0))        
             ||    this.m_CurrentTileGrid.getTileValue(collisionPoints.bottomLeft(0,0)) 
             ||    this.m_CurrentTileGrid.getTileValue(collisionPoints.bottomRight(0,0)))
+            {
+                ++i;
                 this.m_Position.y += 0.001;
+            }
 
-            this.gravityBuffer.y = 0;
-
-            if (Keyboard.getKey("Space"))
-                this.jump();
+            pushBuffer.bottom.val = new Vector2(this.m_Position);
+            pushBuffer.bottom.iterations = i;
+            pushBuffer.bottom.name = "bottom";
+            this.m_Position.set(positionBuffer);
         }
-        else
-            this.gravityBuffer.y = -0.01 + (this.gravityBuffer.y * 1.025);
 
-        //if ()
+        if (tileIntersection.top || tileIntersection.topLeft || tileIntersection.topRight)
+        {
+            let i = 0;
+            while(this.m_CurrentTileGrid.getTileValue(collisionPoints.top(0,0))        
+            ||    this.m_CurrentTileGrid.getTileValue(collisionPoints.topLeft(0,0)) 
+            ||    this.m_CurrentTileGrid.getTileValue(collisionPoints.topRight(0,0)))
+            {
+                ++i;
+                this.m_Position.y -= 0.001;
+            }
 
+            pushBuffer.top.val = new Vector2(this.m_Position);
+            pushBuffer.top.iterations = i;
+            pushBuffer.top.name = "top";
+            this.m_Position.set(positionBuffer);
+        }
+
+        if (tileIntersection.left || tileIntersection.topLeft || tileIntersection.bottomLeft)
+        {
+            let i = 0;
+            while(this.m_CurrentTileGrid.getTileValue(collisionPoints.left(0,0))        
+            ||    this.m_CurrentTileGrid.getTileValue(collisionPoints.topLeft(0,0)) 
+            ||    this.m_CurrentTileGrid.getTileValue(collisionPoints.bottomLeft(0,0)))
+            {
+                ++i;
+                this.m_Position.x += 0.001;
+            }
+
+            pushBuffer.left.val = new Vector2(this.m_Position);
+            pushBuffer.left.iterations = i;
+            pushBuffer.left.name = "left";
+            this.m_Position.set(positionBuffer);
+        }
+
+        if (tileIntersection.right || tileIntersection.topRight || tileIntersection.bottomRight)
+        {
+            let i = 0;
+            while(this.m_CurrentTileGrid.getTileValue(collisionPoints.right(0,0))        
+            ||    this.m_CurrentTileGrid.getTileValue(collisionPoints.topRight(0,0)) 
+            ||    this.m_CurrentTileGrid.getTileValue(collisionPoints.bottomRight(0,0)))
+            {
+                ++i;
+                this.m_Position.x -= 0.001;
+            }
+
+            pushBuffer.right.val = new Vector2(this.m_Position);
+            pushBuffer.right.iterations = i;
+            pushBuffer.right.name = "right";
+            this.m_Position.set(positionBuffer);
+        }
+
+        //------------------------
+        // Select the final offset
+        //------------------------
+        let finalOffset = undefined;
+
+        for (const item in pushBuffer) //replace this nonsense init loop
+        {
+            if (item)
+            {
+                finalOffset = (<any>pushBuffer)[item];
+                break;
+            }
+        }
+
+        if (finalOffset != undefined)
+        {
+            for (const item in pushBuffer)
+            {
+                if (item)
+                {
+                    if (!finalOffset.iterations)
+                        finalOffset = (<any>pushBuffer)[item];
+
+                    if ((<any>pushBuffer)[item].iterations && finalOffset.iterations)
+                    {
+                        if ((<any>pushBuffer)[item].iterations < finalOffset.iterations)
+                        {
+                            finalOffset = (<any>pushBuffer)[item];
+                        }
+                    }
+                }
+            }
+        }
+    
+        //------------------------
+        // Finally do some work
+        //------------------------
+        console.log(pushBuffer);
+        console.log(finalOffset);
         
+        if (finalOffset != undefined)
+        {
+            if ((<any>finalOffset).val != undefined)
+            {
+                this.m_Position.set((<any>finalOffset).val);
+            }
+            
+            if ((<any>finalOffset).iterations != undefined && finalOffset === pushBuffer.bottom)
+            {
+                this.gravityBuffer.y = 0;
 
-
-
-
+                if (Keyboard.getKey("Space"))
+                    this.jump();
+            }
+            else
+            {
+                this.gravityBuffer.y = -0.01 + (this.gravityBuffer.y * 1.025);
+            }
+        }
 
         ////////////////////////////////////////////////////////////////////////////////
 
