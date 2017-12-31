@@ -101,7 +101,7 @@ const idleLoop = new IdleTimer((aDeltaTime: number) =>
 
 });
 
-const asdf = Vector2.Zero;
+const asdf = new Vector2(Vector2.Zero);
 asdf.x += 100;
 Debug.Log(TAG,
     "asdf: ", asdf, ", ",
