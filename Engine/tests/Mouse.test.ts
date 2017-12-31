@@ -20,6 +20,15 @@ describe("Mouse", () =>
         .to.equal(true);
     });
 
+    it("getButtonDown", () => 
+    {
+        expect
+        (
+            Mouse.getButtonDown(0) === false
+        )
+        .to.equal(true);
+    });
+
     it("getViewportPosition()", () => 
     {
         expect
@@ -34,20 +43,6 @@ describe("Mouse", () =>
         expect
         (
             Mouse.getViewportPosition().equalTo(new Vector2())
-        )
-        .to.equal(true);
-    });
-
-    //=============
-    // Constructors
-    //=============
-    it("Default constructor", () => 
-    {
-        const a = Mouse;
-
-        expect
-        (
-            a != undefined
         )
         .to.equal(true);
     });

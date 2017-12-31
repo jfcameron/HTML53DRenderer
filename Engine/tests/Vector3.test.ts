@@ -34,6 +34,36 @@ describe("Vector3", () =>
         .to.equal(true);
     });
 
+    it("multiply", () => 
+    {
+        const a = new Vector3(1,2,3);
+        const b = 3;
+        const c = a.multiply(b);
+
+        expect
+        (
+            c.x === 3 &&
+            c.y === 6 &&
+            c.z === 9
+        )
+        .to.equal(true);
+    });
+
+    it("add", () => 
+    {
+        const a = new Vector3(1,2,3);
+        const b = new Vector3(3,4,5);
+        const c = a.add(b);
+
+        expect
+        (
+            c.x === 4 &&
+            c.y === 6 &&
+            c.z === 8
+        )
+        .to.equal(true);
+    });
+
     it("set", () => 
     {
         const a = new Vector3(0, 0, 0);
@@ -42,6 +72,18 @@ describe("Vector3", () =>
         expect
         (
             a.x === 1 && a.y === 1 && a.z === 1
+        )
+        .to.equal(true);
+    });
+
+    it("equalTo", () => 
+    {
+        const a = new Vector3(10, 20, 30);
+        const b = new Vector3(10, 20, 30);
+
+        expect
+        (
+            a.equalTo(b)
         )
         .to.equal(true);
     });
@@ -56,18 +98,6 @@ describe("Vector3", () =>
         expect
         (
             a.toString() === `{${x}, ${y}, ${z}}`
-        )
-        .to.equal(true);
-    });
-
-    it("equalTo", () => 
-    {
-        const a = new Vector3(10, 20, 30);
-        const b = new Vector3(10, 20, 30);
-
-        expect
-        (
-            a.equalTo(b)
         )
         .to.equal(true);
     });
@@ -94,6 +124,19 @@ describe("Vector3", () =>
         expect
         (
             a.equalTo(b)
+        )
+        .to.equal(true);
+    });
+
+    it("number, number, number constructor", () => 
+    {
+        const a = new Vector3(1, 2, 3);
+
+        expect
+        (
+            a.x === 1 &&
+            a.y === 2 &&
+            a.z === 3
         )
         .to.equal(true);
     });

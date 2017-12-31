@@ -38,18 +38,22 @@ class Vector3
         return this;
     }
 
-    public multiply(aScalar: number): void
+    public multiply(aScalar: number): Vector3
     {
         this.x *= aScalar;
         this.y *= aScalar;
         this.z *= aScalar;
+
+        return this;
     }
 
-    public add(aOther: Vector3): void
+    public add(aOther: Vector3): Vector3
     {
         this.x += aOther.x;
         this.y += aOther.y;
         this.z += aOther.z;
+
+        return this;
     }
 
     public set(aX: number, aY: number, aZ: number)

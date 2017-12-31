@@ -57,10 +57,7 @@ class Vector2
     public set(a0?: any, a1?: any): void
     {
         if (arguments.length == 1)
-        {
-            this.x = a0.x;
-            this.y = a0.y;
-        }
+            this.set(a0.x, a0.y);
         else
         {
             this.x = a0;

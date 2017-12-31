@@ -21,14 +21,13 @@ describe("Keyboard", () =>
         .to.equal(true);
     });
 
-    //=============
-    // Constructors
-    //=============
-    it("Default constructor", () => 
+    it("getKeyDown", () => 
     {
+        const a = Keyboard;
+
         expect
         (
-            Keyboard !== undefined
+            a.getKeyDown("KeyW") === false
         )
         .to.equal(true);
     });
