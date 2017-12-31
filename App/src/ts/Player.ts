@@ -278,6 +278,11 @@ class Player extends TileGridObject
             this.m_Position.set(positionBuffer);
         }
 
+        //
+        // cull non cardinal 
+        //
+
+
         //------------------------
         // Select the final offset
         //------------------------
@@ -335,6 +340,11 @@ class Player extends TileGridObject
             else
             {
                 this.gravityBuffer.y = -0.01 + (this.gravityBuffer.y * 1.025);
+            }
+
+            if ((<any>finalOffset).iterations != undefined && finalOffset === pushBuffer.top)
+            {
+                this.gravityBuffer.y = 0;
             }
         }
 
