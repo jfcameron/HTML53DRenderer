@@ -28,7 +28,7 @@ class GraphicsObject
         ;
     }
 
-    public getRootDiv()
+    public getRootDiv(): HTMLDivElement
     {
         return this.m_RootDivHandle;
     }

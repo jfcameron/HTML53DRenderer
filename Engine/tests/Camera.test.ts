@@ -5,51 +5,47 @@
 import { expect } from 'chai'
 import Camera from "Engine/Graphics/Camera"
 import Scenegraph from "Engine/Graphics/Scenegraph"
+import Vector3 from "Engine/Math/Vector3"
 
 describe("Camera", () => 
 {
     //=================
     // Public interface
     //=================
-    /*it("set", () => 
+    it("setTransform", () => 
     {
-        const a = new Camera();
+        const a = document.createElement("div");
+        const b = new Scenegraph();
+        const c = new Camera(a,b);
+        const d = new Vector3(1,2,3);
+        const e = new Vector3(4,5,6);
+
+        c.setTransform(d,e);
 
         expect
         (
-            false
+            true
         )
         .to.equal(true);
     });
 
-    it("toString", () => 
+    it("getDiv", () => 
     {
-        const x = 0, y = 0;
-        const a = new Camera();
+        const a = document.createElement("div");
+        const b = new Scenegraph();
+        const c = new Camera(a,b);
 
         expect
         (
-            "" + a == `{${x}, ${y}}`
+            c.getDiv() != undefined
         )
         .to.equal(true);
     });
-
-    it("equalTo", () => 
-    {
-        const a = new Camera();
-        const b = new Camera();
-
-        expect
-        (
-            a.equalTo(b);
-        )
-        .to.equal(true);
-    });*/
 
     //=============
     // Constructors
     //=============
-    it("Default constructor", () => 
+    it("HTMLElement, Scenegraph constructor", () => 
     {
         const a = document.createElement("div");
         const b = new Scenegraph();
