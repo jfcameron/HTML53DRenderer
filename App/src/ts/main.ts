@@ -35,75 +35,256 @@ import Scenegraph from "Engine/Graphics/Scenegraph"
 import DebugCameraController from "GDK/Debug/DebugCameraController"
 
 // Adhoc
-import API from "./apiTests"
-import TileGrid from "./TileGrid"
-import Player from "./Player"
 
 const TAG: string = "Main";
 
-//=========
-// Mainline
-//=========
-const TileSize = 50*5;
+//*****************
+// Global variables
+//*****************
+//Data
+var time = 0.0;
+//Object references
+var webGLWindow: any         = null; //Reference to the gl context
+var shaderProgram: any       = null; //Reference to the shader program used to render triangle
+var triangleVertexArray: any = null; //Reference to the VBO containing Triangle vertex data
+var cubeTexture: any         = null;
+var cubeImage: any           = null;
+var clearColor = [0.25,0.25,0.5,1.0];
+	
+//**************
+//Shader sources
+//**************
+var vertexSource = `
+attribute highp vec3 vPos;
+attribute lowp  vec2 vUV;
 
-const scenegraph = new Scenegraph();
-const camera = new Camera(document.body, scenegraph);
+varying lowp vec2 v_UV;
 
-const tileGrid = new TileGrid
-(
-    scenegraph,
-    TileSize,
-    [
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,2,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0],
-        [0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,1,1,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,0],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],  
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],  
-    ],
-    (aThisVoxel: {x: number, y: number, z: number, value: number}, aNeighbourData: {north: number, south: number, east: number, west: number, up: number, down: number}): Array<HTMLDivElement> =>
+uniform   highp float _Time;
+
+void main()
+{
+    highp vec4 position = vec4(vPos,1.0);
     {
-        const north = aNeighbourData.north === undefined ? true  : aNeighbourData.north === 0;
-        const south = aNeighbourData.south === undefined ? false : aNeighbourData.south === 0;
-        const east  = aNeighbourData.east  === undefined ? false : aNeighbourData.east  === 0;
-        const west  = aNeighbourData.west  === undefined ? false : aNeighbourData.west  === 0;
-        const up    = aNeighbourData.up    === undefined ? true  : aNeighbourData.up    === 0;
-        const down  = aNeighbourData.down  === undefined ? false : aNeighbourData.down  === 0;
-
-        const vox = Shapes.Voxel(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(1,1,1), north, south, east, west, up, down);
-
-        for (let face of vox)
-            face.style.backgroundImage = "url(img/brick.png)";
-
-        return vox;
+        mat4 rotationMatrix;
+        rotationMatrix[0][0] = cos(_Time); rotationMatrix[1][0] =-sin(_Time); rotationMatrix[2][0] = 0.0 ; rotationMatrix[3][0] = 0.0;
+        rotationMatrix[0][1] = sin(_Time); rotationMatrix[1][1] = cos(_Time); rotationMatrix[2][1] = 0.0 ; rotationMatrix[3][1] = 0.0;
+        rotationMatrix[0][2] = 0.0       ; rotationMatrix[1][2] = 0.0       ; rotationMatrix[2][2] = 1.0 ; rotationMatrix[3][2] = 0.0;
+        rotationMatrix[0][3] = 0.0       ; rotationMatrix[1][3] = 0.0       ; rotationMatrix[2][3] = 0.0 ; rotationMatrix[3][3] = 1.0;
+        
+        position = rotationMatrix*position;\n
+        
+        //position.x += sin(_Time)*0.5;\n
+        //position.y += cos(_Time*2.0)/2.0;\n
+        
     }
-);
+    
+    gl_Position = position;
+    
+    v_UV = vUV;
+    
+}`;
 
-const player = new Player(TileSize, new Vector2(21,7), scenegraph, tileGrid);
+var fragSource = `
+precision mediump float;
+varying lowp vec2 v_UV;
 
-const mainLoop = new IntervalTimer(16,(aDeltaTime: number) =>
+uniform lowp vec4 _Color;
+uniform sampler2D _Texture;
+
+void main()
 {
-    player.update(aDeltaTime);
+    lowp vec4 rvalue = vec4(0);
+    {
+        rvalue = texture2D(_Texture, v_UV); //v_UV
+        
+        if (rvalue[3] < 1.0)
+        {
+            discard;
+            
+            
+        }   
+        
+    }
 
-    const buff = player.getPosition();
+    gl_FragColor = rvalue;
 
-    camera.setTransform(new Vector3(-buff.x * TileSize,  +1500,-2500),new Vector3(-10,0,0));//-1750
-});
-
-const renderLoop = new AnimationTimer((aDeltaTime: number) =>
+}`;
+	
+//****************
+// Program methods
+//****************
+// initWebGLWindow
+// args: none
+// returns: none
+// gets a reference to the OpenGL context
+function initWebGLWindow(window: any)
 {
-    player.draw(aDeltaTime);
-});
-
-const idleLoop = new IdleTimer((aDeltaTime: number) =>
+    webGLWindow                = window.getContext( "webgl" );
+    webGLWindow.viewportWidth  = window.width;
+    webGLWindow.viewportHeight = window.height;    
+}
+   
+// initShaders
+// args: none
+// returns: none
+// Takes the shader sources above and compiles a shader program out of them.
+// The terminology here is especially bad. Essentially, a shader program is made out of different shaders.
+// In WebGL it must be a Vertex Shader and a Fragment Shader.
+function initShaders() 
 {
+    //Create two empty shaders for Vertex/Frag program
+    var vertexShader = webGLWindow.createShader( webGLWindow.VERTEX_SHADER   );
+    var fragShader   = webGLWindow.createShader( webGLWindow.FRAGMENT_SHADER ); 
 
-});
+    //Compile the shaders
+    webGLWindow.shaderSource( vertexShader, vertexSource );
+    webGLWindow.compileShader( vertexShader );
+    webGLWindow.shaderSource( fragShader, fragSource);
+    webGLWindow.compileShader( fragShader); 
 
-const asdf = new Vector2(Vector2.Zero);
-asdf.x += 100;
-Debug.Log(TAG,
-    "asdf: ", asdf, ", ",
-    "Zero: ", Vector2.Zero
-);
+    //Check for compile errors
+    if( !webGLWindow.getShaderParameter( vertexShader, webGLWindow.COMPILE_STATUS) ) 
+        alert( webGLWindow.getShaderInfoLog(vertexShader) );  
+    if( !webGLWindow.getShaderParameter( fragShader, webGLWindow.COMPILE_STATUS) )
+        alert( webGLWindow.getShaderInfoLog(fragShader) );
+        
+    //Create the shader program & compile shaders into graphics programs
+    shaderProgram = webGLWindow.createProgram();
+    webGLWindow.attachShader(shaderProgram, fragShader);
+    webGLWindow.attachShader(shaderProgram, vertexShader);
+    webGLWindow.linkProgram(shaderProgram);
+        
+    webGLWindow.useProgram(shaderProgram);
+
+    shaderProgram.vertexPositionAttribute = webGLWindow.getAttribLocation( shaderProgram, "vPos" );
+    webGLWindow.enableVertexAttribArray( shaderProgram.vertexPositionAttribute);
+
+    shaderProgram.uvAttribute             = webGLWindow.getAttribLocation( shaderProgram, "vUV"  );
+    webGLWindow.enableVertexAttribArray( shaderProgram.uvAttribute            );
+}
+   
+// createVertexBuffer
+// args: none
+// returns: none
+// hardcodes the vertex data for the quad mesh
+function createVertexBuffer() 
+{
+    triangleVertexArray = webGLWindow.createBuffer();
+    webGLWindow.bindBuffer( webGLWindow.ARRAY_BUFFER, triangleVertexArray );
+        
+    var vertices = 
+    [
+        //x,                y,    z,   u,   v,  
+        0.5 -0.25,  0.5 -0.25,  0.0, 1.0, 0.0, // 1--0
+        0.0 -0.25,  0.5 -0.25,  0.0, 0.0, 0.0, // | /
+        0.0 -0.25,  0.0 -0.25,  0.0, 0.0, 1.0, // 2
+                                   
+        0.5 -0.25,  0.5 -0.25,  0.0, 1.0, 0.0, //    0
+        0.0 -0.25,  0.0 -0.25,  0.0, 0.0, 1.0, //  / |
+        0.5 -0.25,  0.0 -0.25,  0.0, 1.0, 1.0, // 1--2
+    ];
+    
+    webGLWindow.bufferData( webGLWindow.ARRAY_BUFFER, new Float32Array(vertices), webGLWindow.STATIC_DRAW );
+    triangleVertexArray.itemSize = 5;
+    triangleVertexArray.numItems = 6;
+}
+
+function initTextures() 
+{
+    cubeTexture = webGLWindow.createTexture();
+    cubeImage = new Image();
+    cubeImage.onload = function() { handleTextureLoaded(cubeImage, cubeTexture); }
+    cubeImage.src = "./img/Awesome.png";
+}
+
+function handleTextureLoaded(image: any, texture: any) 
+{
+    console.log("handleTextureLoaded, image = " + image);
+    webGLWindow.bindTexture(webGLWindow.TEXTURE_2D, texture); //bind the texture to work on it
+
+    webGLWindow.texImage2D(webGLWindow.TEXTURE_2D, 0, webGLWindow.RGBA, webGLWindow.RGBA, //Set up the texture
+    webGLWindow.UNSIGNED_BYTE, image);
+        
+    //set the texture's parameters
+    webGLWindow.texParameteri(webGLWindow.TEXTURE_2D, webGLWindow.TEXTURE_MAG_FILTER, webGLWindow.LINEAR);
+    webGLWindow.texParameteri(webGLWindow.TEXTURE_2D, webGLWindow.TEXTURE_MIN_FILTER, webGLWindow.LINEAR_MIPMAP_NEAREST);
+    webGLWindow.generateMipmap(webGLWindow.TEXTURE_2D);
+    webGLWindow.bindTexture(webGLWindow.TEXTURE_2D, null);    
+}
+
+function update()
+{
+    time += 0.01;
+
+    draw();
+}
+
+function draw() 
+{
+    webGLWindow.viewport  ( 0, 0, webGLWindow.viewportWidth, webGLWindow.viewportHeight);
+    webGLWindow.clearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
+    webGLWindow.clear     ( webGLWindow.COLOR_BUFFER_BIT | webGLWindow.DEPTH_BUFFER_BIT );
+
+    //**********************************************************
+    // 1. Select the "mesh" to be drawn (the vertex data buffer)
+    //**********************************************************
+    webGLWindow.bindBuffer( webGLWindow.ARRAY_BUFFER, triangleVertexArray );
+        
+    //**************************************************************************
+    // 2. Tell OpenGL about the vertex's attributes (the x,y,z and the u,v etc.)
+    // This must be done since vertex formats are arbitrary
+    //**************************************************************************
+    //Position attribute pointer
+    webGLWindow.vertexAttribPointer
+    (
+        shaderProgram.vertexPositionAttribute,
+        3, //triangleVertexArray.itemSize,
+        webGLWindow.FLOAT,
+        false, 
+        4*(3+2), //stride is size of vertex format in bytes. 4 is float size, 3 pos, 2 uv 
+        0 
+    );
+
+    //UV attribute pointer
+    webGLWindow.vertexAttribPointer
+    (
+        shaderProgram.uvAttribute,
+        2, //triangleVertexArray.itemSize,
+        webGLWindow.FLOAT,
+        false, 
+        4*(3+2), //stride is size of vertex format in bytes. 4 is float size, 3 pos, 2 uv 
+        4*3 
+    );
+
+    //*******************************************
+    // 3. Pass uniform data to the shader program
+    //*******************************************
+    //pass time uniform
+    var uTime = webGLWindow.getUniformLocation(shaderProgram,"_Time");
+    if (uTime != -1)
+        webGLWindow.uniform1f(uTime, time);
+
+    //pass texture
+    webGLWindow.activeTexture(webGLWindow.TEXTURE0);
+    webGLWindow.bindTexture  (webGLWindow.TEXTURE_2D, cubeTexture);
+    webGLWindow.uniform1i    (webGLWindow.getUniformLocation(shaderProgram, "_Texture"), 0);
+   
+    //*********************************************************************************
+    // 4. All the data is ready, finally call draw and push that data down the pipeline
+    //*********************************************************************************
+    //draw
+    webGLWindow.drawArrays( webGLWindow.TRIANGLES, 0, triangleVertexArray.numItems );    
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+var window = document.createElement("canvas");
+window.setAttribute("width",  "500");
+window.setAttribute("height", "500");
+document.body.appendChild(window);
+
+setInterval(update,16);
+initWebGLWindow(window);
+initShaders();
+createVertexBuffer();
+initTextures();   
