@@ -221,6 +221,9 @@ class Player extends TileGridObject
                 this.m_Position.y += 0.001;
             }
 
+            //if (this.m_CurrentTileGrid.getTileValue(this.m_Position) === undefined)
+                //this.m_Position.y += 9999999;
+
             pushBuffer.bottom.val = new Vector2(this.m_Position);
             pushBuffer.bottom.iterations = i;
             pushBuffer.bottom.name = "bottom";
@@ -237,6 +240,9 @@ class Player extends TileGridObject
                 ++i;
                 this.m_Position.y -= 0.001;
             }
+
+            //if (this.m_CurrentTileGrid.getTileValue(this.m_Position) === undefined)
+                //this.m_Position.y -= 9999999;
 
             pushBuffer.top.val = new Vector2(this.m_Position);
             pushBuffer.top.iterations = i;
@@ -255,6 +261,9 @@ class Player extends TileGridObject
                 this.m_Position.x += 0.001;
             }
 
+            //if (this.m_CurrentTileGrid.getTileValue(this.m_Position) === undefined)
+                //this.m_Position.x += 9999999;
+
             pushBuffer.left.val = new Vector2(this.m_Position);
             pushBuffer.left.iterations = i;
             pushBuffer.left.name = "left";
@@ -271,6 +280,9 @@ class Player extends TileGridObject
                 ++i;
                 this.m_Position.x -= 0.001;
             }
+
+            //if (this.m_CurrentTileGrid.getTileValue(this.m_Position) === undefined)
+                //this.m_Position.x -= 9999999;
 
             pushBuffer.right.val = new Vector2(this.m_Position);
             pushBuffer.right.iterations = i;
@@ -340,11 +352,6 @@ class Player extends TileGridObject
             else
             {
                 this.gravityBuffer.y = -0.01 + (this.gravityBuffer.y * 1.025);
-            }
-
-            if ((<any>finalOffset).iterations != undefined && finalOffset === pushBuffer.top)
-            {
-                this.gravityBuffer.y = 0;
             }
         }
 
