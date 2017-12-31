@@ -10,16 +10,30 @@ describe("Color", () =>
     //=================
     // Public interface
     //=================
-    it("set", () => 
+    it("set - RGBA overload", () => 
     {
         const r = 255, g = 128, b = 75, a = 0.5;
-        const col = new Color();
+        const col = new Color(0,0,0,0);
 
         col.set(r, g, b, a);
 
         expect
         (
             col.equalTo(new Color(r, g, b, a))
+        )
+        .to.equal(true);
+    });
+
+    it("set - Color overload", () => 
+    {
+        const another = new Color(4,3,2,1);
+        const col = new Color(1,1,1,1);
+
+        col.set(another);
+
+        expect
+        (
+            col.equalTo(another)
         )
         .to.equal(true);
     });
@@ -52,17 +66,6 @@ describe("Color", () =>
     //=============
     // Constructors
     //=============
-    it("Default constructor", () => 
-    {
-        const a = new Color();
-
-        expect
-        (
-            a.equalTo(new Color(0, 0, 0, 1))
-        )
-        .to.equal(true);
-    });
-
     it("RGBA constructor", () => 
     {
         const r = 0, g = 0, b = 255, a = 0;

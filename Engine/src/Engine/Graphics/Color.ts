@@ -19,12 +19,19 @@ class Color
     public b: number = 0;
     public a: number = 1;
 
-    public set(aR: number, aG: number, aB: number, aA: number)
+    public set(aOther: Color): void
+    public set(aR: number, aG: number, aB: number, aA: number): void
+    public set(a0?: any, aG?: number, aB?: number, aA?: number): void
     {
-        this.r = aR;
-        this.g = aG;
-        this.b = aB;
-        this.a = aA;
+        if (arguments.length === 1) 
+            this.set(a0.r, a0.g, a0.b, a0.a);    
+        else
+        {
+            this.r = a0;
+            this.g = aG;
+            this.b = aB;
+            this.a = aA;
+        }
     }
 
     public toString(): string

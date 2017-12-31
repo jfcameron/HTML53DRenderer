@@ -7,11 +7,11 @@ import Exceptions from "Engine/Debug/Exceptions"
 
 const TAG: string = "WebAPIs";
 
-const _performance = performance;
-const _clearInterval = clearInterval;
-const _setInterval = setInterval;
-const _window = window;
-const _document = document;
+const _performance = typeof performance !== "undefined" ? performance : undefined;
+const _clearInterval = typeof clearInterval !== "undefined" ? clearInterval : undefined;
+const _setInterval = typeof setInterval !== "undefined" ? setInterval : undefined;
+const _window = typeof window !== "undefined" ? window : undefined;
+const _document = typeof document !== "undefined" ? document : undefined;
 
 /**
 * @description wrapper of immature WebAPIs used throughout the project.
