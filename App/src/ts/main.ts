@@ -72,17 +72,15 @@ void main()
         rotationMatrix[0][2] = 0.0       ; rotationMatrix[1][2] = 0.0       ; rotationMatrix[2][2] = 1.0 ; rotationMatrix[3][2] = 0.0;
         rotationMatrix[0][3] = 0.0       ; rotationMatrix[1][3] = 0.0       ; rotationMatrix[2][3] = 0.0 ; rotationMatrix[3][3] = 1.0;
         
-        position = rotationMatrix*position;\n
+        position = rotationMatrix*position;
         
-        //position.x += sin(_Time)*0.5;\n
-        //position.y += cos(_Time*2.0)/2.0;\n
-        
+        //position.x += sin(_Time)*0.5;
+        //position.y += cos(_Time*2.0)/2.0;
     }
     
     gl_Position = position;
     
     v_UV = vUV;
-    
 }`;
 
 var fragSource = `
@@ -101,67 +99,93 @@ void main()
         if (rvalue[3] < 1.0)
         {
             discard;
-            
-            
         }   
-        
     }
 
     gl_FragColor = rvalue;
-
 }`;
-	
-//****************
-// Program methods
-//****************
-// initWebGLWindow
-// args: none
-// returns: none
-// gets a reference to the OpenGL context
-function initWebGLWindow(window: any)
+
+/**
+ * @description OO wrapper for Canvas with WebGL context
+ */
+class WebGLCanvas
 {
-    webGLWindow                = window.getContext( "webgl" );
-    webGLWindow.viewportWidth  = window.width;
-    webGLWindow.viewportHeight = window.height;    
+    private readonly m_Canvas: HTMLCanvasElement;
+    private readonly m_Context: any;
+
+    /**
+     * @description js wrapper for opengl apis
+     * @note standard is WebGL 1.0 by default (~=GLES 2.0)
+     */
+    public gl()
+    {
+        return this.m_Context;
+    }
+
+    constructor(aParent: HTMLElement)
+    {
+        this.m_Canvas = document.createElement("canvas");
+        this.m_Canvas.width = 500;
+        this.m_Canvas.height = 500;
+
+        this.m_Context = this.m_Canvas.getContext("webgl");        
+        this.m_Context.viewportWidth  = this.m_Canvas.width;
+        this.m_Context.viewportHeight = this.m_Canvas.height;
+
+        aParent.appendChild(this.m_Canvas);
+    }
 }
-   
-// initShaders
-// args: none
-// returns: none
-// Takes the shader sources above and compiles a shader program out of them.
-// The terminology here is especially bad. Essentially, a shader program is made out of different shaders.
-// In WebGL it must be a Vertex Shader and a Fragment Shader.
-function initShaders() 
+
+/**
+ * @description oo wrapper for texture buffer handle & tex related glapis
+ */
+class Texture
 {
-    //Create two empty shaders for Vertex/Frag program
-    var vertexShader = webGLWindow.createShader( webGLWindow.VERTEX_SHADER   );
-    var fragShader   = webGLWindow.createShader( webGLWindow.FRAGMENT_SHADER ); 
+    private readonly m_ShaderProgram: any;
 
-    //Compile the shaders
-    webGLWindow.shaderSource( vertexShader, vertexSource );
-    webGLWindow.compileShader( vertexShader );
-    webGLWindow.shaderSource( fragShader, fragSource);
-    webGLWindow.compileShader( fragShader); 
+    public draw()
+    {
+        webGLWindow.useProgram(this.m_ShaderProgram);
 
-    //Check for compile errors
-    if( !webGLWindow.getShaderParameter( vertexShader, webGLWindow.COMPILE_STATUS) ) 
-        alert( webGLWindow.getShaderInfoLog(vertexShader) );  
-    if( !webGLWindow.getShaderParameter( fragShader, webGLWindow.COMPILE_STATUS) )
-        alert( webGLWindow.getShaderInfoLog(fragShader) );
+        //These belong in a model or graphicsobject class not the shader.
+        this.m_ShaderProgram.vertexPositionAttribute = webGLWindow.getAttribLocation(this.m_ShaderProgram, "vPos");
+        webGLWindow.enableVertexAttribArray(this.m_ShaderProgram.vertexPositionAttribute);
+
+        this.m_ShaderProgram.uvAttribute = webGLWindow.getAttribLocation( this.m_ShaderProgram, "vUV");
+        webGLWindow.enableVertexAttribArray( this.m_ShaderProgram.uvAttribute);
+    }
+
+    constructor()
+    {
+        //Create two empty shaders for Vertex/Frag program
+        var vertexShader = webGLWindow.createShader( webGLWindow.VERTEX_SHADER   );
+        var fragShader   = webGLWindow.createShader( webGLWindow.FRAGMENT_SHADER ); 
+
+        //Compile the shaders
+        webGLWindow.shaderSource( vertexShader, vertexSource );
+        webGLWindow.compileShader( vertexShader );
+        webGLWindow.shaderSource( fragShader, fragSource);
+        webGLWindow.compileShader( fragShader); 
+
+        //Check for compile errors
+        if(!webGLWindow.getShaderParameter(vertexShader, webGLWindow.COMPILE_STATUS))
+        {
+            throw webGLWindow.getShaderInfoLog(vertexShader);
+        }
+        if(!webGLWindow.getShaderParameter(fragShader, webGLWindow.COMPILE_STATUS))
+        {
+            throw webGLWindow.getShaderInfoLog(fragShader);
+        }
         
-    //Create the shader program & compile shaders into graphics programs
-    shaderProgram = webGLWindow.createProgram();
-    webGLWindow.attachShader(shaderProgram, fragShader);
-    webGLWindow.attachShader(shaderProgram, vertexShader);
-    webGLWindow.linkProgram(shaderProgram);
-        
-    webGLWindow.useProgram(shaderProgram);
+        //Create the shader program & compile shaders into graphics programs
+        this.m_ShaderProgram = webGLWindow.createProgram();
+        webGLWindow.attachShader(this.m_ShaderProgram, fragShader);
+        webGLWindow.attachShader(this.m_ShaderProgram, vertexShader);
+        webGLWindow.linkProgram(this.m_ShaderProgram);
 
-    shaderProgram.vertexPositionAttribute = webGLWindow.getAttribLocation( shaderProgram, "vPos" );
-    webGLWindow.enableVertexAttribArray( shaderProgram.vertexPositionAttribute);
-
-    shaderProgram.uvAttribute             = webGLWindow.getAttribLocation( shaderProgram, "vUV"  );
-    webGLWindow.enableVertexAttribArray( shaderProgram.uvAttribute            );
+        //HGACK
+        shaderProgram = this.m_ShaderProgram;
+    }
 }
    
 // createVertexBuffer
@@ -213,18 +237,20 @@ function handleTextureLoaded(image: any, texture: any)
     webGLWindow.bindTexture(webGLWindow.TEXTURE_2D, null);    
 }
 
-function update()
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const updateLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
     time += 0.01;
+});
 
-    draw();
-}
-
-function draw() 
+const renderLoop = new AnimationTimer((aDeltaTime: number) =>
 {
     webGLWindow.viewport  ( 0, 0, webGLWindow.viewportWidth, webGLWindow.viewportHeight);
     webGLWindow.clearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
     webGLWindow.clear     ( webGLWindow.COLOR_BUFFER_BIT | webGLWindow.DEPTH_BUFFER_BIT );
+
+    texture.draw();
 
     //**********************************************************
     // 1. Select the "mesh" to be drawn (the vertex data buffer)
@@ -274,17 +300,12 @@ function draw()
     // 4. All the data is ready, finally call draw and push that data down the pipeline
     //*********************************************************************************
     //draw
-    webGLWindow.drawArrays( webGLWindow.TRIANGLES, 0, triangleVertexArray.numItems );    
-}
+    webGLWindow.drawArrays( webGLWindow.TRIANGLES, 0, triangleVertexArray.numItems ); 
+});
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-var window = document.createElement("canvas");
-window.setAttribute("width",  "500");
-window.setAttribute("height", "500");
-document.body.appendChild(window);
+const webglCanvas = new WebGLCanvas(document.body);
+webGLWindow = webglCanvas.gl(); //hack. Global GL is inappropriate.
+const texture = new Texture();
 
-setInterval(update,16);
-initWebGLWindow(window);
-initShaders();
 createVertexBuffer();
-initTextures();   
+initTextures();
