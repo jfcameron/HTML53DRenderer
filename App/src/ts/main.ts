@@ -137,9 +137,9 @@ class WebGLCanvas
 }
 
 /**
- * @description oo wrapper for texture buffer handle & tex related glapis
+ * @description oo wrapper for shader program handle & shader related glapis
  */
-class Texture
+class Shader
 {
     private readonly m_ShaderProgram: any;
 
@@ -147,7 +147,7 @@ class Texture
     {
         webGLWindow.useProgram(this.m_ShaderProgram);
 
-        //These belong in a model or graphicsobject class not the shader.
+        //These belong in a model or vertex attrib class not the shader.
         this.m_ShaderProgram.vertexPositionAttribute = webGLWindow.getAttribLocation(this.m_ShaderProgram, "vPos");
         webGLWindow.enableVertexAttribArray(this.m_ShaderProgram.vertexPositionAttribute);
 
@@ -250,7 +250,7 @@ const renderLoop = new AnimationTimer((aDeltaTime: number) =>
     webGLWindow.clearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
     webGLWindow.clear     ( webGLWindow.COLOR_BUFFER_BIT | webGLWindow.DEPTH_BUFFER_BIT );
 
-    texture.draw();
+    shader.draw();
 
     //**********************************************************
     // 1. Select the "mesh" to be drawn (the vertex data buffer)
@@ -305,7 +305,7 @@ const renderLoop = new AnimationTimer((aDeltaTime: number) =>
 
 const webglCanvas = new WebGLCanvas(document.body);
 webGLWindow = webglCanvas.gl(); //hack. Global GL is inappropriate.
-const texture = new Texture();
+const shader = new Shader();
 
 createVertexBuffer();
 initTextures();
