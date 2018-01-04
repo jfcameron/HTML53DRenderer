@@ -28,7 +28,7 @@ import Sprite from "Engine/Graphics/Sprite"
 import Keyboard from "Engine/Input/Keyboard"
 import Mouse from "Engine/Input/Mouse"
 import Gamepads from "Engine/Input/Gamepads"
-import Camera from "Engine/Graphics/Camera"
+import DocCamera from "Engine/Graphics/Camera"
 import Scenegraph from "Engine/Graphics/Scenegraph"
 
 // GDK inc
@@ -38,33 +38,20 @@ import DebugCameraController from "GDK/Debug/DebugCameraController"
 
 const TAG: string = "Main";
 
-//*****************
-// Global variables
-//*****************
-//Data
-var time = 0.0;
-//Object references
-var webGLWindow: any         = null; //Reference to the gl context
-var shaderProgram: any       = null; //Reference to the shader program used to render triangle
-var triangleVertexArray: any = null; //Reference to the VBO containing Triangle vertex data
-var cubeTexture: any         = null;
-var cubeImage: any           = null;
-var clearColor = [0.25,0.25,0.5,1.0];
-	
-//**************
-//Shader sources
-//**************
+//=====
+// Data
+//=====
 var vertexSource = `
-attribute highp vec3 vPos;
-attribute lowp  vec2 vUV;
+attribute highp vec3 a_Pos;
+attribute lowp  vec2 a_UV;
 
 varying lowp vec2 v_UV;
 
-uniform   highp float _Time;
+uniform highp float _Time;
 
 void main()
 {
-    highp vec4 position = vec4(vPos,1.0);
+    highp vec4 position = vec4(a_Pos,1.0);
     {
         mat4 rotationMatrix;
         rotationMatrix[0][0] = cos(_Time); rotationMatrix[1][0] =-sin(_Time); rotationMatrix[2][0] = 0.0 ; rotationMatrix[3][0] = 0.0;
@@ -80,7 +67,7 @@ void main()
     
     gl_Position = position;
     
-    v_UV = vUV;
+    v_UV = a_UV;
 }`;
 
 var fragSource = `
@@ -105,6 +92,14 @@ void main()
     gl_FragColor = rvalue;
 }`;
 
+//*****************
+// Global variables
+//*****************
+//Object references
+let webGLWindow: any = null; //Reference to the gl context
+let shaderProgram: any = null; //Reference to the shader program used to render triangle
+let triangleVertexArray: any = null; //Reference to the VBO containing Triangle vertex data
+
 /**
  * @description OO wrapper for Canvas with WebGL context
  */
@@ -113,9 +108,14 @@ class WebGLCanvas
     private readonly m_Canvas: HTMLCanvasElement;
     private readonly m_Context: any;
 
+    public getSize()
+    {
+        return new Vector2(this.m_Canvas.width, this.m_Canvas.height);
+    }
+
     /**
      * @description js wrapper for opengl apis
-     * @note standard is WebGL 1.0 by default (~=GLES 2.0)
+     * @note spec is WebGL 1.0 if no vendor extensions are enabled. (~=GLES 2.0 subset)
      */
     public gl()
     {
@@ -128,9 +128,7 @@ class WebGLCanvas
         this.m_Canvas.width = 500;
         this.m_Canvas.height = 500;
 
-        this.m_Context = this.m_Canvas.getContext("webgl");        
-        this.m_Context.viewportWidth  = this.m_Canvas.width;
-        this.m_Context.viewportHeight = this.m_Canvas.height;
+        this.m_Context = this.m_Canvas.getContext("webgl");
 
         aParent.appendChild(this.m_Canvas);
     }
@@ -141,53 +139,208 @@ class WebGLCanvas
  */
 class Shader
 {
-    private readonly m_ShaderProgram: any;
+    private readonly m_ShaderProgramHandle: any;
+    
+    /** @description webgl context to which the shader handle belongs */
+    private readonly gl: any;
 
     public draw()
     {
-        webGLWindow.useProgram(this.m_ShaderProgram);
+        this.gl.useProgram(this.m_ShaderProgramHandle);
 
-        //These belong in a model or vertex attrib class not the shader.
-        this.m_ShaderProgram.vertexPositionAttribute = webGLWindow.getAttribLocation(this.m_ShaderProgram, "vPos");
-        webGLWindow.enableVertexAttribArray(this.m_ShaderProgram.vertexPositionAttribute);
+        vertexFormat.bindAttributes(this.gl, this.m_ShaderProgramHandle);
+    }
 
-        this.m_ShaderProgram.uvAttribute = webGLWindow.getAttribLocation( this.m_ShaderProgram, "vUV");
-        webGLWindow.enableVertexAttribArray( this.m_ShaderProgram.uvAttribute);
+    constructor(gl: any, aVertexShaderSource: string, aFragmentShaderSource: string)
+    {
+        this.gl = gl;
+
+        //Create two empty shaders for Vertex/Frag program
+        var vertexShader = this.gl.createShader(this.gl.VERTEX_SHADER);
+        var fragShader = this.gl.createShader(this.gl.FRAGMENT_SHADER); 
+
+        //Compile the shaders
+        this.gl.shaderSource(vertexShader, aVertexShaderSource);
+        this.gl.compileShader(vertexShader);
+        this.gl.shaderSource(fragShader, aFragmentShaderSource);
+        this.gl.compileShader(fragShader); 
+
+        //Check for compile errors
+        if(!this.gl.getShaderParameter(vertexShader, this.gl.COMPILE_STATUS))
+        {
+            throw this.gl.getShaderInfoLog(vertexShader);
+        }
+        if(!this.gl.getShaderParameter(fragShader, this.gl.COMPILE_STATUS))
+        {
+            throw this.gl.getShaderInfoLog(fragShader);
+        }
+        
+        //Create the shader program & compile shaders into graphics programs
+        this.m_ShaderProgramHandle = this.gl.createProgram();
+        this.gl.attachShader(this.m_ShaderProgramHandle, fragShader);
+        this.gl.attachShader(this.m_ShaderProgramHandle, vertexShader);
+        this.gl.linkProgram(this.m_ShaderProgramHandle);
+
+        //HGACK
+        shaderProgram = this.m_ShaderProgramHandle;
+    }
+}
+
+/**
+ * @description oo wrapper for world transform offsets, perspective mul, viewport apis
+ */
+class CameraGL
+{
+    private readonly m_ClearColor: Color;
+
+    public draw(aWebGLCanvas: WebGLCanvas)
+    {
+        const canvasSize = aWebGLCanvas.getSize();
+        const gl = aWebGLCanvas.gl();
+
+        gl.viewport  ( 0, 0, canvasSize.x, canvasSize.y);
+        gl.clearColor(this.m_ClearColor.r, this.m_ClearColor.g, this.m_ClearColor.b, this.m_ClearColor.a);
+        gl.clear     ( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
     }
 
     constructor()
     {
-        //Create two empty shaders for Vertex/Frag program
-        var vertexShader = webGLWindow.createShader( webGLWindow.VERTEX_SHADER   );
-        var fragShader   = webGLWindow.createShader( webGLWindow.FRAGMENT_SHADER ); 
-
-        //Compile the shaders
-        webGLWindow.shaderSource( vertexShader, vertexSource );
-        webGLWindow.compileShader( vertexShader );
-        webGLWindow.shaderSource( fragShader, fragSource);
-        webGLWindow.compileShader( fragShader); 
-
-        //Check for compile errors
-        if(!webGLWindow.getShaderParameter(vertexShader, webGLWindow.COMPILE_STATUS))
-        {
-            throw webGLWindow.getShaderInfoLog(vertexShader);
-        }
-        if(!webGLWindow.getShaderParameter(fragShader, webGLWindow.COMPILE_STATUS))
-        {
-            throw webGLWindow.getShaderInfoLog(fragShader);
-        }
-        
-        //Create the shader program & compile shaders into graphics programs
-        this.m_ShaderProgram = webGLWindow.createProgram();
-        webGLWindow.attachShader(this.m_ShaderProgram, fragShader);
-        webGLWindow.attachShader(this.m_ShaderProgram, vertexShader);
-        webGLWindow.linkProgram(this.m_ShaderProgram);
-
-        //HGACK
-        shaderProgram = this.m_ShaderProgram;
+        this.m_ClearColor = new Color(
+            0.392156862745098,
+            0.584313725490196,
+            0.929411764705882,
+            1
+        );
     }
 }
-   
+
+/**
+ * @description how to interpret raw vertex data array and how to bind that data (assuming it conforms)
+ * @note a format is made up of attributes. An attribute is eg UV or Pos (they are in fact completely arbitrary).
+ * a typical format could look like {pos: {x, y, z}, uv: {u, v}, normal: {x, y, z}}
+ */
+class VertexFormat
+{
+    private static readonly GL_FLOAT_BYTES = 4;
+
+    private readonly m_VertexAttributes: {name: string, size: number}[];
+    /**@description size of vertex format in bytes. required to determine vertex interval in buffer. precalced in ctor for speed. */
+    private readonly m_Stride: number;
+    private readonly m_AttributeComponentCount: number;
+
+    public size()
+    {
+
+    }
+
+    /**
+     * @description create vertex attrib pointers for the shader
+     */
+    public bindAttributes(gl: any, aShaderProgramHandle: any)
+    {
+        let currentbyteOffset = 0;
+
+        for (const attribute of this.m_VertexAttributes)
+        {
+            const attributeLocation = gl.getAttribLocation(aShaderProgramHandle, attribute.name);
+
+            if (attributeLocation != undefined)
+            {
+                gl.enableVertexAttribArray(attributeLocation);
+
+                gl.vertexAttribPointer
+                (
+                    attributeLocation,
+                    attribute.size,
+                    gl.FLOAT,
+                    false, 
+                    this.m_Stride,
+                    currentbyteOffset
+                );
+            }
+
+            currentbyteOffset += (VertexFormat.GL_FLOAT_BYTES * attribute.size);
+        }
+    }
+
+    constructor(vertexAttributes: {name: string, size: number}[])
+    {
+        this.m_VertexAttributes = vertexAttributes;
+        
+        this.m_Stride = (()=>
+        {
+            let buff = 0;
+            
+            for (const attribute of this.m_VertexAttributes)
+                buff += attribute.size;
+            buff *= VertexFormat.GL_FLOAT_BYTES;
+
+            return buff;
+        })();
+
+        //m_AttributeComponentCount
+        this.m_AttributeComponentCount = 5; //TODO: FIX!!!
+    }
+}
+
+/**
+ * @description wraps vertex data (float array)
+ */
+class Mesh
+{
+    public draw(aShader: Shader)
+    {
+
+    }
+
+    constructor()
+    {
+        throw "unimplemented!";
+    }
+}
+
+/**
+ * @description containter for vertex buffer data and format
+ */
+class VertexData
+{
+    private readonly m_VertexFormat: VertexFormat;
+    private readonly m_VertexDataBuffer: Float32Array;
+
+    /**
+     * @decription upload data to VRAM. Optionally overwrite existing data
+     * @param gl glcontext that owns the vbo
+     * @param aVBOHandle handle to preexisting vbo, allowing a rewrite
+     */
+    public bind(gl: any, aVBOHandle?: number): number
+    {
+        const vbo = aVBOHandle ? aVBOHandle : gl.createBuffer();
+        gl.bindBuffer( gl.ARRAY_BUFFER, triangleVertexArray );
+        
+        let vertices = 
+        [
+            //x,                y,    z,   u,   v,  
+            0.5 -0.25,  0.5 -0.25,  0.0, 1.0, 0.0, // 1--0
+            0.0 -0.25,  0.5 -0.25,  0.0, 0.0, 0.0, // | /
+            0.0 -0.25,  0.0 -0.25,  0.0, 0.0, 1.0, // 2
+                                   
+            0.5 -0.25,  0.5 -0.25,  0.0, 1.0, 0.0, //    0
+            0.0 -0.25,  0.0 -0.25,  0.0, 0.0, 1.0, //  / |
+            0.5 -0.25,  0.0 -0.25,  0.0, 1.0, 1.0, // 1--2
+        ];
+    
+        gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW );
+
+        return vbo;
+    }
+
+    constructor(aVertexFormat: VertexFormat, aVertexData: Float32Array)
+    {
+        this.m_VertexFormat = aVertexFormat;
+        this.m_VertexDataBuffer = aVertexData;
+    }
+}
+
 // createVertexBuffer
 // args: none
 // returns: none
@@ -210,102 +363,90 @@ function createVertexBuffer()
     ];
     
     webGLWindow.bufferData( webGLWindow.ARRAY_BUFFER, new Float32Array(vertices), webGLWindow.STATIC_DRAW );
-    triangleVertexArray.itemSize = 5;
     triangleVertexArray.numItems = 6;
 }
 
-function initTextures() 
+/**
+ * @description oo wrapper for tex buffer + tex binding and manipulation apis
+ */
+class Texture
 {
-    cubeTexture = webGLWindow.createTexture();
-    cubeImage = new Image();
-    cubeImage.onload = function() { handleTextureLoaded(cubeImage, cubeTexture); }
-    cubeImage.src = "./img/Awesome.png";
-}
+    private readonly gl: any;
+    private readonly m_TextureHandle: any;
 
-function handleTextureLoaded(image: any, texture: any) 
-{
-    console.log("handleTextureLoaded, image = " + image);
-    webGLWindow.bindTexture(webGLWindow.TEXTURE_2D, texture); //bind the texture to work on it
+    public draw(): void
+    {
+        this.gl.activeTexture(this.gl.TEXTURE0);
+        this.gl.bindTexture(this.gl.TEXTURE_2D, this.m_TextureHandle);
+        this.gl.uniform1i(this.gl.getUniformLocation(shaderProgram, "_Texture"), 0);
+    }
 
-    webGLWindow.texImage2D(webGLWindow.TEXTURE_2D, 0, webGLWindow.RGBA, webGLWindow.RGBA, //Set up the texture
-    webGLWindow.UNSIGNED_BYTE, image);
+    constructor(gl: any, aImgURL: string)
+    {
+        this.gl = gl;
+
+        this.m_TextureHandle = gl.createTexture();
+
+        const image = new Image();
+        image.src = "./img/Awesome.png";
+
+        image.onload = () =>
+        {
+            gl.bindTexture(gl.TEXTURE_2D, this.m_TextureHandle); //bind the texture to work on it
+
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, //Set up the texture
+            gl.UNSIGNED_BYTE, image);
         
-    //set the texture's parameters
-    webGLWindow.texParameteri(webGLWindow.TEXTURE_2D, webGLWindow.TEXTURE_MAG_FILTER, webGLWindow.LINEAR);
-    webGLWindow.texParameteri(webGLWindow.TEXTURE_2D, webGLWindow.TEXTURE_MIN_FILTER, webGLWindow.LINEAR_MIPMAP_NEAREST);
-    webGLWindow.generateMipmap(webGLWindow.TEXTURE_2D);
-    webGLWindow.bindTexture(webGLWindow.TEXTURE_2D, null);    
+            //set the texture's parameters
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+            gl.generateMipmap(gl.TEXTURE_2D);
+            gl.bindTexture(gl.TEXTURE_2D, null);    
+        }
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const webglCanvas = new WebGLCanvas(document.body);
+webGLWindow = webglCanvas.gl(); //hack. Global GL is inappropriate.
+
+const camera = new CameraGL();
+const shader = new Shader(webglCanvas.gl(), vertexSource, fragSource);
+const texture = new Texture(webglCanvas.gl(), "./img/Awesome.png");
+
+const vertexFormat = new VertexFormat([
+    {name: "a_Pos", size: 3},
+    {name: "a_UV",  size: 2}
+]);
+
+createVertexBuffer();
+
 const updateLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
-    time += 0.01;
+    
 });
 
 const renderLoop = new AnimationTimer((aDeltaTime: number) =>
 {
-    webGLWindow.viewport  ( 0, 0, webGLWindow.viewportWidth, webGLWindow.viewportHeight);
-    webGLWindow.clearColor(clearColor[0],clearColor[1],clearColor[2],clearColor[3]);
-    webGLWindow.clear     ( webGLWindow.COLOR_BUFFER_BIT | webGLWindow.DEPTH_BUFFER_BIT );
-
+    camera.draw(webglCanvas);
     shader.draw();
 
-    //**********************************************************
-    // 1. Select the "mesh" to be drawn (the vertex data buffer)
-    //**********************************************************
-    webGLWindow.bindBuffer( webGLWindow.ARRAY_BUFFER, triangleVertexArray );
-        
-    //**************************************************************************
-    // 2. Tell OpenGL about the vertex's attributes (the x,y,z and the u,v etc.)
-    // This must be done since vertex formats are arbitrary
-    //**************************************************************************
-    //Position attribute pointer
-    webGLWindow.vertexAttribPointer
-    (
-        shaderProgram.vertexPositionAttribute,
-        3, //triangleVertexArray.itemSize,
-        webGLWindow.FLOAT,
-        false, 
-        4*(3+2), //stride is size of vertex format in bytes. 4 is float size, 3 pos, 2 uv 
-        0 
-    );
-
-    //UV attribute pointer
-    webGLWindow.vertexAttribPointer
-    (
-        shaderProgram.uvAttribute,
-        2, //triangleVertexArray.itemSize,
-        webGLWindow.FLOAT,
-        false, 
-        4*(3+2), //stride is size of vertex format in bytes. 4 is float size, 3 pos, 2 uv 
-        4*3 
-    );
-
+    //refactor into abstraction
+    webGLWindow.bindBuffer(webGLWindow.ARRAY_BUFFER, triangleVertexArray);
+    
     //*******************************************
     // 3. Pass uniform data to the shader program
     //*******************************************
     //pass time uniform
-    var uTime = webGLWindow.getUniformLocation(shaderProgram,"_Time");
+    var uTime = webGLWindow.getUniformLocation(shaderProgram, "_Time");
     if (uTime != -1)
-        webGLWindow.uniform1f(uTime, time);
+        webGLWindow.uniform1f(uTime, performance.now()*0.005);
 
-    //pass texture
-    webGLWindow.activeTexture(webGLWindow.TEXTURE0);
-    webGLWindow.bindTexture  (webGLWindow.TEXTURE_2D, cubeTexture);
-    webGLWindow.uniform1i    (webGLWindow.getUniformLocation(shaderProgram, "_Texture"), 0);
+    texture.draw();
    
     //*********************************************************************************
     // 4. All the data is ready, finally call draw and push that data down the pipeline
     //*********************************************************************************
-    //draw
     webGLWindow.drawArrays( webGLWindow.TRIANGLES, 0, triangleVertexArray.numItems ); 
 });
-
-const webglCanvas = new WebGLCanvas(document.body);
-webGLWindow = webglCanvas.gl(); //hack. Global GL is inappropriate.
-const shader = new Shader();
-
-createVertexBuffer();
-initTextures();
