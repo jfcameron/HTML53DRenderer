@@ -35,7 +35,6 @@ import Scenegraph from "Engine/Graphics/Scenegraph"
 import DebugCameraController from "GDK/Debug/DebugCameraController"
 
 // Adhoc
-
 const TAG: string = "Main";
 
 //=====
@@ -56,8 +55,8 @@ void main()
         mat4 rotationMatrix;
         rotationMatrix[0][0] = cos(_Time); rotationMatrix[1][0] =-sin(_Time); rotationMatrix[2][0] = 0.0 ; rotationMatrix[3][0] = 0.0;
         rotationMatrix[0][1] = sin(_Time); rotationMatrix[1][1] = cos(_Time); rotationMatrix[2][1] = 0.0 ; rotationMatrix[3][1] = 0.0;
-        rotationMatrix[0][2] = 0.0       ; rotationMatrix[1][2] = 0.0       ; rotationMatrix[2][2] = 1.0 ; rotationMatrix[3][2] = 0.0;
-        rotationMatrix[0][3] = 0.0       ; rotationMatrix[1][3] = 0.0       ; rotationMatrix[2][3] = 0.0 ; rotationMatrix[3][3] = 1.0;
+        rotationMatrix[0][2] = 0.0 ;       rotationMatrix[1][2] = 0.0       ; rotationMatrix[2][2] = 1.0 ; rotationMatrix[3][2] = 0.0;
+        rotationMatrix[0][3] = 0.0 ;       rotationMatrix[1][3] = 0.0       ; rotationMatrix[2][3] = 0.0 ; rotationMatrix[3][3] = 1.0;
         
         position = rotationMatrix*position;
         
@@ -96,9 +95,7 @@ void main()
 // Global variables
 //*****************
 //Object references
-let webGLWindow: any = null; //Reference to the gl context
 let shaderProgram: any = null; //Reference to the shader program used to render triangle
-let triangleVertexArray: any = null; //Reference to the VBO containing Triangle vertex data
 
 /**
  * @description OO wrapper for Canvas with WebGL context
@@ -144,11 +141,11 @@ class Shader
     /** @description webgl context to which the shader handle belongs */
     private readonly gl: any;
 
-    public draw()
+    public draw(aVertexFormat: VertexFormat)
     {
         this.gl.useProgram(this.m_ShaderProgramHandle);
 
-        vertexFormat.bindAttributes(this.gl, this.m_ShaderProgramHandle);
+        aVertexFormat.bindAttributes(this.gl, this.m_ShaderProgramHandle);
     }
 
     constructor(gl: any, aVertexShaderSource: string, aFragmentShaderSource: string)
@@ -193,24 +190,19 @@ class CameraGL
 {
     private readonly m_ClearColor: Color;
 
-    public draw(aWebGLCanvas: WebGLCanvas)
+    public draw(aWebGLCanvas: WebGLCanvas, aNormalizedViewportSize: Vector2)
     {
         const canvasSize = aWebGLCanvas.getSize();
         const gl = aWebGLCanvas.gl();
 
-        gl.viewport  ( 0, 0, canvasSize.x, canvasSize.y);
+        gl.viewport(0, 0, aNormalizedViewportSize.x * canvasSize.x, aNormalizedViewportSize.y * canvasSize.y);
         gl.clearColor(this.m_ClearColor.r, this.m_ClearColor.g, this.m_ClearColor.b, this.m_ClearColor.a);
-        gl.clear     ( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     }
 
-    constructor()
+    constructor(aClearColor: Color)
     {
-        this.m_ClearColor = new Color(
-            0.392156862745098,
-            0.584313725490196,
-            0.929411764705882,
-            1
-        );
+        this.m_ClearColor =  aClearColor;
     }
 }
 
@@ -228,9 +220,9 @@ class VertexFormat
     private readonly m_Stride: number;
     private readonly m_AttributeComponentCount: number;
 
-    public size()
+    public getComponentCount(): number
     {
-
+        return this.m_AttributeComponentCount;
     }
 
     /**
@@ -284,22 +276,6 @@ class VertexFormat
 }
 
 /**
- * @description wraps vertex data (float array)
- */
-class Mesh
-{
-    public draw(aShader: Shader)
-    {
-
-    }
-
-    constructor()
-    {
-        throw "unimplemented!";
-    }
-}
-
-/**
  * @description containter for vertex buffer data and format
  */
 class VertexData
@@ -307,63 +283,36 @@ class VertexData
     private readonly m_VertexFormat: VertexFormat;
     private readonly m_VertexDataBuffer: Float32Array;
 
+    public getVertexFormat()
+    {
+        return this.m_VertexFormat;
+    }
+
+    public getVertexCount()
+    {
+        return this.m_VertexDataBuffer.length / (this.m_VertexFormat.getComponentCount());
+    }
+
     /**
-     * @decription upload data to VRAM. Optionally overwrite existing data
+     * @decription upload data to VRAM, returns handle to vram copy. Optionally overwrite existing data
      * @param gl glcontext that owns the vbo
      * @param aVBOHandle handle to preexisting vbo, allowing a rewrite
      */
     public bind(gl: any, aVBOHandle?: number): number
     {
-        const vbo = aVBOHandle ? aVBOHandle : gl.createBuffer();
-        gl.bindBuffer( gl.ARRAY_BUFFER, triangleVertexArray );
-        
-        let vertices = 
-        [
-            //x,                y,    z,   u,   v,  
-            0.5 -0.25,  0.5 -0.25,  0.0, 1.0, 0.0, // 1--0
-            0.0 -0.25,  0.5 -0.25,  0.0, 0.0, 0.0, // | /
-            0.0 -0.25,  0.0 -0.25,  0.0, 0.0, 1.0, // 2
-                                   
-            0.5 -0.25,  0.5 -0.25,  0.0, 1.0, 0.0, //    0
-            0.0 -0.25,  0.0 -0.25,  0.0, 0.0, 1.0, //  / |
-            0.5 -0.25,  0.0 -0.25,  0.0, 1.0, 1.0, // 1--2
-        ];
-    
-        gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW );
+        const vbo = aVBOHandle != undefined ? aVBOHandle : gl.createBuffer();
+
+        gl.bindBuffer( gl.ARRAY_BUFFER, vbo );
+        gl.bufferData( gl.ARRAY_BUFFER, this.m_VertexDataBuffer, gl.STATIC_DRAW );
 
         return vbo;
     }
 
-    constructor(aVertexFormat: VertexFormat, aVertexData: Float32Array)
+    constructor(aVertexFormat: VertexFormat, aVertexData: number[])
     {
         this.m_VertexFormat = aVertexFormat;
-        this.m_VertexDataBuffer = aVertexData;
+        this.m_VertexDataBuffer = new Float32Array(aVertexData);
     }
-}
-
-// createVertexBuffer
-// args: none
-// returns: none
-// hardcodes the vertex data for the quad mesh
-function createVertexBuffer() 
-{
-    triangleVertexArray = webGLWindow.createBuffer();
-    webGLWindow.bindBuffer( webGLWindow.ARRAY_BUFFER, triangleVertexArray );
-        
-    var vertices = 
-    [
-        //x,                y,    z,   u,   v,  
-        0.5 -0.25,  0.5 -0.25,  0.0, 1.0, 0.0, // 1--0
-        0.0 -0.25,  0.5 -0.25,  0.0, 0.0, 0.0, // | /
-        0.0 -0.25,  0.0 -0.25,  0.0, 0.0, 1.0, // 2
-                                   
-        0.5 -0.25,  0.5 -0.25,  0.0, 1.0, 0.0, //    0
-        0.0 -0.25,  0.0 -0.25,  0.0, 0.0, 1.0, //  / |
-        0.5 -0.25,  0.0 -0.25,  0.0, 1.0, 1.0, // 1--2
-    ];
-    
-    webGLWindow.bufferData( webGLWindow.ARRAY_BUFFER, new Float32Array(vertices), webGLWindow.STATIC_DRAW );
-    triangleVertexArray.numItems = 6;
 }
 
 /**
@@ -406,31 +355,103 @@ class Texture
     }
 }
 
+/**
+ * @description wraps vertex data (float array)
+ */
+class Mesh
+{
+    public draw(aShader: Shader)
+    {
+
+    }
+
+    constructor()
+    {
+        throw "unimplemented!";
+    }
+}
+
+/**
+ * base class for uniform apis.
+ * uniforms offer mechanism for uploading per shader info (rather than per vert via attribs or per frag via varying)
+ */
+abstract class UniformCollection<T>
+{
+    abstract bind(aUniformName: string, aT: T): void;
+
+    constructor()
+    {
+
+    }
+}
+
+class FloatUniformCollection extends UniformCollection<number>
+{
+    public bind(aUniformName: string, aT: number): void
+    {
+        
+    }
+
+    constructor()
+    {
+        super();
+    }
+}
+
+const myCollection = new FloatUniformCollection();
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const webglCanvas = new WebGLCanvas(document.body);
-webGLWindow = webglCanvas.gl(); //hack. Global GL is inappropriate.
 
-const camera = new CameraGL();
+const camera = new CameraGL(new Color(
+    0.392156862745098,
+    0.584313725490196,
+    0.929411764705882,
+    1
+));
+
+const camera2 = new CameraGL(new Color(
+    1,
+    0,
+    0,
+    1
+));
+
 const shader = new Shader(webglCanvas.gl(), vertexSource, fragSource);
 const texture = new Texture(webglCanvas.gl(), "./img/Awesome.png");
 
-const vertexFormat = new VertexFormat([
-    {name: "a_Pos", size: 3},
-    {name: "a_UV",  size: 2}
-]);
+const vertexData = new VertexData(
+    new VertexFormat
+    ([
+        {name: "a_Pos", size: 3},
+        {name: "a_UV",  size: 2}
+    ]),
+    [
+        //x,                y,    z,   u,   v,  
+        0.5 -0.25,  0.5 -0.25,  0.0, 1.0, 0.0, // 1--0
+        0.0 -0.25,  0.5 -0.25,  0.0, 0.0, 0.0, // | /
+        0.0 -0.25,  0.0 -0.25,  0.0, 0.0, 1.0, // 2
+                                   
+        0.5 -0.25,  0.5 -0.25,  0.0, 1.0, 0.0, //    0
+        0.0 -0.25,  0.0 -0.25,  0.0, 0.0, 1.0, //  / |
+        0.5 -0.25,  0.0 -0.25,  0.0, 1.0, 1.0, // 1--2
+    ]
+);
 
-createVertexBuffer();
 
-const updateLoop = new IntervalTimer(16,(aDeltaTime: number) =>
-{
-    
-});
+////hacsk abound
+let triangleVertexArray: any = null; //Reference to the VBO containing Triangle vertex data
+let webGLWindow: any = webglCanvas.gl();
+
+triangleVertexArray = vertexData.bind(webGLWindow);
+
+console.log(vertexData.getVertexCount());
 
 const renderLoop = new AnimationTimer((aDeltaTime: number) =>
 {
-    camera.draw(webglCanvas);
-    shader.draw();
+    camera.draw(webglCanvas, new Vector2(1, 1));
+    shader.draw(vertexData.getVertexFormat());
 
     //refactor into abstraction
     webGLWindow.bindBuffer(webGLWindow.ARRAY_BUFFER, triangleVertexArray);
@@ -448,5 +469,10 @@ const renderLoop = new AnimationTimer((aDeltaTime: number) =>
     //*********************************************************************************
     // 4. All the data is ready, finally call draw and push that data down the pipeline
     //*********************************************************************************
-    webGLWindow.drawArrays( webGLWindow.TRIANGLES, 0, triangleVertexArray.numItems ); 
+    webGLWindow.drawArrays( webGLWindow.TRIANGLES, 0, vertexData.getVertexCount() ); 
+});
+
+const updateLoop = new IntervalTimer(16,(aDeltaTime: number) =>
+{
+    
 });
