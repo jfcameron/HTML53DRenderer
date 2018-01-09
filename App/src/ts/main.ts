@@ -40,7 +40,7 @@ const TAG: string = "Main";
 //=====
 // Data
 //=====
-var vertexSource = `
+const vertexSource = `
 attribute highp vec3 a_Pos;
 attribute lowp  vec2 a_UV;
 
@@ -53,10 +53,10 @@ void main()
     highp vec4 position = vec4(a_Pos,1.0);
     {
         mat4 rotationMatrix;
-        rotationMatrix[0][0] = cos(_Time); rotationMatrix[1][0] =-sin(_Time); rotationMatrix[2][0] = 0.0 ; rotationMatrix[3][0] = 0.0;
-        rotationMatrix[0][1] = sin(_Time); rotationMatrix[1][1] = cos(_Time); rotationMatrix[2][1] = 0.0 ; rotationMatrix[3][1] = 0.0;
-        rotationMatrix[0][2] = 0.0 ;       rotationMatrix[1][2] = 0.0       ; rotationMatrix[2][2] = 1.0 ; rotationMatrix[3][2] = 0.0;
-        rotationMatrix[0][3] = 0.0 ;       rotationMatrix[1][3] = 0.0       ; rotationMatrix[2][3] = 0.0 ; rotationMatrix[3][3] = 1.0;
+        rotationMatrix[0][0] = cos(_Time); rotationMatrix[1][0] =-sin(_Time); rotationMatrix[2][0] = 0.0; rotationMatrix[3][0] = 0.0;
+        rotationMatrix[0][1] = sin(_Time); rotationMatrix[1][1] = cos(_Time); rotationMatrix[2][1] = 0.0; rotationMatrix[3][1] = 0.0;
+        rotationMatrix[0][2] = 0.0;        rotationMatrix[1][2] = 0.0;        rotationMatrix[2][2] = 1.0; rotationMatrix[3][2] = 0.0;
+        rotationMatrix[0][3] = 0.0;        rotationMatrix[1][3] = 0.0;        rotationMatrix[2][3] = 0.0; rotationMatrix[3][3] = 1.0;
         
         position = rotationMatrix*position;
         
@@ -69,7 +69,7 @@ void main()
     v_UV = a_UV;
 }`;
 
-var fragSource = `
+const fragSource = `
 precision mediump float;
 varying lowp vec2 v_UV;
 
@@ -136,16 +136,25 @@ class WebGLCanvas
  */
 class Shader
 {
-    private readonly m_ShaderProgramHandle: any;
-    
     /** @description webgl context to which the shader handle belongs */
     private readonly gl: any;
+
+    private readonly m_ShaderProgramHandle: any;
+
+    private readonly m_FloatUniformCollection: FloatUniformCollection = new FloatUniformCollection();
 
     public draw(aVertexFormat: VertexFormat)
     {
         this.gl.useProgram(this.m_ShaderProgramHandle);
+        
+        this.m_FloatUniformCollection.bind(this.gl, this.m_ShaderProgramHandle);
 
         aVertexFormat.bindAttributes(this.gl, this.m_ShaderProgramHandle);
+    }
+
+    public setFloatUniform(aUniformName: string, aValue: number): void
+    {
+        this.m_FloatUniformCollection.put(aUniformName, aValue);
     }
 
     constructor(gl: any, aVertexShaderSource: string, aFragmentShaderSource: string)
@@ -153,8 +162,8 @@ class Shader
         this.gl = gl;
 
         //Create two empty shaders for Vertex/Frag program
-        var vertexShader = this.gl.createShader(this.gl.VERTEX_SHADER);
-        var fragShader = this.gl.createShader(this.gl.FRAGMENT_SHADER); 
+        let vertexShader = this.gl.createShader(this.gl.VERTEX_SHADER);
+        let fragShader = this.gl.createShader(this.gl.FRAGMENT_SHADER); 
 
         //Compile the shaders
         this.gl.shaderSource(vertexShader, aVertexShaderSource);
@@ -294,7 +303,7 @@ class VertexData
     }
 
     /**
-     * @decription upload data to VRAM, returns handle to vram copy. Optionally overwrite existing data
+     * @description upload data to VRAM, returns handle to vram copy. Optionally overwrite existing data
      * @param gl glcontext that owns the vbo
      * @param aVBOHandle handle to preexisting vbo, allowing a rewrite
      */
@@ -323,7 +332,7 @@ class Texture
     private readonly gl: any;
     private readonly m_TextureHandle: any;
 
-    public draw(): void
+    public draw(): void //REMOVE THIS
     {
         this.gl.activeTexture(this.gl.TEXTURE0);
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.m_TextureHandle);
@@ -372,29 +381,93 @@ class Mesh
 }
 
 /**
- * base class for uniform apis.
- * uniforms offer mechanism for uploading per shader info (rather than per vert via attribs or per frag via varying)
+ * @description Base uniformcollection behaviour & concrete class contract (bind/unbind)
  */
 abstract class UniformCollection<T>
 {
-    abstract bind(aUniformName: string, aT: T): void;
-
-    constructor()
+    protected readonly m_UniformMap: {[uniformName: string]: T} = {};
+    
+    public put(aName: string, aGraphicsResource: T): void
     {
+        this.m_UniformMap[aName] = aGraphicsResource;
+    }
+    
+    public get(aName: string): T
+    {
+        return this.m_UniformMap[aName];
+    }
+    
+    public abstract bind(gl: any, aShaderProgramHandle: number): void;
+    public abstract unbind(gl: any, aShaderProgramHandle: number): void;
+}
 
+/**
+ * @description manages float data exchange from JS to Shader
+ */
+class FloatUniformCollection extends UniformCollection<number>
+{
+    public bind(gl: any, aShaderProgramHandle: number): void
+    {
+        for(const uniform in this.m_UniformMap)
+        {
+            const uniformHandle: number = gl.getUniformLocation(aShaderProgramHandle, uniform);
+
+	        if (uniformHandle != -1)
+		        gl.uniform1f(uniformHandle, this.m_UniformMap[uniform]);
+        }
+    }
+
+    public unbind(gl: any, aShaderProgramHandle: number): void
+    {
+        for(const uniform in this.m_UniformMap)
+        {
+            const uniformHandle: number = gl.getUniformLocation(aShaderProgramHandle, uniform);
+
+	        if (uniformHandle != -1)
+		        gl.uniform1f(uniformHandle, 0);
+        }
     }
 }
 
-class FloatUniformCollection extends UniformCollection<number>
+/**
+ * @description manages texture data exchange from JS to Shader
+ */
+class TextureUniformCollection extends UniformCollection<Texture>
 {
-    public bind(aUniformName: string, aT: number): void
+    public bind(gl: any, aShaderProgramHandle: number): void
     {
+        for(const uniform in this.m_UniformMap)
+        {
+            int uniformHandle  = gl.glGetUniformLocation(aShaderHandle, aUniformName);
+            int theTextureType = gl.GL_TEXTURE_2D;
         
+            if (uniformHandle == -1)
+	        	return;
+        
+            switch (aTextureUnit)
+        	{
+        		case  1:GL.glActiveTexture(GL. GL_TEXTURE1);break;
+                case  2:GL.glActiveTexture(GL. GL_TEXTURE2);break;
+        		case  3:GL.glActiveTexture(GL. GL_TEXTURE3);break;
+	    	    case  4:GL.glActiveTexture(GL. GL_TEXTURE4);break;
+		        case  5:GL.glActiveTexture(GL. GL_TEXTURE5);break;
+        		case  6:GL.glActiveTexture(GL. GL_TEXTURE6);break;
+    	    	case  7:GL.glActiveTexture(GL. GL_TEXTURE7);break;
+                
+                default:GL.glActiveTexture(GL. GL_TEXTURE0);break;	
+	        }
+        
+            gl.glBindTexture(theTextureType, aTextureHandle);
+            gl.glUniform1i(uniformHandle, aTextureUnit);
+        }
     }
 
-    constructor()
+    public unbind(gl: any, aShaderProgramHandle: number): void
     {
-        super();
+        for(const uniform in this.m_UniformMap)
+        {
+
+        }
     }
 }
 
@@ -419,6 +492,7 @@ const camera2 = new CameraGL(new Color(
 ));
 
 const shader = new Shader(webglCanvas.gl(), vertexSource, fragSource);
+
 const texture = new Texture(webglCanvas.gl(), "./img/Awesome.png");
 
 const vertexData = new VertexData(
@@ -453,22 +527,15 @@ const renderLoop = new AnimationTimer((aDeltaTime: number) =>
     camera.draw(webglCanvas, new Vector2(1, 1));
     shader.draw(vertexData.getVertexFormat());
 
-    //refactor into abstraction
-    webGLWindow.bindBuffer(webGLWindow.ARRAY_BUFFER, triangleVertexArray);
-    
-    //*******************************************
-    // 3. Pass uniform data to the shader program
-    //*******************************************
-    //pass time uniform
-    var uTime = webGLWindow.getUniformLocation(shaderProgram, "_Time");
-    if (uTime != -1)
-        webGLWindow.uniform1f(uTime, performance.now()*0.005);
+    texture.draw(); //kill    
 
-    texture.draw();
+    shader.setFloatUniform("_Time", performance.now()*0.005);
    
     //*********************************************************************************
     // 4. All the data is ready, finally call draw and push that data down the pipeline
     //*********************************************************************************
+    //refactor into abstraction
+    webGLWindow.bindBuffer(webGLWindow.ARRAY_BUFFER, triangleVertexArray);
     webGLWindow.drawArrays( webGLWindow.TRIANGLES, 0, vertexData.getVertexCount() ); 
 });
 
