@@ -44,6 +44,14 @@ class Vector2
         return this;
     }
 
+    public hadamard(aOther: Vector2): Vector2
+    {
+        this.x *= aOther.x;
+        this.y *= aOther.y;
+
+        return this;
+    }
+
     public add(aOther: Vector2): Vector2
     {
         this.x += aOther.x;
