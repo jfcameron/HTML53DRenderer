@@ -24,7 +24,23 @@ class Matrix4x4
     public rotateY(aAng: number): Matrix4x4 {throw Exceptions.Unimplemented;}
     public rotateZ(aAng: number): Matrix4x4 {throw Exceptions.Unimplemented;}
     
-    public translate(aVector: Vector3): void {throw Exceptions.Unimplemented;}
+    public translate(aVector: Vector3): void 
+    {
+        this. m30 = this. m00 * aVector.x + this. m10 * aVector.y + this. m20 * aVector.z + this. m30;
+        this. m31 = this. m01 * aVector.x + this. m11 * aVector.y + this. m21 * aVector.z + this. m31;
+        this. m32 = this. m02 * aVector.x + this. m12 * aVector.y + this. m22 * aVector.z + this. m32;
+        this. m33 = this. m03 * aVector.x + this. m13 * aVector.y + this. m23 * aVector.z + this. m33;
+    }
+
+    /*public Mat4x4 translate(Mat4x4 res, float x, float y, float z) {
+        // translation matrix elements: m00, m11, m22, m33 = 1
+        // m30 = x, m31 = y, m32 = z, all others = 0
+        res.m30 = res.m00 * x + res.m10 * y + res.m20 * z + res.m30;
+        res.m31 = res.m01 * x + res.m11 * y + res.m21 * z + res.m31;
+        res.m32 = res.m02 * x + res.m12 * y + res.m22 * z + res.m32;
+        res.m33 = res.m03 * x + res.m13 * y + res.m23 * z + res.m33;
+        return this;
+    }*/
 
     public scale(aVector: Vector3): void {throw Exceptions.Unimplemented;}
 
