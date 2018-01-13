@@ -72,6 +72,10 @@ const shader = Shaders.AlphaCutOff(webglCanvas.gl());
 
 shader.setTextureUniform("_Texture", texture);
 
+const mat = new Matrix4x4();
+
+shader.setMatrix4x4("_MVP", mat);
+
 const vertexData = new VertexData(
     [
         {name: "a_Pos", size: 3},
@@ -119,7 +123,18 @@ const renderLoop = new AnimationTimer((aDeltaTime: number) =>
     vertexData.draw(gl);
 });
 
+const vec = new Vector3();
+
+let inc = 0;
+
 const updateLoop = new IntervalTimer(16,(aDeltaTime: number) =>
 {
-    
+    vec.y = Math.sin(performance.now()*0.01) * 0.05;
+    vec.x = Math.cos(performance.now()*0.01) * 0.05;
+
+    //mat.translate(vec);
+
+    mat.rotateX(inc);
+
+    inc += 0.01;
 });

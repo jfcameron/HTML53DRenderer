@@ -19,28 +19,124 @@ class Matrix4x4
     public m02: number = 0; public m12: number = 0; public m22: number = 1; public m32: number = 0;
     public m03: number = 0; public m13: number = 0; public m23: number = 0; public m33: number = 1;
 
-    //======================================================================================================
-    public rotateX(aAng: number): Matrix4x4 {throw Exceptions.Unimplemented;}
-    public rotateY(aAng: number): Matrix4x4 {throw Exceptions.Unimplemented;}
-    public rotateZ(aAng: number): Matrix4x4 {throw Exceptions.Unimplemented;}
-    
-    public translate(aVector: Vector3): void 
+    public translate(aVector: Vector3): Matrix4x4 
     {
-        this. m30 = this. m00 * aVector.x + this. m10 * aVector.y + this. m20 * aVector.z + this. m30;
-        this. m31 = this. m01 * aVector.x + this. m11 * aVector.y + this. m21 * aVector.z + this. m31;
-        this. m32 = this. m02 * aVector.x + this. m12 * aVector.y + this. m22 * aVector.z + this. m32;
-        this. m33 = this. m03 * aVector.x + this. m13 * aVector.y + this. m23 * aVector.z + this. m33;
+        this.m30 = this.m00 * aVector.x + this.m10 * aVector.y + this.m20 * aVector.z + this.m30;
+        this.m31 = this.m01 * aVector.x + this.m11 * aVector.y + this.m21 * aVector.z + this.m31;
+        this.m32 = this.m02 * aVector.x + this.m12 * aVector.y + this.m22 * aVector.z + this.m32;
+        this.m33 = this.m03 * aVector.x + this.m13 * aVector.y + this.m23 * aVector.z + this.m33;
+
+        return this;
     }
 
-    /*public Mat4x4 translate(Mat4x4 res, float x, float y, float z) {
-        // translation matrix elements: m00, m11, m22, m33 = 1
-        // m30 = x, m31 = y, m32 = z, all others = 0
-        res.m30 = res.m00 * x + res.m10 * y + res.m20 * z + res.m30;
-        res.m31 = res.m01 * x + res.m11 * y + res.m21 * z + res.m31;
-        res.m32 = res.m02 * x + res.m12 * y + res.m22 * z + res.m32;
-        res.m33 = res.m03 * x + res.m13 * y + res.m23 * z + res.m33;
-        return this;
-    }*/
+    //======================================================================================================
+    public rotateX(ang: number): Matrix4x4
+    {
+        let res = this;
+        let sin: number, cos: number;
+
+        if (ang === Math.PI || ang === -Math.PI) 
+        {
+            cos = -1.0;
+            sin =  0.0;
+        } 
+        else if (ang === Math.PI * 0.5 || ang === -Math.PI * 1.5) 
+        {
+            cos = 0.0;
+            sin = 1.0;
+        } 
+        else if (ang === -Math.PI * 0.5 || ang === Math.PI * 1.5) 
+        {
+            cos = 0.0;
+            sin = -1.0;
+        } 
+        else 
+        {
+            cos = Math.cos(ang);
+            sin = Math.sin(ang);
+        }
+
+        let rm11 = +cos;
+        let rm12 = +sin;
+        let rm21 = -sin;
+        let rm22 = +cos;
+        // add temporaries for dependent values
+        let nm10 = this.m10 * rm11 + this.m20 * rm12;
+        let nm11 = this.m11 * rm11 + this.m21 * rm12;
+        let nm12 = this.m12 * rm11 + this.m22 * rm12;
+        let nm13 = this.m13 * rm11 + this.m23 * rm12;
+        // set non-dependent values directly
+        res.m20 = this.m10 * rm21 + this.m20 * rm22;
+        res.m21 = this.m11 * rm21 + this.m21 * rm22;
+        res.m22 = this.m12 * rm21 + this.m22 * rm22;
+        res.m23 = this.m13 * rm21 + this.m23 * rm22;
+        // set other values
+        res.m10 = nm10;
+        res.m11 = nm11;
+        res.m12 = nm12;
+        res.m13 = nm13;
+        res.m00 = this.m00;
+        res.m01 = this.m01;
+        res.m02 = this.m02;
+        res.m03 = this.m03;
+        res.m30 = this.m30;
+        res.m31 = this.m31;
+        res.m32 = this.m32;
+        res.m33 = this.m33;
+        
+        return res;
+    }
+
+    /*
+    public Mat4x4 rotateX(float ang, Mat4x4 res) 
+    {
+        float sin, cos;
+        if (ang == (float) Math.PI || ang == -(float) Math.PI) {
+            cos = -1.0f;
+            sin = 0.0f;
+        } else if (ang == (float) Math.PI * 0.5f || ang == -(float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = 1.0f;
+        } else if (ang == (float) -Math.PI * 0.5f || ang == (float) Math.PI * 1.5f) {
+            cos = 0.0f;
+            sin = -1.0f;
+        } else {
+            cos = (float) Math.cos(ang);
+            sin = (float) Math.sin(ang);
+        }
+        float rm11 = +cos;
+        float rm12 = +sin;
+        float rm21 = -sin;
+        float rm22 = +cos;
+        // add temporaries for dependent values
+        float nm10 = m10 * rm11 + m20 * rm12;
+        float nm11 = m11 * rm11 + m21 * rm12;
+        float nm12 = m12 * rm11 + m22 * rm12;
+        float nm13 = m13 * rm11 + m23 * rm12;
+        // set non-dependent values directly
+        res.m20 = m10 * rm21 + m20 * rm22;
+        res.m21 = m11 * rm21 + m21 * rm22;
+        res.m22 = m12 * rm21 + m22 * rm22;
+        res.m23 = m13 * rm21 + m23 * rm22;
+        // set other values
+        res.m10 = nm10;
+        res.m11 = nm11;
+        res.m12 = nm12;
+        res.m13 = nm13;
+        res.m00 = m00;
+        res.m01 = m01;
+        res.m02 = m02;
+        res.m03 = m03;
+        res.m30 = m30;
+        res.m31 = m31;
+        res.m32 = m32;
+        res.m33 = m33;
+        return res;
+    }
+    */
+
+    public rotateY(aAng: number): Matrix4x4 {throw Exceptions.Unimplemented;}
+    public rotateZ(aAng: number): Matrix4x4 {throw Exceptions.Unimplemented;}
 
     public scale(aVector: Vector3): void {throw Exceptions.Unimplemented;}
 
@@ -70,10 +166,10 @@ class Matrix4x4
     public toFloat32Array(): Float32Array
     {
         return new Float32Array([
-            this.m00, this.m10, this.m20, this.m30,
-            this.m01, this.m11, this.m21, this.m31,
-            this.m02, this.m12, this.m22, this.m32,
-            this.m03, this.m13, this.m23, this.m33,
+            this.m00, this.m01, this.m02, this.m03,
+            this.m10, this.m11, this.m12, this.m13,
+            this.m20, this.m21, this.m22, this.m23,
+            this.m30, this.m31, this.m32, this.m33,
         ]);
     }
 
