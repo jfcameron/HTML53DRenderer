@@ -4,6 +4,7 @@
 
 import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
+import Vector3 from "Engine/Math/Vector3"
 
 const TAG: string = "Matrix4x4";
 
@@ -17,6 +18,25 @@ class Matrix4x4
     public m01: number = 0; public m11: number = 1; public m21: number = 0; public m31: number = 0;
     public m02: number = 0; public m12: number = 0; public m22: number = 1; public m32: number = 0;
     public m03: number = 0; public m13: number = 0; public m23: number = 0; public m33: number = 1;
+
+    //======================================================================================================
+    public rotateX(aAng: number): Matrix4x4 {throw Exceptions.Unimplemented;}
+    public rotateY(aAng: number): Matrix4x4 {throw Exceptions.Unimplemented;}
+    public rotateZ(aAng: number): Matrix4x4 {throw Exceptions.Unimplemented;}
+    
+    public translate(aVector: Vector3): void {throw Exceptions.Unimplemented;}
+
+    public scale(aVector: Vector3): void {throw Exceptions.Unimplemented;}
+
+    public mul(right: Matrix4x4): Matrix4x4 {throw Exceptions.Unimplemented;}
+
+    //======================================================================================================
+    public static perspective(aFOV: number, aAspectRatio: number, aNearClippingDistance: number, aFarClippingDistance: number):Matrix4x4 
+    {
+        throw Exceptions.Unimplemented;
+    }
+
+    //======================================================================================================
 
     public set(
         m00: number, m10: number, m20: number, m30: number,
