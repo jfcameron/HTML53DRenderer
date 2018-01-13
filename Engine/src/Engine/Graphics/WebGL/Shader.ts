@@ -6,6 +6,7 @@ import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
 import VertexFormat from "Engine/Graphics/WebGL/VertexFormat"
 import Texture from "Engine/Graphics/WebGL/Texture"
+import Matrix4x4 from "Engine/Math/Matrix4x4"
 
 const TAG: string = "Shader";
 
@@ -21,6 +22,7 @@ class Shader
 
     private readonly m_FloatUniformCollection: FloatUniformCollection = new FloatUniformCollection();
     private readonly m_TextureUniformCollection: TextureUniformCollection = new TextureUniformCollection();
+    private readonly m_Matrix4x4UniformCollection: Matrix4x4UniformCollection = new Matrix4x4UniformCollection();
 
     public draw(aVertexFormat: VertexFormat)
     {
@@ -28,19 +30,14 @@ class Shader
         
         this.m_FloatUniformCollection.bind(this.gl, this.m_ShaderProgramHandle);
         this.m_TextureUniformCollection.bind(this.gl, this.m_ShaderProgramHandle);
+        this.m_Matrix4x4UniformCollection.bind(this.gl, this.m_ShaderProgramHandle);
 
         aVertexFormat.bindAttributes(this.gl, this.m_ShaderProgramHandle);
     }
 
-    public setFloatUniform(aUniformName: string, aValue: number): void
-    {
-        this.m_FloatUniformCollection.put(aUniformName, aValue);
-    }
-
-    public setTextureUniform(aUniformName: string, aTexture: Texture): void
-    {
-        this.m_TextureUniformCollection.put(aUniformName, aTexture);
-    }
+    public setFloatUniform(aUniformName: string, aValue: number): void { this.m_FloatUniformCollection.put(aUniformName, aValue); }
+    public setTextureUniform(aUniformName: string, aTexture: Texture): void { this.m_TextureUniformCollection.put(aUniformName, aTexture); }
+    public setMatrix4x4(aUniformName: string, aMatrix4x4: Matrix4x4): void { this.m_Matrix4x4UniformCollection.put(aUniformName, aMatrix4x4); }
 
     constructor(gl: any, aVertexShaderSource: string, aFragmentShaderSource: string)
     {
@@ -115,6 +112,28 @@ class FloatUniformCollection extends UniformCollection<number>
 	        if (uniformHandle != -1)
 		        gl.uniform1f(uniformHandle, 0);
         }
+    }
+}
+
+/**
+ * @description manages float data exchange from JS to Shader
+ */
+class Matrix4x4UniformCollection extends UniformCollection<Matrix4x4>
+{
+    public bind(gl: any, aShaderProgramHandle: number): void
+    {
+        for(const uniform in this.m_UniformMap)
+        {
+            const uniformHandle: number = gl.getUniformLocation(aShaderProgramHandle, uniform);
+
+	        if (uniformHandle != -1)
+                gl.uniformMatrix4fv(uniformHandle, false, this.m_UniformMap[uniform].toFloat32Array());
+        }
+    }
+
+    public unbind(gl: any, aShaderProgramHandle: number): void
+    {
+        throw Exceptions.Unimplemented;
     }
 }
 

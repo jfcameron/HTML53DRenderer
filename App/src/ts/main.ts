@@ -20,6 +20,7 @@ import Debug from "Engine/Debug"
 import Exceptions from "Engine/Debug/Exceptions"
 import Vector2 from "Engine/Math/Vector2"
 import Vector3 from "Engine/Math/Vector3"
+import Matrix4x4 from "Engine/Math/Matrix4x4"
 import Color from "Engine/Graphics/Color"
 import Colors from "Engine/Graphics/Colors"
 import DocGraphicsObject from "Engine/Graphics/GraphicsObject"
@@ -103,6 +104,7 @@ const renderLoop = new AnimationTimer((aDeltaTime: number) =>
     let gl: any = webglCanvas.gl();
     
     shader.setFloatUniform("_Time", performance.now()*0.005);
+
     shader.draw(vertexData.getVertexFormat());
 
     bgClearCamera.draw(webglCanvas.getSize(), new Vector2(0, 0), new Vector2(1, 1));
