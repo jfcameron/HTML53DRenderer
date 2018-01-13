@@ -25,49 +25,19 @@ class Matrix4x4
         m03: number, m13: number, m23: number, m33: number,
     ): void
     {
-        this.m00 = m00;
-        this.m10 = m10;
-        this.m20 = m20;
-        this.m30 = m30;
-
-        this.m01 = m01;
-        this.m11 = m11;
-        this.m21 = m21;
-        this.m31 = m31;
-
-        this.m02 = m02;
-        this.m12 = m12;
-        this.m22 = m22;
-        this.m32 = m32;
-
-        this.m03 = m03;
-        this.m13 = m13;
-        this.m23 = m23;
-        this.m33 = m33;
+        this.m00 = m00; this.m10 = m10; this.m20 = m20; this.m30 = m30;
+        this.m01 = m01; this.m11 = m11; this.m21 = m21; this.m31 = m31;
+        this.m02 = m02; this.m12 = m12; this.m22 = m22; this.m32 = m32;
+        this.m03 = m03; this.m13 = m13; this.m23 = m23; this.m33 = m33;
     }
 
     public toFloat32Array(): Float32Array
     {
         return new Float32Array([
-            this.m00,
-            this.m10,
-            this.m20,
-            this.m30,
-
-            this.m01,
-            this.m11,
-            this.m21,
-            this.m31,
-
-            this.m02,
-            this.m12,
-            this.m22,
-            this.m32,
-
-            this.m03,
-            this.m13,
-            this.m23,
-            this.m33,
+            this.m00, this.m10, this.m20, this.m30,
+            this.m01, this.m11, this.m21, this.m31,
+            this.m02, this.m12, this.m22, this.m32,
+            this.m03, this.m13, this.m23, this.m33,
         ]);
     }
 
@@ -78,7 +48,12 @@ class Matrix4x4
 
     public equalTo(aOther: Matrix4x4): boolean
     {
-        throw new Exceptions.Unimplemented();
+        return (
+            this.m00 === aOther.m00 && this.m10 === aOther.m10 && this.m20 === aOther.m20 && this.m30 === aOther.m30 &&
+            this.m01 === aOther.m01 && this.m11 === aOther.m11 && this.m21 === aOther.m21 && this.m31 === aOther.m31 &&
+            this.m02 === aOther.m02 && this.m12 === aOther.m12 && this.m22 === aOther.m22 && this.m32 === aOther.m32 &&
+            this.m03 === aOther.m03 && this.m13 === aOther.m13 && this.m23 === aOther.m23 && this.m33 === aOther.m33
+        );
     }
     
     constructor()
