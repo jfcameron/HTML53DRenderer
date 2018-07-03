@@ -32,7 +32,9 @@ class Keyboard
      */
     public getKeyDown(aCode: string): boolean
     {
-        return this.m_Keys[aCode] != undefined ? WebAPIs.performance.now() - this.m_Keys[aCode] < KEY_JUST_PRESSED_WINDOW: false;
+        return this.m_Keys[aCode] != undefined ? 
+            WebAPIs.performance.now() - this.m_Keys[aCode] < KEY_JUST_PRESSED_WINDOW: 
+            false;
     }
 
     constructor()
@@ -41,8 +43,7 @@ class Keyboard
 
         window.onkeydown = (event: KeyboardEvent): void =>
         {
-            if (this.m_Keys[event.code] === undefined)
-                this.m_Keys[event.code] = event.timeStamp;
+            if (this.m_Keys[event.code] === undefined) this.m_Keys[event.code] = event.timeStamp;
         };
 
         window.onkeyup = (event: KeyboardEvent): void =>
@@ -52,8 +53,7 @@ class Keyboard
 
         document.addEventListener("visibilitychange",():void =>
         {
-            for (let key in this.m_Keys)
-                this.m_Keys[key] = undefined;
+            for (let key in this.m_Keys) this.m_Keys[key] = undefined;
         });
     }
 };
